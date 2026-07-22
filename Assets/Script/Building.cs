@@ -5,13 +5,14 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class Building : Object
 {
-    Dictionary<int,string> unitOnQueue = new Dictionary<int,string>();
+    //Dictionary<int,string> unitOnQueue = new Dictionary<int,string>();
+    List<string> unitQueue = new List<string>();
     public bool passiveSpawn;
     public Unit[] unitSpawn;
-    private byte unitIndex;
-    byte freeNumber;
+    //private byte unitIndex;
+    //byte freeNumber;
 
-    private bool readyRespawn;
+    //private bool readyRespawn;
     private bool canSpawn = true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -27,6 +28,7 @@ public class Building : Object
     void Update()
     {
         UpdateObject();
+        /*
         if (readyRespawn)
         {
             readyRespawn = false;
@@ -40,31 +42,59 @@ public class Building : Object
                 Instantiate(unitSpawn[unitIndex], new Vector3(transform.position.x + 1, transform.position.y, 0), transform.rotation);
             }
         }
+        /*
         if(unitOnQueue.Count != 0 && canSpawn)
         {
             FindUnit(unitOnQueue[1]);
         }
+        */
     }
     
     public void Spawn(Unit unit)//Спавнит юнита
     {
+        Debug.Log("Spawn");
         //this.unitIndex = queue[0];
-        if(canSpawn)
-        {
-            StartCoroutine(WaitForSpawn(unit));
-            canSpawn = false;
-        }
+        StartCoroutine(WaitForSpawn(unit));
     }
     public void AddUnitToQueue(string NameOfUnit)//Добавляет юнита в очередь
     {
-        if(unitOnQueue.Count < 5)
+        Debug.Log("AddUnitToQueue");
+        if(unitQueue.Count < 5)
         {
-            unitOnQueue.Add(unitOnQueue.Count + 1, NameOfUnit);
+            unitQueue.Add(NameOfUnit);
+            if(canSpawn)
+            {
+                canSpawn = false;
+                FindUnit(NameOfUnit);
+            }
         }
     }
     void QueueUpdate()//Обновляет в очередь
     {
-        
+        Debug.Log("QueueUpdate");
+        unitQueue.RemoveAt(0);
+        if (unitQueue.Count > 0)
+        {
+            FindUnit(unitQueue[0]);
+        }
+        /*
+        for (byte i = 0; i <= unitQueue.Count; i++)
+        {
+            if (i == unitQueue.Count)
+            {
+                i = 0;
+            }
+            else
+            {
+                unitQueue.RemoveAt(0);
+                if (unitQueue.Count > 0)
+                {
+                    FindUnit(unitQueue[0]);
+                }
+            }
+        }
+        /*
+        Debug.Log(unitOnQueue);
         for(byte i = 0; i <= unitOnQueue.Count; i++)
         {
             if(i == unitOnQueue.Count)
@@ -76,12 +106,13 @@ public class Building : Object
                 unitOnQueue.Add(i, unitOnQueue[i + 1]);
             }
         }
-        
-        //Хочу сделать очередь до 5 юнитов. Чтобы когда новый юнит появлялся, первый элемент массива/словаря исчезал и прочие двигались в верх.
+        */
     }
     void FindUnit(string nameUnit)
     {
-        for(byte i = 0; i<unitSpawn.Length;i++)
+        Debug.Log("FindUnit");
+        Debug.Log(canSpawn);
+        for (byte i = 0; i<unitSpawn.Length;i++)
         {
             if (unitSpawn[i] != null && unitSpawn[i].name == nameUnit)
             {
@@ -89,16 +120,19 @@ public class Building : Object
                 break;
             }
         }
+        
     }
     
     IEnumerator WaitForSpawn(Unit unit)
     {
-        for(int i = unit.respawnSpeed; i >= 0; i--)
+        Debug.Log("WaitForSpawn");
+        for (int i = unit.respawnSpeed; i >= 0; i--)
         {
             yield return new WaitForSeconds(1f);
             if (i <= 0)
             {
-                readyRespawn = true;
+                Instantiate(unit, new Vector3(transform.position.x + 1, transform.position.y, 0), transform.rotation);
+                //readyRespawn = true;
                 canSpawn = true;
                 QueueUpdate();
             }

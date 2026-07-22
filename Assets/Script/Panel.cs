@@ -16,6 +16,7 @@ public class Panel : MonoBehaviour
     {
         for(byte i = 0; i < buttons.Length; i++)
         {
+            buttons[i].acsessButton.onClick.RemoveAllListeners();
             if(objectUnit.GetComponent<Unit>())
             {
                 if (objectUnit.GetComponent<Unit>().action[i] != null)
