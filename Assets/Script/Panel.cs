@@ -75,7 +75,7 @@ public class Panel : MonoBehaviour
         {
             buttons[i].acsessButton.onClick.AddListener(unit.Attack);
         }
-        if (buttons[i].action.namE == "AttackPosition")
+        if (buttons[i].action.namE == "Defend")
         {
             buttons[i].acsessButton.onClick.AddListener(unit.AttackPosition);
         }
