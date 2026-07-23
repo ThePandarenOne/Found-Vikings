@@ -27,6 +27,7 @@ public class Object : MonoBehaviour
     public void OnMouseDown()
     {
         panel = FindAnyObjectByType<Panel>();
+        Destroy(panel.group);
         panel.objectUnit = this;
         panel.ChangePanel();
     }

@@ -79,13 +79,13 @@ public class Unit : Object
                         {
                             transform.position += new Vector3(-speed, 0, 0) * Time.deltaTime;
                         }
-                        if (panel.objectUnit != this)
+                        if (panel.objectUnit != this && SearchForUnitInGroup() == false)
                         {
                             unitState = UnitState.Idle;
                         }
                         break;
                     case MovementType.clickMove:
-                        if (Input.GetKeyDown(KeyCode.Mouse1))
+                        if (Input.GetKeyDown(KeyCode.Mouse0))
                         {
                             if (panel.objectUnit == this)
                             {
@@ -96,7 +96,7 @@ public class Unit : Object
                         break;
                     case MovementType.cursorFollow:
                         clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                        if (panel.objectUnit != this)
+                        if (panel.objectUnit != this && SearchForUnitInGroup() == false)
                         {
                             unitState = UnitState.Idle;
                         }
@@ -123,6 +123,20 @@ public class Unit : Object
                 break;
         }
     }
+    public bool SearchForUnitInGroup()
+    {
+        if(panel.group != null)
+        {
+            for (byte i = 0; i < panel.group.units.Count; i++)
+            {
+                if (panel.group.units[i] == this)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     public void Move()
     {
         if (transform.position.x != clickPosition.x && clickPosition != new Vector2(-270, 270))
@@ -143,15 +157,6 @@ public class Unit : Object
         }
     }
         
-    private void OnTriggerStay2D(Collider2D collision)
-    { 
-        /*
-        if(unitState == UnitState.Defend && collision.TryGetComponent(out Unit unit) && unit.enemy != enemy && targetUnit == null)
-        {
-            targetUnit = unit;
-        }
-        */
-    }
     public void Attack()
     {
         unitState = UnitState.Attack;

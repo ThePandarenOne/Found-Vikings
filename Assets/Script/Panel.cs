@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 public class Panel : MonoBehaviour
@@ -7,6 +8,8 @@ public class Panel : MonoBehaviour
     public Object objectUnit;
     public Text[] characteristics;
     public Slider sliderHP;
+    public Group group;
+    public Group groupPrefab;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,7 +20,7 @@ public class Panel : MonoBehaviour
         for(byte i = 0; i < buttons.Length; i++)
         {
             buttons[i].acsessButton.onClick.RemoveAllListeners();
-            if(objectUnit.GetComponent<Unit>())
+            if (objectUnit.GetComponent<Unit>() && group == null)
             {
                 if (objectUnit.GetComponent<Unit>().action[i] != null)
                 {
@@ -80,6 +83,35 @@ public class Panel : MonoBehaviour
             buttons[i].acsessButton.onClick.AddListener(unit.AttackPosition);
         }
     }
+    List<Unit> units = new List<Unit>();
+    public void GiveActionUnitsInGroup(byte i)
+    {
+        units = group.units;
+        foreach (Unit unit in units)
+        {
+            if (buttons[i].action.namE == "A/D")
+            {
+                Debug.Log("GetListener");
+                buttons[i].acsessButton.onClick.AddListener(unit.AnD);
+            }
+            if (buttons[i].action.namE == "FollowCursor")
+            {
+                buttons[i].acsessButton.onClick.AddListener(unit.CursorFollow);
+            }
+            if (buttons[i].action.namE == "ClickMove")
+            {
+                buttons[i].acsessButton.onClick.AddListener(unit.ClickMovement);
+            }
+            if (buttons[i].action.namE == "Attack")
+            {
+                buttons[i].acsessButton.onClick.AddListener(unit.Attack);
+            }
+            if (buttons[i].action.namE == "Defend")
+            {
+                buttons[i].acsessButton.onClick.AddListener(unit.AttackPosition);
+            }
+        }
+    }
     public void GiveActionBuilding(byte i)
     {
         Building building = objectUnit.GetComponent<Building>();
@@ -99,6 +131,16 @@ public class Panel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.G))
+        {
+            objectUnit = null;
+            if(group != null)
+            {
+                Destroy(group);
+            }
+            group = Instantiate(groupPrefab);
+            group.panel = this;
+        }
         if(objectUnit != null)
         {
             sliderHP.maxValue = objectUnit.maxhp;

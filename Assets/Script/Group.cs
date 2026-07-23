@@ -1,0 +1,57 @@
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+public class Group : MonoBehaviour
+{
+    public List<Unit> units = new List<Unit>();
+    bool canAdd = true;
+    public Panel panel;
+    //public Panel panel;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        panel.nameOfSelectUnit.text = "Group: " + units.Count.ToString();
+        if (canAdd && Input.GetMouseButtonDown(1))
+        {
+            //panel.GiveActionUnitsInGroup();
+            //Vector2 mouseposition = Camera.current.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D rayhit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+            if (rayhit && rayhit.collider.gameObject.TryGetComponent(out Unit unit) && units.Count < 12 && askForUnitInGroup(unit) == false && unit.enemy == false)
+            {
+                units.Add(unit);
+                UpdateActions();
+            }
+        }
+    }
+    private void UpdateActions()
+    {
+        for (byte i = 0; i < panel.buttons.Length; i++)
+        {
+            panel.buttons[i].acsessButton.onClick.RemoveAllListeners();
+            panel.buttons[i].gameObject.SetActive(true);
+            for (byte u = 0; u < units.Count; u++)
+            {
+                panel.buttons[i].action = units[u].action[i];
+                panel.buttons[i].GetAction();
+                panel.GiveActionUnitsInGroup(i);
+            }
+        }
+    }
+    private bool askForUnitInGroup(Unit unit)
+    {
+        for(byte i = 0; i < units.Count; i++)
+        {
+            if (units[i] != null &&units[i] == unit)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+}
