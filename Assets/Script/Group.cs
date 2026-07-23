@@ -16,17 +16,31 @@ public class Group : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(panel.group != this)
+        {
+            Debug.Log("Delete");
+            Destroy(gameObject);
+        }
         panel.nameOfSelectUnit.text = "Group: " + units.Count.ToString();
+        /*
         if (canAdd && Input.GetMouseButtonDown(1))
         {
-            //panel.GiveActionUnitsInGroup();
-            //Vector2 mouseposition = Camera.current.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D rayhit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
             if (rayhit && rayhit.collider.gameObject.TryGetComponent(out Unit unit) && units.Count < 12 && askForUnitInGroup(unit) == false && unit.enemy == false)
             {
                 units.Add(unit);
                 UpdateActions();
             }
+        }
+        */
+    }
+    public void SearchForUnit()
+    {
+        RaycastHit2D rayhit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+        if (rayhit && rayhit.collider.gameObject.TryGetComponent(out Unit unit) && units.Count < 12 && askForUnitInGroup(unit) == false && unit.enemy == false)
+        {
+            units.Add(unit);
+            UpdateActions();
         }
     }
     private void UpdateActions()

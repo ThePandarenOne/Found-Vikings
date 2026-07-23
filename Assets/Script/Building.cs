@@ -37,9 +37,9 @@ public class Building : Object
     void QueueUpdate()//Обновляет в очередь
     {
         //Debug.Log("QueueUpdate");
-        unitQueue.RemoveAt(0);
         if (unitQueue.Count > 0)
         {
+            unitQueue.RemoveAt(0);
             FindUnit(unitQueue[0]);
         }
     }

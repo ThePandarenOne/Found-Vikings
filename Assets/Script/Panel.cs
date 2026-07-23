@@ -10,6 +10,7 @@ public class Panel : MonoBehaviour
     public Slider sliderHP;
     public Group group;
     public Group groupPrefab;
+    List<Unit> units = new List<Unit>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -83,7 +84,6 @@ public class Panel : MonoBehaviour
             buttons[i].acsessButton.onClick.AddListener(unit.AttackPosition);
         }
     }
-    List<Unit> units = new List<Unit>();
     public void GiveActionUnitsInGroup(byte i)
     {
         units = group.units;
@@ -91,7 +91,6 @@ public class Panel : MonoBehaviour
         {
             if (buttons[i].action.namE == "A/D")
             {
-                Debug.Log("GetListener");
                 buttons[i].acsessButton.onClick.AddListener(unit.AnD);
             }
             if (buttons[i].action.namE == "FollowCursor")
@@ -129,17 +128,26 @@ public class Panel : MonoBehaviour
         }
     }
     // Update is called once per frame
+    bool cannew = true;
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKey(KeyCode.LeftControl))
         {
             objectUnit = null;
-            if(group != null)
+            if (group == null || cannew)
             {
-                Destroy(group);
+                group = Instantiate(groupPrefab);
+                group.panel = this;
+                cannew = false;
             }
-            group = Instantiate(groupPrefab);
-            group.panel = this;
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                group.SearchForUnit();
+            }
+        }
+        else
+        {
+            cannew = true;
         }
         if(objectUnit != null)
         {

@@ -24,8 +24,6 @@ public class Unit : Object
 
     void Start()
     {
-        //CircleCollider2D cir = GetComponent<CircleCollider2D>();
-        //cir.radius = range;
         panel = FindAnyObjectByType<Panel>();
     }
     Vector2 clickPosition = new Vector2(- 270, 270);
@@ -85,9 +83,9 @@ public class Unit : Object
                         }
                         break;
                     case MovementType.clickMove:
-                        if (Input.GetKeyDown(KeyCode.Mouse0))
+                        if (Input.GetKeyDown(KeyCode.Mouse1))
                         {
-                            if (panel.objectUnit == this)
+                            if (panel.objectUnit == this || SearchForUnitInGroup() == true)
                             {
                                 clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                             }
@@ -141,7 +139,7 @@ public class Unit : Object
     {
         if (transform.position.x != clickPosition.x && clickPosition != new Vector2(-270, 270))
         {
-            if (Mathf.Abs(clickPosition.x - transform.position.x) < 0.1f)
+            if (Mathf.Abs(clickPosition.x - transform.position.x) < 0.1f && movementType == MovementType.clickMove)
             {
                 transform.position = new Vector3(clickPosition.x, transform.position.y);
                 unitState = UnitState.Idle;
