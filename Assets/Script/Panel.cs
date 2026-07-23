@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
+
 public class Panel : MonoBehaviour
 {
     public PanelButton[] buttons;
@@ -10,6 +12,7 @@ public class Panel : MonoBehaviour
     public Slider sliderHP;
     public Group group;
     public Group groupPrefab;
+    bool cannew = true;
     List<Unit> units = new List<Unit>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,10 +23,11 @@ public class Panel : MonoBehaviour
     {
         for(byte i = 0; i < buttons.Length; i++)
         {
+            buttons[i].action = null;
             buttons[i].acsessButton.onClick.RemoveAllListeners();
             if (objectUnit.GetComponent<Unit>() && group == null)
             {
-                if (objectUnit.GetComponent<Unit>().action[i] != null)
+                if (objectUnit.GetComponent<Unit>().action[i])
                 {
                     buttons[i].gameObject.SetActive(true);
                     buttons[i].action = objectUnit.GetComponent<Unit>().action[i];
@@ -36,7 +40,7 @@ public class Panel : MonoBehaviour
             }
             else if (objectUnit.GetComponent<Building>())
             {
-                if (objectUnit.GetComponent<Building>().action[i] != null)
+                if (objectUnit.GetComponent<Building>().action[i])
                 {
                     buttons[i].gameObject.SetActive(true);
                     buttons[i].action = objectUnit.GetComponent<Building>().action[i];
@@ -57,7 +61,6 @@ public class Panel : MonoBehaviour
         characteristics[1].text = "AttackSpeed:" + objectUnit.attackspeed.ToString();
         characteristics[2].text = "Speed:" + objectUnit.speed.ToString();
         characteristics[3].text = "Range:" + objectUnit.range.ToString();
-
         nameOfSelectUnit.text = objectUnit.name;
     }
     public void GiveActionUnit(byte i)
@@ -128,7 +131,6 @@ public class Panel : MonoBehaviour
         }
     }
     // Update is called once per frame
-    bool cannew = true;
     void Update()
     {
         if (Input.GetKey(KeyCode.LeftControl))

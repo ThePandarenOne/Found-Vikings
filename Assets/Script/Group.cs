@@ -4,7 +4,6 @@ using System.Collections.Generic;
 public class Group : MonoBehaviour
 {
     public List<Unit> units = new List<Unit>();
-    bool canAdd = true;
     public Panel panel;
     //public Panel panel;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -18,7 +17,6 @@ public class Group : MonoBehaviour
     {
         if(panel.group != this)
         {
-            Debug.Log("Delete");
             Destroy(gameObject);
         }
         panel.nameOfSelectUnit.text = "Group: " + units.Count.ToString();

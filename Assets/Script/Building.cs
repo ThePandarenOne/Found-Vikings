@@ -11,6 +11,7 @@ public class Building : Object
     private bool canSpawn = true;
     void Start()
     {
+        StartObject();
         panel = FindAnyObjectByType<Panel>();
         if (passiveSpawn)
         {
@@ -23,7 +24,7 @@ public class Building : Object
     }
     public void AddUnitToQueue(string NameOfUnit)//Добавляет юнита в очередь
     {
-        //Debug.Log("AddUnitToQueue");
+        Debug.Log("AddUnitToQueue");
         if(unitQueue.Count < 5)
         {
             unitQueue.Add(NameOfUnit);
@@ -36,16 +37,19 @@ public class Building : Object
     }
     void QueueUpdate()//Обновляет в очередь
     {
-        //Debug.Log("QueueUpdate");
+        Debug.Log("QueueUpdate");
         if (unitQueue.Count > 0)
         {
             unitQueue.RemoveAt(0);
+        }
+        if (unitQueue.Count > 0)
+        {
             FindUnit(unitQueue[0]);
         }
     }
     void FindUnit(string nameUnit)//Переводит имя юнита в номер для спавна
     {
-        //Debug.Log("FindUnit");
+        Debug.Log("FindUnit");
         for (byte i = 0; i<unitSpawn.Length;i++)
         {
             if (unitSpawn[i] != null && unitSpawn[i].name == nameUnit)
@@ -59,7 +63,7 @@ public class Building : Object
     
     IEnumerator WaitForSpawn(Unit unit)
     {
-        //Debug.Log("WaitForSpawn");
+        Debug.Log("WaitForSpawn");
         for (int i = unit.respawnSpeed; i >= 0; i--)
         {
             yield return new WaitForSeconds(1f);

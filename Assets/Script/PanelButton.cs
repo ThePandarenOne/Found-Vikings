@@ -32,6 +32,9 @@ public class PanelButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(action == false)
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

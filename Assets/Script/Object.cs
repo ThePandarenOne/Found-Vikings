@@ -4,6 +4,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class Object : MonoBehaviour
 {
+    public string objectName;
     public bool enemy;
     public bool readyAttack = true;
 
@@ -24,14 +25,21 @@ public class Object : MonoBehaviour
     {
         
     }
+    public void StartObject()
+    {
+        gameObject.name = objectName;
+    }
     public void OnMouseDown()
     {
         panel = FindAnyObjectByType<Panel>();
         if(panel.group != null && !Input.GetKey(KeyCode.LeftControl))
         {
             Destroy(panel.group.gameObject);
+            Destroy(panel.group);
+            panel.group = null;
         }
         panel.objectUnit = this;
+        Debug.Log(panel.group);
         panel.ChangePanel();
     }
 

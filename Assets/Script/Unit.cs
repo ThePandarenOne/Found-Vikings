@@ -24,6 +24,7 @@ public class Unit : Object
 
     void Start()
     {
+        StartObject();
         panel = FindAnyObjectByType<Panel>();
     }
     Vector2 clickPosition = new Vector2(- 270, 270);
