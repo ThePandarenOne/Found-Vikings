@@ -31,8 +31,12 @@ public class Object : MonoBehaviour
     }
     public void OnMouseDown()
     {
+        ChooseUnit();
+    }
+    public void ChooseUnit()
+    {
         panel = FindAnyObjectByType<Panel>();
-        if(panel.group != null && !Input.GetKey(KeyCode.LeftControl))
+        if (panel.group != null && !Input.GetKey(KeyCode.LeftControl))
         {
             Destroy(panel.group.gameObject);
             Destroy(panel.group);

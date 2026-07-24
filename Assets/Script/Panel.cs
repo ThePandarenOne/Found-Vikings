@@ -5,6 +5,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class Panel : MonoBehaviour
 {
+    public UnitIcon[] unitIcons;
     public PanelButton[] buttons;
     public Text nameOfSelectUnit;
     public Object objectUnit;
@@ -60,7 +61,7 @@ public class Panel : MonoBehaviour
         characteristics[0].text = "Damage:" + objectUnit.dmg.ToString();
         characteristics[1].text = "AttackSpeed:" + objectUnit.attackspeed.ToString();
         characteristics[2].text = "Speed:" + objectUnit.speed.ToString();
-        characteristics[3].text = "Range:" + objectUnit.range.ToString();
+        characteristics[4].text = "Range:" + objectUnit.range.ToString();
         nameOfSelectUnit.text = objectUnit.name;
     }
     public void GiveActionUnit(byte i)
@@ -131,8 +132,60 @@ public class Panel : MonoBehaviour
         }
     }
     // Update is called once per frame
+    bool startLoop = true;
+    void UpdateUnitsIconsInGroup()
+    {
+        for(byte i = 0; i < group.units.Count;i++)
+        {
+            if(group.units[i] != null)
+            {
+                unitIcons[i].typeOfIcon = UnitIcon.TypeOfIcon.UnitGroupIcon;
+                unitIcons[i].gameObject.SetActive(true);  
+                unitIcons[i].unit = group.units[i];
+            }
+        }
+        startLoop = true;
+    }
+    public void UpdateUnitsIconsInQueue(Building build)
+    {
+        startLoop = false;
+        for (byte i = 0; i < build.unitQueue.Count; i++)
+        {
+            unitIcons[i].typeOfIcon = UnitIcon.TypeOfIcon.UnitQueueIcon;
+            if (i == group.units.Count - 1)
+            {
+                startLoop = true;
+            }
+        }
+    }
     void Update()
     {
+        if(group != null && group.units.Count > 0 && startLoop)
+        {
+            UpdateUnitsIconsInGroup();
+        }
+        else if(group != null && group.units.Count == 0)
+        {
+            foreach (PanelButton panelButton in buttons)
+            {
+                panelButton.gameObject.SetActive(false);
+            }
+            foreach (UnitIcon unit in unitIcons)
+            {
+                unit.typeOfIcon = UnitIcon.TypeOfIcon.Disabled;
+            }
+        }
+        else if(objectUnit != null && objectUnit.TryGetComponent(out Building build) && build.unitQueue.Count > 0 && startLoop)
+        {
+            UpdateUnitsIconsInQueue(build);
+        }
+        else
+        {
+            foreach(UnitIcon unit in unitIcons)
+            {
+                unit.typeOfIcon = UnitIcon.TypeOfIcon.Disabled;
+            }
+        }
         if (Input.GetKey(KeyCode.LeftControl))
         {
             objectUnit = null;
@@ -159,3 +212,4 @@ public class Panel : MonoBehaviour
         }
     }
 }
+   

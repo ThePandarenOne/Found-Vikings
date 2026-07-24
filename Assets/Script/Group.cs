@@ -5,8 +5,6 @@ public class Group : MonoBehaviour
 {
     public List<Unit> units = new List<Unit>();
     public Panel panel;
-    //public Panel panel;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         
@@ -20,17 +18,6 @@ public class Group : MonoBehaviour
             Destroy(gameObject);
         }
         panel.nameOfSelectUnit.text = "Group: " + units.Count.ToString();
-        /*
-        if (canAdd && Input.GetMouseButtonDown(1))
-        {
-            RaycastHit2D rayhit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-            if (rayhit && rayhit.collider.gameObject.TryGetComponent(out Unit unit) && units.Count < 12 && askForUnitInGroup(unit) == false && unit.enemy == false)
-            {
-                units.Add(unit);
-                UpdateActions();
-            }
-        }
-        */
     }
     public void SearchForUnit()
     {

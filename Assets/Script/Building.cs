@@ -5,7 +5,15 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class Building : Object
 {
-    List<string> unitQueue = new List<string>();
+    public enum TypeOfBuilding
+    { 
+        Spawner,
+        Mine,
+        Tower,
+        MainBuilding
+    }
+    public TypeOfBuilding typeOfBuilding;
+    public List<string> unitQueue = new List<string>();
     public bool passiveSpawn;
     public Unit[] unitSpawn;
     private bool canSpawn = true;
@@ -60,7 +68,7 @@ public class Building : Object
         }
         
     }
-    
+    public int timer;
     IEnumerator WaitForSpawn(Unit unit)
     {
         Debug.Log("WaitForSpawn");
@@ -69,6 +77,7 @@ public class Building : Object
             yield return new WaitForSeconds(1f);
             if (i <= 0)
             {
+                timer = i;
                 Instantiate(unit, new Vector3(transform.position.x + 1, transform.position.y, 0), transform.rotation);
                 canSpawn = true;
                 QueueUpdate();
