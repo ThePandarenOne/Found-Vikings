@@ -149,13 +149,24 @@ public class Panel : MonoBehaviour
     public void UpdateUnitsIconsInQueue(Building build)
     {
         startLoop = false;
-        for (byte i = 0; i < build.unitQueue.Count; i++)
+        for (byte i = 0; i < unitIcons.Length; i++)
         {
             if (build.unitQueue.Count > 0)
             {
-                unitIcons[i].typeOfIcon = UnitIcon.TypeOfIcon.UnitQueueIcon;
-                unitIcons[i].gameObject.SetActive(true);
-                unitIcons[i].unit = build.unitSpawn[build.unitQueue[i]];
+                if (i < build.unitQueue.Count)
+                {
+                    unitIcons[i].typeOfIcon = UnitIcon.TypeOfIcon.UnitQueueIcon;
+                    unitIcons[i].gameObject.SetActive(true);
+                    //Debug.Log(build);
+                    //Debug.Log("unitQueue" + build.unitQueue[i]);
+                    //Debug.Log("unitSpawn" + build.unitSpawn[build.unitQueue[i]]);
+                    unitIcons[i].unit = build.unitSpawn[build.unitQueue[i]];
+                }
+                else
+                {
+                    //unitIcons[i].gameObject.SetActive(false);
+                    unitIcons[i].typeOfIcon = UnitIcon.TypeOfIcon.Disabled;
+                }
             }
         }
         startLoop = true;

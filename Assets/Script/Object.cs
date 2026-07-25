@@ -23,7 +23,7 @@ public class Object : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        panel = FindAnyObjectByType<Panel>();
     }
     public void StartObject()
     {
@@ -31,12 +31,12 @@ public class Object : MonoBehaviour
     }
     public void OnMouseDown()
     {
-        ChooseUnit();
+        ChooseUnit(false);
     }
-    public void ChooseUnit()
+    public void ChooseUnit(bool d)
     {
         panel = FindAnyObjectByType<Panel>();
-        if (panel.group != null && !Input.GetKey(KeyCode.LeftControl))
+        if (panel.group != null && !Input.GetKey(KeyCode.LeftControl) || d == true)
         {
             Destroy(panel.group.gameObject);
             Destroy(panel.group);

@@ -28,7 +28,6 @@ public class Building : Object
     }
     void Update()
     {
-        Debug.Log(timer);
         UpdateObject();
     }
     public void AddUnitToQueue(byte NameOfUnit)//Добавляет юнита в очередь
@@ -56,7 +55,7 @@ public class Building : Object
         if (unitQueue.Count > 0)
         {
             StartCoroutine(WaitForSpawn(unitSpawn[unitQueue[0]]));
-            //FindUnit(unitQueue[0]);
+            //FindUnit(unitQueue[0]);///
         }
     }
     /*

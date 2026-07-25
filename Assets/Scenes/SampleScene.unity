@@ -194,205 +194,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 22893376}
   m_CullTransparentMesh: 1
---- !u!1 &43815227
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 43815232}
-  - component: {fileID: 43815231}
-  - component: {fileID: 43815230}
-  - component: {fileID: 43815229}
-  - component: {fileID: 43815228}
-  m_Layer: 0
-  m_Name: Baleog
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!50 &43815228
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 43815227}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
---- !u!61 &43815229
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 43815227}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!114 &43815230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 43815227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e6914d5faec57748befc2e8185503d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Unit
-  objectName: Baleog
-  enemy: 0
-  readyAttack: 1
-  hp: 10
-  maxhp: 10
-  dmg: 1
-  range: 5
-  respawnSpeed: 2
-  attackspeed: 1
-  speed: 3
-  action:
-  - {fileID: 11400000, guid: 0af3d9fc94932564ea50eda3f3d32787, type: 2}
-  - {fileID: 11400000, guid: 05cca6b9812805c49a45545959c1dcb6, type: 2}
-  - {fileID: 11400000, guid: a1215525ec0b7b24bb99b3e991ce82d1, type: 2}
-  - {fileID: 11400000, guid: a984f422fe06f604f9878e404675951d, type: 2}
-  - {fileID: 11400000, guid: 3d7dab7dbcf5c604b8751343f3ff90fc, type: 2}
-  panel: {fileID: 1842682052}
-  targetUnit: {fileID: 0}
-  movementType: 0
-  unitState: 0
---- !u!212 &43815231
-SpriteRenderer:
-  serializedVersion: 2
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 43815227}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 2b8c15137684949489d0c0f9d2c3e4ac, type: 3}
-  m_Color: {r: 0, g: 0.30440474, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_SpriteSortPoint: 0
---- !u!4 &43815232
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 43815227}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.06, y: -13.37, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &45136392
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,7 +311,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -100, y: -744}
+  m_AnchoredPosition: {x: 101, y: -445}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &50570706
@@ -525,11 +326,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95992e9c9b8543f4e9d3b93e56c2c7ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitIcon
-  action: {fileID: 0}
   hpText: {fileID: 954154526}
   nameText: {fileID: 789199196}
   slider: {fileID: 426319676}
   unit: {fileID: 0}
+  index: 0
   typeOfIcon: 2
 --- !u!114 &50570707
 MonoBehaviour:
@@ -742,7 +543,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -200, y: -544}
+  m_AnchoredPosition: {x: -100, y: -244.00002}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &75890314
@@ -757,11 +558,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95992e9c9b8543f4e9d3b93e56c2c7ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitIcon
-  action: {fileID: 0}
   hpText: {fileID: 407463517}
   nameText: {fileID: 1969221888}
   slider: {fileID: 1592030747}
   unit: {fileID: 0}
+  index: 0
   typeOfIcon: 2
 --- !u!114 &75890315
 MonoBehaviour:
@@ -962,7 +763,7 @@ MonoBehaviour:
         m_MethodName: 
         m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 43815230}
+          m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: Unit, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -1562,7 +1363,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -100, y: -544}
+  m_AnchoredPosition: {x: 101, y: -244.00002}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &161973352
@@ -1577,11 +1378,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95992e9c9b8543f4e9d3b93e56c2c7ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitIcon
-  action: {fileID: 0}
   hpText: {fileID: 146309342}
   nameText: {fileID: 486836342}
   slider: {fileID: 120660033}
   unit: {fileID: 0}
+  index: 0
   typeOfIcon: 2
 --- !u!114 &161973353
 MonoBehaviour:
@@ -1987,7 +1788,7 @@ MonoBehaviour:
         m_MethodName: 
         m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 43815230}
+          m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: Unit, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -2668,11 +2469,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95992e9c9b8543f4e9d3b93e56c2c7ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitIcon
-  action: {fileID: 0}
   hpText: {fileID: 332146344}
   nameText: {fileID: 679154349}
   slider: {fileID: 237175935}
   unit: {fileID: 0}
+  index: 0
   typeOfIcon: 2
 --- !u!114 &323660110
 MonoBehaviour:
@@ -3476,7 +3277,7 @@ MonoBehaviour:
         m_MethodName: 
         m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 43815230}
+          m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: Unit, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -3829,7 +3630,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -200, y: -744}
+  m_AnchoredPosition: {x: -100, y: -444}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &575774234
@@ -3844,11 +3645,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95992e9c9b8543f4e9d3b93e56c2c7ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitIcon
-  action: {fileID: 0}
   hpText: {fileID: 930750845}
   nameText: {fileID: 111745438}
   slider: {fileID: 802150876}
   unit: {fileID: 0}
+  index: 0
   typeOfIcon: 2
 --- !u!114 &575774235
 MonoBehaviour:
@@ -4489,7 +4290,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -200, y: -644}
+  m_AnchoredPosition: {x: -100, y: -344}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &704521184
@@ -4504,11 +4305,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95992e9c9b8543f4e9d3b93e56c2c7ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitIcon
-  action: {fileID: 0}
   hpText: {fileID: 700535139}
   nameText: {fileID: 1230751921}
   slider: {fileID: 1004283476}
   unit: {fileID: 0}
+  index: 0
   typeOfIcon: 2
 --- !u!114 &704521185
 MonoBehaviour:
@@ -4796,7 +4597,7 @@ MonoBehaviour:
   dmg: 1
   range: 5
   respawnSpeed: 5
-  attackspeed: 1
+  attackTime: 0
   speed: 3
   action:
   - {fileID: 11400000, guid: 0af3d9fc94932564ea50eda3f3d32787, type: 2}
@@ -7639,7 +7440,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -100, y: -444}
+  m_AnchoredPosition: {x: 1, y: -444}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &855332539
@@ -7654,11 +7455,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95992e9c9b8543f4e9d3b93e56c2c7ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitIcon
-  action: {fileID: 0}
   hpText: {fileID: 1561282056}
   nameText: {fileID: 648220297}
   slider: {fileID: 2019995520}
   unit: {fileID: 0}
+  index: 0
   typeOfIcon: 2
 --- !u!114 &855332540
 MonoBehaviour:
@@ -8111,7 +7912,7 @@ MonoBehaviour:
   dmg: 0
   range: 0
   respawnSpeed: 0
-  attackspeed: 0
+  attackTime: 0
   speed: 0
   action:
   - {fileID: 11400000, guid: 85a73b768cb98c84aa7e86dee97aeb5c, type: 2}
@@ -8122,12 +7923,12 @@ MonoBehaviour:
   panel: {fileID: 1842682052}
   targetUnit: {fileID: 0}
   typeOfBuilding: 0
-  unitQueue: []
+  unitQueue: 
   passiveSpawn: 0
   unitSpawn:
   - {fileID: 0}
-  - {fileID: 43815230}
-  - {fileID: 0}
+  - {fileID: 305469131928527975, guid: 742c5d456871acf4889c11cedde7bbdc, type: 3}
+  - {fileID: 5788655847963936905, guid: 39b4fd187cfe4f14c92cffe50abf5cb5, type: 3}
   - {fileID: 0}
   timer: 0
 --- !u!212 &913566188
@@ -8180,7 +7981,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 2b8c15137684949489d0c0f9d2c3e4ac, type: 3}
-  m_Color: {r: 0, g: 0.30440474, b: 1, a: 1}
+  m_Color: {r: 0.044601917, g: 0, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -8601,7 +8402,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -100, y: -244}
+  m_AnchoredPosition: {x: 0, y: -244}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1080404509
@@ -8616,11 +8417,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95992e9c9b8543f4e9d3b93e56c2c7ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitIcon
-  action: {fileID: 0}
   hpText: {fileID: 282674545}
   nameText: {fileID: 1619203250}
   slider: {fileID: 794333949}
   unit: {fileID: 0}
+  index: 0
   typeOfIcon: 2
 --- !u!114 &1080404510
 MonoBehaviour:
@@ -8934,11 +8735,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95992e9c9b8543f4e9d3b93e56c2c7ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitIcon
-  action: {fileID: 0}
   hpText: {fileID: 2138389912}
   nameText: {fileID: 1310224059}
   slider: {fileID: 1936499240}
   unit: {fileID: 0}
+  index: 0
   typeOfIcon: 2
 --- !u!114 &1223217614
 MonoBehaviour:
@@ -10138,7 +9939,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -100, y: -644}
+  m_AnchoredPosition: {x: 101, y: -345}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1531143779
@@ -10153,11 +9954,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95992e9c9b8543f4e9d3b93e56c2c7ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitIcon
-  action: {fileID: 0}
   hpText: {fileID: 1691138303}
   nameText: {fileID: 234994816}
   slider: {fileID: 1409979423}
   unit: {fileID: 0}
+  index: 0
   typeOfIcon: 2
 --- !u!114 &1531143780
 MonoBehaviour:
@@ -10460,11 +10261,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95992e9c9b8543f4e9d3b93e56c2c7ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitIcon
-  action: {fileID: 0}
   hpText: {fileID: 1823718105}
   nameText: {fileID: 45136394}
   slider: {fileID: 1090923173}
   unit: {fileID: 0}
+  index: 0
   typeOfIcon: 2
 --- !u!114 &1562248237
 MonoBehaviour:
@@ -11652,7 +11453,7 @@ MonoBehaviour:
         m_MethodName: 
         m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 43815230}
+          m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: Unit, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -12538,7 +12339,7 @@ MonoBehaviour:
         m_MethodName: 
         m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 43815230}
+          m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: Unit, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -12621,7 +12422,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -100, y: -344}
+  m_AnchoredPosition: {x: 0, y: -344}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2079706628
@@ -12636,11 +12437,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95992e9c9b8543f4e9d3b93e56c2c7ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitIcon
-  action: {fileID: 0}
   hpText: {fileID: 448935012}
   nameText: {fileID: 1321828575}
   slider: {fileID: 171382319}
   unit: {fileID: 0}
+  index: 0
   typeOfIcon: 2
 --- !u!114 &2079706629
 MonoBehaviour:
@@ -13055,7 +12856,6 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 619394802}
   - {fileID: 421302102}
-  - {fileID: 43815232}
   - {fileID: 784597754}
   - {fileID: 913566189}
   - {fileID: 1367630900}

@@ -73,7 +73,7 @@ public class UnitIcon : MonoBehaviour
             typeOfIcon = TypeOfIcon.Disabled;
         }
         slider.gameObject.SetActive(true);
-        button.onClick.AddListener(unit.ChooseUnit);
+        button.onClick.AddListener(() => unit.ChooseUnit(true));
         button.interactable = true;
         image.sprite = unit.GetComponent<SpriteRenderer>().sprite;
         hpText.text = "HP:" + unit.hp + "/" + unit.maxhp;
