@@ -59,7 +59,7 @@ public class Panel : MonoBehaviour
             }
         }
         characteristics[0].text = "Damage:" + objectUnit.dmg.ToString();
-        characteristics[1].text = "AttackSpeed:" + objectUnit.attackspeed.ToString();
+        characteristics[1].text = "AttackSpeed:" + objectUnit.attackTime.ToString();
         characteristics[2].text = "Speed:" + objectUnit.speed.ToString();
         characteristics[4].text = "Range:" + objectUnit.range.ToString();
         nameOfSelectUnit.text = objectUnit.name;
@@ -120,15 +120,15 @@ public class Panel : MonoBehaviour
         Building building = objectUnit.GetComponent<Building>();
         if (buttons[i].action.namE == "Spawn Baleog")
         {
-            buttons[i].acsessButton.onClick.AddListener(() => building.AddUnitToQueue("Baleog"));
+            buttons[i].acsessButton.onClick.AddListener(() => building.AddUnitToQueue(1));
         }
         if (buttons[i].action.namE == "Spawn Olaf")
         {
-            buttons[i].acsessButton.onClick.AddListener(() => building.AddUnitToQueue("Olaf"));
+            buttons[i].acsessButton.onClick.AddListener(() => building.AddUnitToQueue(2));
         }
         if (buttons[i].action.namE == "Spawn Erik")
         {
-            buttons[i].acsessButton.onClick.AddListener(() => building.AddUnitToQueue("Erick"));
+            buttons[i].acsessButton.onClick.AddListener(() => building.AddUnitToQueue(3));
         }
     }
     // Update is called once per frame
@@ -151,12 +151,14 @@ public class Panel : MonoBehaviour
         startLoop = false;
         for (byte i = 0; i < build.unitQueue.Count; i++)
         {
-            unitIcons[i].typeOfIcon = UnitIcon.TypeOfIcon.UnitQueueIcon;
-            if (i == group.units.Count - 1)
+            if (build.unitQueue.Count > 0)
             {
-                startLoop = true;
+                unitIcons[i].typeOfIcon = UnitIcon.TypeOfIcon.UnitQueueIcon;
+                unitIcons[i].gameObject.SetActive(true);
+                unitIcons[i].unit = build.unitSpawn[build.unitQueue[i]];
             }
         }
+        startLoop = true;
     }
     void Update()
     {

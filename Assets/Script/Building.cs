@@ -13,7 +13,7 @@ public class Building : Object
         MainBuilding
     }
     public TypeOfBuilding typeOfBuilding;
-    public List<string> unitQueue = new List<string>();
+    public List<byte> unitQueue = new List<byte>();
     public bool passiveSpawn;
     public Unit[] unitSpawn;
     private bool canSpawn = true;
@@ -28,9 +28,10 @@ public class Building : Object
     }
     void Update()
     {
+        Debug.Log(timer);
         UpdateObject();
     }
-    public void AddUnitToQueue(string NameOfUnit)//Добавляет юнита в очередь
+    public void AddUnitToQueue(byte NameOfUnit)//Добавляет юнита в очередь
     {
         Debug.Log("AddUnitToQueue");
         if(unitQueue.Count < 5)
@@ -39,7 +40,8 @@ public class Building : Object
             if(canSpawn)
             {
                 canSpawn = false;
-                FindUnit(NameOfUnit);
+                StartCoroutine(WaitForSpawn(unitSpawn[NameOfUnit]));
+                //FindUnit(NameOfUnit);
             }
         }
     }
@@ -48,13 +50,16 @@ public class Building : Object
         Debug.Log("QueueUpdate");
         if (unitQueue.Count > 0)
         {
+            panel.UpdateUnitsIconsInQueue(this);
             unitQueue.RemoveAt(0);
         }
         if (unitQueue.Count > 0)
         {
-            FindUnit(unitQueue[0]);
+            StartCoroutine(WaitForSpawn(unitSpawn[unitQueue[0]]));
+            //FindUnit(unitQueue[0]);
         }
     }
+    /*
     void FindUnit(string nameUnit)//Переводит имя юнита в номер для спавна
     {
         Debug.Log("FindUnit");
@@ -68,16 +73,17 @@ public class Building : Object
         }
         
     }
+    */
     public int timer;
     IEnumerator WaitForSpawn(Unit unit)
     {
         Debug.Log("WaitForSpawn");
         for (int i = unit.respawnSpeed; i >= 0; i--)
         {
+            timer = i;
             yield return new WaitForSeconds(1f);
             if (i <= 0)
             {
-                timer = i;
                 Instantiate(unit, new Vector3(transform.position.x + 1, transform.position.y, 0), transform.rotation);
                 canSpawn = true;
                 QueueUpdate();

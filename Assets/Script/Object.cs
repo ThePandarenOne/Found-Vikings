@@ -13,7 +13,7 @@ public class Object : MonoBehaviour
     public int dmg;
     public byte range;
     public byte respawnSpeed;
-    public float attackspeed;
+    public float attackTime;
     public float speed;
 
     public ActionData[] action;
@@ -43,7 +43,6 @@ public class Object : MonoBehaviour
             panel.group = null;
         }
         panel.objectUnit = this;
-        Debug.Log(panel.group);
         panel.ChangePanel();
     }
 
@@ -67,7 +66,7 @@ public class Object : MonoBehaviour
     }
     IEnumerator WaitForAttack()
     {
-        yield return new WaitForSeconds(attackspeed);
+        yield return new WaitForSeconds(attackTime);
         readyAttack = true;
     }
 }

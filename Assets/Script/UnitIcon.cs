@@ -5,13 +5,14 @@ using UnityEngine.UI;
 public class UnitIcon : MonoBehaviour
 {
     Button button;
-    public ActionData action;
-    private Sprite icon;
     public Text hpText;
     public Text nameText;
     public Slider slider;
     public Object unit;
+    public byte index;
     int timer;
+    Panel panel;
+    Image image;
     public enum TypeOfIcon
     {
         UnitQueueIcon,
@@ -22,6 +23,8 @@ public class UnitIcon : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        panel = FindAnyObjectByType<Panel>();
+        image = GetComponent<Image>();
         button = GetComponent<Button>();
     }
 
@@ -33,10 +36,10 @@ public class UnitIcon : MonoBehaviour
             case TypeOfIcon.UnitQueueIcon:
                 UpdateUnitInQueue();
                 break;
-                case TypeOfIcon.UnitGroupIcon:
+            case TypeOfIcon.UnitGroupIcon:
                 UpdateIconStats();
                 break ;
-                case TypeOfIcon.Disabled:
+            case TypeOfIcon.Disabled:
                 gameObject.SetActive(false);
                 break;
         }
@@ -44,20 +47,35 @@ public class UnitIcon : MonoBehaviour
     void UpdateUnitInQueue()
     {
         button.onClick.RemoveAllListeners();
-        if(unit.TryGetComponent(out Building building))
+        button.interactable = false;
+        if (panel.objectUnit.TryGetComponent(out Building building))
         {
-            timer = building.timer;
+            timer = unit.respawnSpeed-building.timer;
         }
-        icon = action.icon;
-        nameText.text = action.name;
-        hpText.text = timer + "/" +unit.respawnSpeed;
-        slider.value = timer;
+        image.sprite = unit.GetComponent<SpriteRenderer>().sprite;
+        nameText.text = unit.name;
+        if(gameObject.name == "Unit")
+        {
+            slider.value = timer;
+            hpText.text = timer + "/" + unit.respawnSpeed;
+        }
+        else
+        {
+            hpText.text = "";
+            slider.gameObject.SetActive(false);
+        }
         slider.maxValue = unit.respawnSpeed;
     }
     void UpdateIconStats()
     {
+        if (unit == null)
+        {
+            typeOfIcon = TypeOfIcon.Disabled;
+        }
+        slider.gameObject.SetActive(true);
         button.onClick.AddListener(unit.ChooseUnit);
-        icon = unit.GetComponent<SpriteRenderer>().sprite;
+        button.interactable = true;
+        image.sprite = unit.GetComponent<SpriteRenderer>().sprite;
         hpText.text = "HP:" + unit.hp + "/" + unit.maxhp;
         slider.value = unit.hp;
         slider.maxValue = unit.maxhp;
