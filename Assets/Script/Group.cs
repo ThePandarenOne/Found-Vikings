@@ -22,7 +22,7 @@ public class Group : MonoBehaviour
     public void SearchForUnit()
     {
         RaycastHit2D rayhit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-        if (rayhit && rayhit.collider.gameObject.TryGetComponent(out Unit unit) && units.Count < 12 && askForUnitInGroup(unit) == false && unit.enemy == false)
+        if (rayhit && rayhit.collider.gameObject.TryGetComponent(out Unit unit) && units.Count < 12 && askForUnitInGroup(unit) == false && unit.side == Object.Side.Player)
         {
             units.Add(unit);
             UpdateActions();

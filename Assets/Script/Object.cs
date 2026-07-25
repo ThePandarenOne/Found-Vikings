@@ -2,10 +2,16 @@ using UnityEngine;
 using System.Collections;
 using static UnityEngine.Rendering.DebugUI;
 
-public class Object : MonoBehaviour
+public class Object : MonoBehaviour, IChooseUnit
 {
+    public enum Side
+    {
+        Player,
+        Enemy,
+        Neutral
+    }
+    public Side side;
     public string objectName;
-    public bool enemy;
     public bool readyAttack = true;
 
     public int hp;

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using static UnityEngine.Rendering.DebugUI;
+using UnityEngine.UIElements;
 
 public class Building : Object
 {
@@ -12,6 +13,7 @@ public class Building : Object
         Tower,
         MainBuilding
     }
+    public BuildPlace buildPlace;
     public TypeOfBuilding typeOfBuilding;
     public List<byte> unitQueue = new List<byte>();
     public bool passiveSpawn;
@@ -28,7 +30,37 @@ public class Building : Object
     }
     void Update()
     {
+        if(hp <= 0)
+        {
+            buildPlace.gameObject.SetActive(true);
+        }
         UpdateObject();
+        switch (typeOfBuilding)
+        {
+            case TypeOfBuilding.Spawner:
+                break;
+            case TypeOfBuilding.Mine:
+                GiveMoney();
+                readyAttack = false;
+                break;
+            case TypeOfBuilding.Tower:
+                break;
+        }
+    }
+    IEnumerator GiveMoney()
+    {
+        yield return new WaitForSeconds(1f);
+        panel.money += 4;
+        readyAttack = true;
+    }
+    public void SelfDestroy()
+    {
+        StartCoroutine(WaitForDestroy());
+    }
+    IEnumerator WaitForDestroy()
+    {
+        yield return new WaitForSeconds(2f);
+        hp = 0;
     }
     public void AddUnitToQueue(byte NameOfUnit)//Добавляет юнита в очередь
     {

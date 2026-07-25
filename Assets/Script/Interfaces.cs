@@ -1,9 +1,9 @@
 using UnityEngine;
 using static Unit;
 
-public interface AttackPosition
+public interface IChooseUnit 
 {
-    public void AttackPosition()
+    public void ChooseUnit(bool d)
     {
 
     }

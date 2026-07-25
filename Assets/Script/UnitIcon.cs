@@ -17,6 +17,7 @@ public class UnitIcon : MonoBehaviour
     {
         UnitQueueIcon,
         UnitGroupIcon,
+        Building,
         Disabled
     }
     public TypeOfIcon typeOfIcon = TypeOfIcon.Disabled;
@@ -39,6 +40,9 @@ public class UnitIcon : MonoBehaviour
             case TypeOfIcon.UnitGroupIcon:
                 UpdateIconStats();
                 break ;
+            case TypeOfIcon.Building:
+                UpdateBuilding();
+                break;
             case TypeOfIcon.Disabled:
                 gameObject.SetActive(false);
                 break;
@@ -65,6 +69,20 @@ public class UnitIcon : MonoBehaviour
             slider.gameObject.SetActive(false);
         }
         slider.maxValue = unit.respawnSpeed;
+    }
+    void UpdateBuilding()
+    {
+        button.onClick.RemoveAllListeners();
+        button.interactable = false;
+        if (panel.objectUnit.TryGetComponent(out BuildPlace building))
+        {
+            timer = building.building.respawnSpeed - building.timer;
+            image.sprite = building.building.GetComponent<SpriteRenderer>().sprite;
+            nameText.text = building.building.name;
+            slider.value = timer;
+            hpText.text = timer + "/" + building.building.respawnSpeed;
+            slider.maxValue = building.building.respawnSpeed;
+        }
     }
     void UpdateIconStats()
     {
