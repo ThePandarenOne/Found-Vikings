@@ -33,7 +33,7 @@ public class PanelButton : MonoBehaviour
     }
     public void GetCost()
     {
-        panel.money -= action.cost;
+        panel.playerManager.money -= action.cost;
     }
     // Update is called once per frame
     void Update()
@@ -48,7 +48,7 @@ public class PanelButton : MonoBehaviour
             {
                 costText.gameObject.SetActive(true);
             }
-            if (action.cost > panel.money)
+            if (action.cost > panel.playerManager.money)
             {
                 button.interactable = false;
             }

@@ -20,6 +20,7 @@ public class Building : Object
     public bool passiveSpawn;
     public Unit[] unitSpawn;
     private bool canSpawn = true;
+    public GameObject spawnplace;
     void Start()
     {
         StartObject();
@@ -98,7 +99,7 @@ public class Building : Object
     IEnumerator GiveMoney(int count)
     {
         yield return new WaitForSeconds(1f);
-        panel.money += count;
+        panel.playerManager.money += count;
         readyAttack = true;
     }
     public void Attack()
@@ -154,7 +155,7 @@ public class Building : Object
             yield return new WaitForSeconds(1f);
             if (i <= 0)
             {
-                Instantiate(unit, new Vector3(transform.position.x + 1, transform.position.y, 0), transform.rotation);
+                Instantiate(unit, new Vector3(spawnplace.transform.position.x, spawnplace.transform.position.y, 0), spawnplace.transform.rotation);
                 canSpawn = true;
                 QueueUpdate();
             }

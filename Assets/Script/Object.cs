@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using static UnityEngine.Rendering.DebugUI;
 
-public class Object : MonoBehaviour, IChooseUnit
+public class Object : MonoBehaviour
 {
     public enum UnitState
     {

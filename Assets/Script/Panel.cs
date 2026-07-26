@@ -5,7 +5,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class Panel : MonoBehaviour
 {
-    public int money;
+    public PlayerManager playerManager;
     public UnitIcon[] unitIcons;
     public PanelButton[] buttons;
     public Text nameOfSelectUnit;
@@ -230,7 +230,7 @@ public class Panel : MonoBehaviour
     }
     void Update()
     {
-        moneyCounter.text = "Money:"+money;
+        moneyCounter.text = "Money:"+playerManager.money;
         if (group != null && group.units.Count > 0)
         {
             UpdateUnitsIconsInGroup();

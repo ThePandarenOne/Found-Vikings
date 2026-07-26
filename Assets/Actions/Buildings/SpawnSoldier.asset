@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ActionData
   icon: {fileID: -8582637112200185598, guid: 7119eefa8ba4ea3408da9b41031cd4f4, type: 3}
   namE: Spawn Baleog
-  cost: 60
+  cost: 80
