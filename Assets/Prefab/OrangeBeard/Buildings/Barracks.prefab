@@ -115,7 +115,7 @@ MonoBehaviour:
   maxhp: 20
   dmg: 0
   range: 0
-  respawnSpeed: 5
+  respawnSpeed: 20
   attackTime: 0
   speed: 0
   action:

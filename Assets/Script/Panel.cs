@@ -38,6 +38,7 @@ public class Panel : MonoBehaviour
                     if (objectUnit.side != Object.Side.Enemy)
                     {
                         buttons[i].gameObject.SetActive(true);
+                        buttons[i].acsessButton.onClick.AddListener(buttons[i].GetCost);
                         GiveActionUnit(i);
                     }
                 }
@@ -48,6 +49,7 @@ public class Panel : MonoBehaviour
                     if (objectUnit.side != Object.Side.Enemy)
                     {
                         buttons[i].gameObject.SetActive(true);
+                        buttons[i].acsessButton.onClick.AddListener(buttons[i].GetCost);
                         GiveActionBuilding(i);
                     }
                 }
@@ -58,6 +60,7 @@ public class Panel : MonoBehaviour
                     if (objectUnit.side == Object.Side.Neutral)
                     {
                         buttons[i].gameObject.SetActive(true);
+                        buttons[i].acsessButton.onClick.AddListener(buttons[i].GetCost);
                         GiveActionBuildingPlacement(i);
                     }
                 }

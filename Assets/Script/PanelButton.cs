@@ -1,8 +1,10 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PanelButton : MonoBehaviour
 {
+    Panel panel;
     public ActionData action;
     private Image icon;
     public Text nameText;
@@ -18,6 +20,8 @@ public class PanelButton : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //button.onClick.AddListener(() => Paid(action.cost));
+        panel = FindAnyObjectByType<Panel>();
         icon = GetComponent<Image>();
         button = GetComponent<Button>();
     }
@@ -25,13 +29,34 @@ public class PanelButton : MonoBehaviour
     {
         icon.sprite = action.icon;
         nameText.text = action.namE;
-        costText.text = action.cost;
-        //button.onClick.AddListener(action.);
+        costText.text = action.cost.ToString();
     }
-
+    public void GetCost()
+    {
+        panel.money -= action.cost;
+    }
     // Update is called once per frame
     void Update()
     {
+        if(action != null)
+        {
+            if (action.cost == 0)
+            {
+                costText.gameObject.SetActive(false);
+            }
+            else
+            {
+                costText.gameObject.SetActive(true);
+            }
+            if (action.cost > panel.money)
+            {
+                button.interactable = false;
+            }
+            else
+            {
+                button.interactable = true;
+            }
+        }
         if(action == false)
         {
             gameObject.SetActive(false);

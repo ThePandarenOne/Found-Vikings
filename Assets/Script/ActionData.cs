@@ -6,5 +6,5 @@ public class ActionData : ScriptableObject
 {
     public Sprite icon;
     public string namE;
-    public string cost;
+    public int cost;
 }
