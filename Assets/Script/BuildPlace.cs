@@ -41,9 +41,10 @@ public class BuildPlace : Object
             yield return new WaitForSeconds(1f);
             if (b <= 0)
             {
+                isBuilding = false;
+                panel.UpdateUnitsIconsWhileBuilding(this);
                 Building spawnedBuilding = Instantiate(building, transform.position, transform.rotation);
                 spawnedBuilding.buildPlace = this;
-                isBuilding = false;
                 building = null;
                 gameObject.SetActive(false);
             }

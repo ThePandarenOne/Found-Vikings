@@ -14,6 +14,7 @@ public class Building : Object
         MainBuilding
     }
     public BuildPlace buildPlace;
+    public UnitState unitState = UnitState.Idle;
     public TypeOfBuilding typeOfBuilding;
     public List<byte> unitQueue = new List<byte>();
     public bool passiveSpawn;
@@ -40,18 +41,73 @@ public class Building : Object
             case TypeOfBuilding.Spawner:
                 break;
             case TypeOfBuilding.Mine:
-                GiveMoney();
-                readyAttack = false;
+                if(readyAttack)
+                {
+                    StartCoroutine(GiveMoney(2));
+                    readyAttack = false;
+                }
                 break;
             case TypeOfBuilding.Tower:
                 break;
+            case TypeOfBuilding.MainBuilding:
+                if (readyAttack)
+                {
+                    StartCoroutine(GiveMoney(1));
+                    readyAttack = false;
+                }
+                break;
+        }
+        switch(unitState)
+        {
+            case UnitState.Idle:
+                break;
+            case UnitState.Defend:
+                if (targetUnit == null)
+                {
+                    Collider2D[] touchableObjects = Physics2D.OverlapCircleAll(transform.position, range);
+                    foreach (Collider2D touchableObject in touchableObjects)
+                    {
+                        if (touchableObject.TryGetComponent(out Unit unit) && unit.side != side)
+                        {
+                            targetUnit = unit;
+                        }
+                    }
+                }
+                if (targetUnit != null && Mathf.Abs(targetUnit.transform.position.x - transform.position.x) < range && readyAttack)
+                {
+                    AttackTarget();
+                }
+                break;
+            case UnitState.Attack:
+                if (Input.GetKeyDown(KeyCode.Mouse1))
+                {
+                    Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+                    if (hit == true)
+                    {
+                        hit.transform.gameObject.TryGetComponent(out targetUnit);
+                    }
+                }
+                if (targetUnit != null && Mathf.Abs(targetUnit.transform.position.x - transform.position.x) < range && readyAttack)
+                {
+                    AttackTarget();
+                }
+                break;
         }
     }
-    IEnumerator GiveMoney()
+    IEnumerator GiveMoney(int count)
     {
         yield return new WaitForSeconds(1f);
-        panel.money += 4;
+        panel.money += count;
         readyAttack = true;
+    }
+    public void Attack()
+    {
+        unitState = UnitState.Attack;
+    }
+    public void AttackPosition()
+    {
+        unitState = UnitState.Defend;
     }
     public void SelfDestroy()
     {
@@ -87,28 +143,11 @@ public class Building : Object
         if (unitQueue.Count > 0)
         {
             StartCoroutine(WaitForSpawn(unitSpawn[unitQueue[0]]));
-            //FindUnit(unitQueue[0]);///
         }
     }
-    /*
-    void FindUnit(string nameUnit)//Переводит имя юнита в номер для спавна
-    {
-        Debug.Log("FindUnit");
-        for (byte i = 0; i<unitSpawn.Length;i++)
-        {
-            if (unitSpawn[i] != null && unitSpawn[i].name == nameUnit)
-            {
-                StartCoroutine(WaitForSpawn(unitSpawn[i]));
-                break;
-            }
-        }
-        
-    }
-    */
     public int timer;
     IEnumerator WaitForSpawn(Unit unit)
     {
-        Debug.Log("WaitForSpawn");
         for (int i = unit.respawnSpeed; i >= 0; i--)
         {
             timer = i;

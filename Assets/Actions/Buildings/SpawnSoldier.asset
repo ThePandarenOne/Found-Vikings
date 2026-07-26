@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b763f101f798604787f528927bb4070, type: 3}
   m_Name: SpawnSoldier
   m_EditorClassIdentifier: Assembly-CSharp::ActionData
-  icon: {fileID: 6142778566382872603, guid: 490dbb3bdd56f284eb22ba43591dc6ff, type: 3}
+  icon: {fileID: -8582637112200185598, guid: 7119eefa8ba4ea3408da9b41031cd4f4, type: 3}
   namE: Spawn Baleog
-  cost: 20
+  cost: 60

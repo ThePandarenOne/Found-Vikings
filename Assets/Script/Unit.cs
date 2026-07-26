@@ -11,14 +11,6 @@ public enum MovementType
 
 public class Unit : Object
 {
-    public enum UnitState
-    {
-        Idle,
-        Move,
-        Defend,
-        Attack,
-        Hunt
-    }
     public MovementType movementType;
     public UnitState unitState = UnitState.Idle;
 

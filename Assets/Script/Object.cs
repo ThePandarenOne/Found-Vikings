@@ -4,12 +4,21 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class Object : MonoBehaviour, IChooseUnit
 {
+    public enum UnitState
+    {
+        Idle,
+        Move,
+        Defend,
+        Attack,
+        Hunt
+    }
     public enum Side
     {
         Player,
         Enemy,
         Neutral
     }
+    public Sprite spriteIcon;
     public Side side;
     public string objectName;
     public bool readyAttack = true;

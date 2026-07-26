@@ -11,6 +11,7 @@ public class Panel : MonoBehaviour
     public Text nameOfSelectUnit;
     public Object objectUnit;
     public Text[] characteristics;
+    public Text moneyCounter;
     public Slider sliderHP;
     public Group group;
     public Group groupPrefab;
@@ -23,7 +24,7 @@ public class Panel : MonoBehaviour
     }
     public void ChangePanel()
     {
-        for(byte i = 0; i < buttons.Length; i++)
+        for (byte i = 0; i < buttons.Length; i++)
         {
             buttons[i].action = null;
             buttons[i].acsessButton.onClick.RemoveAllListeners();
@@ -67,24 +68,21 @@ public class Panel : MonoBehaviour
                 }
             }
         }
-        
-        if(objectUnit != null)
+        if (objectUnit != null)
         {
+            nameOfSelectUnit.text = objectUnit.name;
             characteristics[0].text = "Damage:" + objectUnit.dmg.ToString();
             characteristics[1].text = "AttackSpeed:" + objectUnit.attackTime.ToString();
             characteristics[2].text = "Speed:" + objectUnit.speed.ToString();
             characteristics[4].text = "Range:" + objectUnit.range.ToString();
-            nameOfSelectUnit.text = objectUnit.name;
         }
         else
         {
-            sliderHP.gameObject.SetActive(false);
-            foreach(Text c in characteristics)
+            foreach (Text c in characteristics)
             {
                 c.text = "";
             }
         }
-        
     }
     public void GiveActionUnit(byte i)
     {
@@ -152,6 +150,14 @@ public class Panel : MonoBehaviour
         {
             buttons[i].acsessButton.onClick.AddListener(() => building.AddUnitToQueue(3));
         }
+        if (buttons[i].action.namE == "Attack")
+        {
+            buttons[i].acsessButton.onClick.AddListener(building.Attack);
+        }
+        if (buttons[i].action.namE == "Defend")
+        {
+            buttons[i].acsessButton.onClick.AddListener(building.AttackPosition);
+        }
         if (buttons[i].action.namE == "DestroyBuilding")
         {
             buttons[i].acsessButton.onClick.AddListener(building.SelfDestroy);
@@ -174,9 +180,9 @@ public class Panel : MonoBehaviour
         }
     }
     // Update is called once per frame
-    bool startLoop = true;
     void UpdateUnitsIconsInGroup()
     {
+        Debug.Log("UpdateUnitsIconsInGroup");
         for(byte i = 0; i < group.units.Count;i++)
         {
             if(group.units[i] != null)
@@ -186,11 +192,9 @@ public class Panel : MonoBehaviour
                 unitIcons[i].unit = group.units[i];
             }
         }
-        startLoop = true;
     }
     public void UpdateUnitsIconsInQueue(Building build)
     {
-        startLoop = false;
         for (byte i = 0; i < unitIcons.Length; i++)
         {
             if (build.unitQueue.Count > 0)
@@ -207,9 +211,8 @@ public class Panel : MonoBehaviour
                 }
             }
         }
-        startLoop = true;
     }
-    void UpdateUnitsIconsWhileBuilding(BuildPlace build)
+    public void UpdateUnitsIconsWhileBuilding(BuildPlace build)
     {
         if (build.isBuilding)
         {
@@ -224,16 +227,21 @@ public class Panel : MonoBehaviour
     }
     void Update()
     {
-        if(objectUnit == null || objectUnit.gameObject.activeSelf == false)
-        {
-            objectUnit = null;
-            ChangePanel();
-        }
-        if(group != null && group.units.Count > 0 && startLoop)
+        moneyCounter.text = "Money:"+money;
+        if (group != null && group.units.Count > 0)
         {
             UpdateUnitsIconsInGroup();
         }
-        else if(group != null && group.units.Count == 0)
+        if (objectUnit == null && group == null || objectUnit.gameObject.activeSelf == false && group == null)
+        {
+            objectUnit = null;
+            foreach(UnitIcon u in unitIcons)
+            {
+                u.typeOfIcon = UnitIcon.TypeOfIcon.Disabled;
+            }
+            ChangePanel();
+        }
+        else if (group != null && group.units.Count == 0)
         {
             foreach (PanelButton panelButton in buttons)
             {
@@ -244,17 +252,17 @@ public class Panel : MonoBehaviour
                 unit.typeOfIcon = UnitIcon.TypeOfIcon.Disabled;
             }
         }
-        else if(objectUnit != null && objectUnit.TryGetComponent(out Building build) && build.unitQueue.Count > 0 && startLoop)
+        else if (objectUnit != null && objectUnit.TryGetComponent(out Building build) && build.unitQueue.Count > 0)
         {
             UpdateUnitsIconsInQueue(build);
         }
-        else if(objectUnit != null && objectUnit.TryGetComponent(out BuildPlace buildPlace))
+        else if (objectUnit != null && objectUnit.TryGetComponent(out BuildPlace buildPlace))
         {
             UpdateUnitsIconsWhileBuilding(buildPlace);
         }
         else
         {
-            foreach(UnitIcon unit in unitIcons)
+            foreach (UnitIcon unit in unitIcons)
             {
                 unit.typeOfIcon = UnitIcon.TypeOfIcon.Disabled;
             }
@@ -277,15 +285,19 @@ public class Panel : MonoBehaviour
         {
             cannew = true;
         }
-        if(objectUnit != null)
+        if (objectUnit != null)
         {
-            if(sliderHP.gameObject.activeSelf == false)
+            if (sliderHP.gameObject.activeSelf == false)
             {
                 sliderHP.gameObject.SetActive(true);
             }
             sliderHP.maxValue = objectUnit.maxhp;
             sliderHP.value = objectUnit.hp;
             characteristics[3].text = "HP:" + objectUnit.hp.ToString() + "/" + objectUnit.maxhp.ToString();
+        }
+        else
+        {
+            sliderHP.gameObject.SetActive(false);
         }
     }
 }

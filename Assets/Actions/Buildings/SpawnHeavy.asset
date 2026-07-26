@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b763f101f798604787f528927bb4070, type: 3}
   m_Name: SpawnHeavy
   m_EditorClassIdentifier: Assembly-CSharp::ActionData
-  icon: {fileID: 180038358, guid: 490dbb3bdd56f284eb22ba43591dc6ff, type: 3}
+  icon: {fileID: -680587022, guid: 7119eefa8ba4ea3408da9b41031cd4f4, type: 3}
   namE: Spawn Olaf
-  cost: 40
+  cost: 20

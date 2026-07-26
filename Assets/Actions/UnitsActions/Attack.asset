@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b763f101f798604787f528927bb4070, type: 3}
   m_Name: Attack
   m_EditorClassIdentifier: Assembly-CSharp::ActionData
-  icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: -751494082, guid: 7119eefa8ba4ea3408da9b41031cd4f4, type: 3}
   namE: Attack
   cost: 

@@ -56,7 +56,7 @@ public class UnitIcon : MonoBehaviour
         {
             timer = unit.respawnSpeed-building.timer;
         }
-        image.sprite = unit.GetComponent<SpriteRenderer>().sprite;
+        image.sprite = unit.spriteIcon;
         nameText.text = unit.name;
         if(gameObject.name == "Unit")
         {
@@ -77,11 +77,15 @@ public class UnitIcon : MonoBehaviour
         if (panel.objectUnit.TryGetComponent(out BuildPlace building))
         {
             timer = building.building.respawnSpeed - building.timer;
-            image.sprite = building.building.GetComponent<SpriteRenderer>().sprite;
+            image.sprite = building.building.spriteIcon;
             nameText.text = building.building.name;
             slider.value = timer;
             hpText.text = timer + "/" + building.building.respawnSpeed;
             slider.maxValue = building.building.respawnSpeed;
+        }
+        if(timer == building.respawnSpeed)
+        {
+            typeOfIcon = TypeOfIcon.Disabled;
         }
     }
     void UpdateIconStats()
@@ -93,7 +97,7 @@ public class UnitIcon : MonoBehaviour
         slider.gameObject.SetActive(true);
         button.onClick.AddListener(() => unit.ChooseUnit(true));
         button.interactable = true;
-        image.sprite = unit.GetComponent<SpriteRenderer>().sprite;
+        image.sprite = unit.spriteIcon;
         hpText.text = "HP:" + unit.hp + "/" + unit.maxhp;
         slider.value = unit.hp;
         slider.maxValue = unit.maxhp;
