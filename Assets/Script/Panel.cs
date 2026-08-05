@@ -35,7 +35,7 @@ public class Panel : MonoBehaviour
                 {
                     buttons[i].action = unit.action[i];
                     buttons[i].GetAction();
-                    if (objectUnit.side != Object.Side.Enemy)
+                    if (objectUnit.side == playerManager.sidePlayer)
                     {
                         buttons[i].gameObject.SetActive(true);
                         buttons[i].acsessButton.onClick.AddListener(buttons[i].GetCost);
@@ -46,7 +46,7 @@ public class Panel : MonoBehaviour
                 {
                     buttons[i].action = build.action[i];
                     buttons[i].GetAction();
-                    if (objectUnit.side != Object.Side.Enemy)
+                    if (objectUnit.side == playerManager.sidePlayer)
                     {
                         buttons[i].gameObject.SetActive(true);
                         buttons[i].acsessButton.onClick.AddListener(buttons[i].GetCost);
@@ -57,7 +57,7 @@ public class Panel : MonoBehaviour
                 {
                     buttons[i].action = buildPlace.action[i];
                     buttons[i].GetAction();
-                    if (objectUnit.side == Object.Side.Neutral)
+                    if (objectUnit.side == playerManager.sidePlayer)
                     {
                         buttons[i].gameObject.SetActive(true);
                         buttons[i].acsessButton.onClick.AddListener(buttons[i].GetCost);
@@ -231,11 +231,11 @@ public class Panel : MonoBehaviour
     void Update()
     {
         moneyCounter.text = "Money:"+playerManager.money;
-        if (group != null && group.units.Count > 0)
+        if (group != null && group.units.Count > 0)//Обновляет иконки юнитов в группе
         {
             UpdateUnitsIconsInGroup();
         }
-        if (objectUnit == null && group == null || objectUnit.gameObject.activeSelf == false && group == null)
+        else if (objectUnit == null && group == null ||  objectUnit != null &&objectUnit.gameObject.activeSelf == false && group == null)//
         {
             objectUnit = null;
             foreach(UnitIcon u in unitIcons)
@@ -244,7 +244,7 @@ public class Panel : MonoBehaviour
             }
             ChangePanel();
         }
-        else if (group != null && group.units.Count == 0)
+        else if (group != null && group.units.Count == 0)//Если группа создана, но пуста.
         {
             foreach (PanelButton panelButton in buttons)
             {
@@ -255,12 +255,16 @@ public class Panel : MonoBehaviour
                 unit.typeOfIcon = UnitIcon.TypeOfIcon.Disabled;
             }
         }
-        else if (objectUnit != null && objectUnit.TryGetComponent(out Building build) && build.unitQueue.Count > 0)
+        else if (objectUnit != null && objectUnit.TryGetComponent(out Building build) && build.unitQueue.Count > 0)//Обновляет иконки во время очереди
         {
             UpdateUnitsIconsInQueue(build);
         }
-        else if (objectUnit != null && objectUnit.TryGetComponent(out BuildPlace buildPlace))
+        else if (objectUnit != null && objectUnit.TryGetComponent(out BuildPlace buildPlace))//Обновляет иконки во время строительства
         {
+            foreach (UnitIcon u in unitIcons)
+            {
+                u.typeOfIcon = UnitIcon.TypeOfIcon.Disabled;
+            }
             UpdateUnitsIconsWhileBuilding(buildPlace);
         }
         else
@@ -277,6 +281,7 @@ public class Panel : MonoBehaviour
             {
                 group = Instantiate(groupPrefab);
                 group.panel = this;
+                group.playerManager = playerManager;
                 cannew = false;
             }
             if (Input.GetKeyDown(KeyCode.Mouse0))

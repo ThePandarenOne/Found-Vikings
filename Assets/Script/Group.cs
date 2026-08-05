@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 public class Group : MonoBehaviour
 {
+    public PlayerManager playerManager;
     public List<Unit> units = new List<Unit>();
     public Panel panel;
     void Start()
@@ -21,9 +22,11 @@ public class Group : MonoBehaviour
     }
     public void SearchForUnit()
     {
+        Debug.Log("1");
         RaycastHit2D rayhit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-        if (rayhit && rayhit.collider.gameObject.TryGetComponent(out Unit unit) && units.Count < 12 && askForUnitInGroup(unit) == false && unit.side == Object.Side.Player)
+        if (rayhit && rayhit.collider.gameObject.TryGetComponent(out Unit unit) && units.Count < 12 && askForUnitInGroup(unit) == false && unit.side == playerManager.sidePlayer)
         {
+            Debug.Log("3");
             units.Add(unit);
             UpdateActions();
         }
@@ -44,7 +47,8 @@ public class Group : MonoBehaviour
     }
     private bool askForUnitInGroup(Unit unit)
     {
-        for(byte i = 0; i < units.Count; i++)
+        Debug.Log("2");
+        for (byte i = 0; i < units.Count; i++)
         {
             if (units[i] != null &&units[i] == unit)
             {

@@ -11,7 +11,7 @@ public class UnitIcon : MonoBehaviour
     public Object unit;
     public byte index;
     int timer;
-    Panel panel;
+    public Panel panel;
     Image image;
     public enum TypeOfIcon
     {
@@ -24,7 +24,7 @@ public class UnitIcon : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        panel = FindAnyObjectByType<Panel>();
+        //panel = FindAnyObjectByType<Panel>();
         image = GetComponent<Image>();
         button = GetComponent<Button>();
     }
@@ -83,7 +83,7 @@ public class UnitIcon : MonoBehaviour
             hpText.text = timer + "/" + building.building.respawnSpeed;
             slider.maxValue = building.building.respawnSpeed;
         }
-        if(timer == building.respawnSpeed)
+        if(timer == building.respawnSpeed && typeOfIcon == TypeOfIcon.UnitQueueIcon)
         {
             typeOfIcon = TypeOfIcon.Disabled;
         }

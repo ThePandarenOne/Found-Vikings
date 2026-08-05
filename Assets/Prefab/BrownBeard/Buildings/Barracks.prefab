@@ -230,6 +230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c9d93acbc2896d4c9760694300d677a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Spawner
+  playerManager: {fileID: 0}
   spriteIcon: {fileID: -788367354, guid: 7119eefa8ba4ea3408da9b41031cd4f4, type: 3}
   side: 1
   objectName: Barrack

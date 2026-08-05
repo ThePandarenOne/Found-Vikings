@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    public Object.Side sidePlayer;
+    public PlayerManager enemyManager;
     public int money;
     public Building main;
     public bool yellowBeard;
@@ -15,26 +17,21 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(main.hp <=0)
+        {
+            Defeat();
+        }
+        else if(enemyManager.main.hp <= 0)
+        {
+            Victory();
+        }
     }
     public void Defeat()
     {
-
+        Debug.Log("Defeat");
     }
     public void Victory()
     {
-
-    }
-    public void Pause()
-    {
-
-    }
-    public void LoadScene()
-    {
-
-    }
-    public void Continue()
-    {
-
+        Debug.Log("Victory");
     }
 }

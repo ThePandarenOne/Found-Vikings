@@ -8,6 +8,8 @@ public class BuildPlace : Object
     public bool isBuilding = false;
     public Building[] buildings;
     public Building building;
+    public Sprite spriteBrown;
+    public Sprite spriteOrange;
     public void BuildSpawner()
     {
         if (isBuilding == false)
@@ -45,9 +47,24 @@ public class BuildPlace : Object
                 panel.UpdateUnitsIconsWhileBuilding(this);
                 Building spawnedBuilding = Instantiate(building, transform.position, transform.rotation);
                 spawnedBuilding.buildPlace = this;
+                spawnedBuilding.playerManager = playerManager;
                 building = null;
                 gameObject.SetActive(false);
             }
+        }
+    }
+    public void SideChange(Side sidee)
+    {
+        hp = maxhp;
+        side = sidee;
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if(sidee == Side.Player)
+        {
+            sr.sprite = spriteOrange;
+        }
+        else if(sidee == Side.Enemy)
+        {
+            sr.sprite = spriteBrown;
         }
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -59,6 +76,6 @@ public class BuildPlace : Object
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

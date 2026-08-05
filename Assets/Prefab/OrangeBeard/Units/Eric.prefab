@@ -106,9 +106,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6914d5faec57748befc2e8185503d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Unit
+  playerManager: {fileID: 0}
   spriteIcon: {fileID: 939115, guid: 7119eefa8ba4ea3408da9b41031cd4f4, type: 3}
   side: 0
-  objectName: Baleog
+  objectName: Eric
   readyAttack: 1
   hp: 5
   maxhp: 5
@@ -118,11 +119,11 @@ MonoBehaviour:
   attackTime: 1
   speed: 4
   action:
-  - {fileID: 11400000, guid: 0af3d9fc94932564ea50eda3f3d32787, type: 2}
-  - {fileID: 11400000, guid: 05cca6b9812805c49a45545959c1dcb6, type: 2}
   - {fileID: 11400000, guid: a1215525ec0b7b24bb99b3e991ce82d1, type: 2}
   - {fileID: 11400000, guid: a984f422fe06f604f9878e404675951d, type: 2}
   - {fileID: 11400000, guid: 3d7dab7dbcf5c604b8751343f3ff90fc, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
   movementType: 0

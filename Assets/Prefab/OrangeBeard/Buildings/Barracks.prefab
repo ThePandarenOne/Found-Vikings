@@ -108,6 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c9d93acbc2896d4c9760694300d677a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Spawner
+  playerManager: {fileID: 0}
   spriteIcon: {fileID: -788367354, guid: 7119eefa8ba4ea3408da9b41031cd4f4, type: 3}
   side: 0
   objectName: Barrack
@@ -116,7 +117,7 @@ MonoBehaviour:
   maxhp: 20
   dmg: 0
   range: 0
-  respawnSpeed: 20
+  respawnSpeed: 2
   attackTime: 0
   speed: 0
   action:

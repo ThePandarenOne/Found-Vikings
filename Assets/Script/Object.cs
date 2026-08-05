@@ -18,6 +18,7 @@ public class Object : MonoBehaviour
         Enemy,
         Neutral
     }
+    public PlayerManager playerManager;
     public Sprite spriteIcon;
     public Side side;
     public string objectName;
@@ -34,7 +35,7 @@ public class Object : MonoBehaviour
     public ActionData[] action;
 
     public Panel panel;
-    public Unit targetUnit;
+    public Object targetUnit;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -75,8 +76,29 @@ public class Object : MonoBehaviour
     }
     public void AttackTarget()
     {
-        targetUnit.GetDamage(dmg);
-        readyAttack = false;
+        if (targetUnit.side == side)
+        {
+            targetUnit = null;
+        }
+        if (targetUnit != null)
+        {
+            if(targetUnit.hp <= 0)
+            {
+                if (targetUnit.TryGetComponent(out BuildPlace buildPlace))
+                {
+                    buildPlace.playerManager = playerManager;
+                    buildPlace.SideChange(side);
+                }
+                else if (targetUnit.TryGetComponent(out Building building))
+                {
+                    building.buildPlace.playerManager = playerManager;
+                    building.buildPlace.SideChange(side);
+                }
+                //panel.ChangePanel();
+            }
+            targetUnit.GetDamage(dmg);
+            readyAttack = false;
+        }
         StartCoroutine(WaitForAttack());
     }
     IEnumerator WaitForAttack()
