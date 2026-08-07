@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1000320746079290537
+--- !u!1 &1239927520103593768
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,41 +8,41 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8535225268138628294}
-  - component: {fileID: 7667089219105230636}
-  - component: {fileID: 4238768840406840117}
-  - component: {fileID: 3747770937238667148}
-  - component: {fileID: 3952535106124958793}
+  - component: {fileID: 7870841580363289650}
+  - component: {fileID: 8772306902321852046}
+  - component: {fileID: 6835758257466584583}
+  - component: {fileID: 6982609912415148468}
+  - component: {fileID: 9198407794535013314}
   m_Layer: 0
-  m_Name: Eric
+  m_Name: Cho'Gall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8535225268138628294
+--- !u!4 &7870841580363289650
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000320746079290537}
+  m_GameObject: {fileID: 1239927520103593768}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.7741833, y: -13.469, z: 0}
+  m_LocalPosition: {x: 0, y: -2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &7667089219105230636
+--- !u!212 &8772306902321852046
 SpriteRenderer:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000320746079290537}
+  m_GameObject: {fileID: 1239927520103593768}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -84,9 +84,9 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 840163169, guid: b26ccf198ab433e49a559f0ffe5c1836, type: 3}
+  m_Sprite: {fileID: -9045529242607513629, guid: d0ccefb52de0a7a4caab7baff0328ff1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -94,47 +94,47 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &4238768840406840117
+--- !u!114 &6835758257466584583
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000320746079290537}
+  m_GameObject: {fileID: 1239927520103593768}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e6914d5faec57748befc2e8185503d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Unit
   playerManager: {fileID: 0}
-  spriteIcon: {fileID: 939115, guid: 7119eefa8ba4ea3408da9b41031cd4f4, type: 3}
-  side: 0
-  objectName: Eric
+  spriteIcon: {fileID: -721112897, guid: d0ccefb52de0a7a4caab7baff0328ff1, type: 3}
+  side: 1
+  objectName: Cho'Gall
   readyAttack: 1
-  hp: 5
-  maxhp: 5
-  dmg: 1
-  range: 6
-  respawnSpeed: 2
-  attackTime: 1
-  speed: 4
+  hp: 60
+  maxhp: 60
+  dmg: 15
+  range: 5
+  respawnSpeed: 1
+  attackTime: 3
+  speed: 3
   action:
   - {fileID: 11400000, guid: a1215525ec0b7b24bb99b3e991ce82d1, type: 2}
   - {fileID: 11400000, guid: a984f422fe06f604f9878e404675951d, type: 2}
   - {fileID: 11400000, guid: 3d7dab7dbcf5c604b8751343f3ff90fc, type: 2}
-  - {fileID: 11400000, guid: 046de8e3d0f5b584c9f4536a28a19fb7, type: 2}
-  - {fileID: 11400000, guid: b7f7cd3b4f43fce4ea68f7f131de1571, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
   movementType: 0
   unitState: 0
---- !u!61 &3747770937238667148
+--- !u!61 &6982609912415148468
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000320746079290537}
+  m_GameObject: {fileID: 1239927520103593768}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -166,22 +166,22 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 2, y: 2}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2, y: 2}
   m_EdgeRadius: 0
---- !u!50 &3952535106124958793
+--- !u!50 &9198407794535013314
 Rigidbody2D:
   serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000320746079290537}
+  m_GameObject: {fileID: 1239927520103593768}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0

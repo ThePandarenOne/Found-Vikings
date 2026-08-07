@@ -148,6 +148,25 @@ public class Unit : Object
         }
     }
         
+    public void JumpUp()
+    {
+        if(transform.position.y < 7.5)
+        {
+            StartCoroutine(WaitForJump(+10));
+        }
+    }
+    public void JumpDown()
+    {
+        if (transform.position.y > -12.5)
+        {
+            StartCoroutine(WaitForJump(-10));
+        }
+    }
+    IEnumerator WaitForJump(int jumpHeigth)
+    {
+        yield return new WaitForSeconds(1f);
+        transform.position += new Vector3(0,jumpHeigth);
+    }
     public void Attack()
     {
         unitState = UnitState.Attack;

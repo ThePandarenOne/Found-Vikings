@@ -11,28 +11,26 @@ public class CameraScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    Vector2 clickPosition = new Vector2(-270, 270);
-    Vector2 cursorPosition = new Vector2(-270, 270);
+    Vector2 clickPosition = new Vector2();
+
     void Update()
     {
-        /*
-        cursorPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if (cursorPosition )
-        {
-
-        }
-        if (clickPosition.x > transform.position.x)
-        {
-            transform.position += new Vector3(speed, 0, 0) * Time.deltaTime;
-        }
-        else if (clickPosition.x < transform.position.x)
-        {
-            transform.position += new Vector3(-speed, 0, 0) * Time.deltaTime;
-        }
-        */
-    }
-    void MoveCamera()
-    {
         clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (transform.position.x > 35)
+        {
+            transform.position = new Vector3(35,0,-10);
+        }
+        else if(transform.position.x < -35)
+        {
+            transform.position = new Vector3(-35,0,-10);
+        }
+        if (clickPosition.x >= transform.position.x + 26 || Input.GetKey(KeyCode.LeftArrow))
+        {
+            transform.position += new Vector3(10, 0, 0) * Time.deltaTime;
+        }
+        else if (clickPosition.x <= transform.position.x + -26 || Input.GetKey(KeyCode.RightArrow))
+        {
+            transform.position += new Vector3(-10, 0, 0) * Time.deltaTime;
+        }
     }
 }

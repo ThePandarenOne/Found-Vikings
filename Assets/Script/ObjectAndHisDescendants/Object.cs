@@ -59,7 +59,14 @@ public class Object : MonoBehaviour
             panel.group = null;
         }
         panel.objectUnit = this;
-        panel.ChangePanel();
+        if(GetComponent<Unit>() && Input.GetKey(KeyCode.LeftControl) && panel.group != null)
+        {
+            panel.ChangePanel();
+        }
+        else if(!Input.GetKey(KeyCode.LeftControl))
+        {
+            panel.ChangePanel();
+        }
     }
 
     // Update is called once per frame
@@ -82,7 +89,9 @@ public class Object : MonoBehaviour
         }
         if (targetUnit != null)
         {
-            if(targetUnit.hp <= 0)
+            targetUnit.GetDamage(dmg);
+            readyAttack = false;
+            if (targetUnit.hp <= 0)
             {
                 if (targetUnit.TryGetComponent(out BuildPlace buildPlace))
                 {
@@ -94,10 +103,13 @@ public class Object : MonoBehaviour
                     building.buildPlace.playerManager = playerManager;
                     building.buildPlace.SideChange(side);
                 }
+                else if(targetUnit.TryGetComponent(out LineObjective lineObjective))
+                {
+                    lineObjective.playerManager = playerManager;
+                    lineObjective.SideChange(side);
+                }
                 //panel.ChangePanel();
             }
-            targetUnit.GetDamage(dmg);
-            readyAttack = false;
         }
         StartCoroutine(WaitForAttack());
     }

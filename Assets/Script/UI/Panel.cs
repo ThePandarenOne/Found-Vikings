@@ -110,6 +110,14 @@ public class Panel : MonoBehaviour
         {
             buttons[i].acsessButton.onClick.AddListener(unit.AttackPosition);
         }
+        if (buttons[i].action.namE == "JumpUp")
+        {
+            buttons[i].acsessButton.onClick.AddListener(unit.JumpUp);
+        }
+        if (buttons[i].action.namE == "JumpDown")
+        {
+            buttons[i].acsessButton.onClick.AddListener(unit.JumpDown);
+        }
     }
     public void GiveActionUnitsInGroup(byte i)
     {
