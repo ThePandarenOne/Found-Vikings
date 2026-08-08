@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ActionData
   icon: {fileID: -680587022, guid: 7119eefa8ba4ea3408da9b41031cd4f4, type: 3}
   namE: Spawn Olaf
-  cost: 50
+  keyCode: 1
+  cost: 30

@@ -19,7 +19,7 @@ public class LineSpawner : MonoBehaviour
     void SpawnLine()
     {
         int saverCount = 0;
-        if(lines.Length < 4)
+        if(lines.Length < 3)
         {
             Debug.LogError("Less than 4 lines");
             return;

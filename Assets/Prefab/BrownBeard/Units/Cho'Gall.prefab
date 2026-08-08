@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 9198407794535013314}
   m_Layer: 0
   m_Name: Cho'Gall
-  m_TagString: Untagged
+  m_TagString: BrownBeard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

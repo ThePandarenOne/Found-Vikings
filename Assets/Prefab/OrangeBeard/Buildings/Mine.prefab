@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 2922445388914061631}
   m_Layer: 0
   m_Name: Mine
-  m_TagString: Untagged
+  m_TagString: OrangeBeard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -198,6 +198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c9d93acbc2896d4c9760694300d677a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Spawner
+  playerManager: {fileID: 0}
   spriteIcon: {fileID: 140162295, guid: 7119eefa8ba4ea3408da9b41031cd4f4, type: 3}
   side: 0
   objectName: Mine
@@ -223,6 +224,7 @@ MonoBehaviour:
   unitQueue: 
   passiveSpawn: 0
   unitSpawn: []
+  spawnplace: {fileID: 0}
   timer: 0
 --- !u!61 &3455481791439808481
 BoxCollider2D:

@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ActionData
   icon: {fileID: -1427773166, guid: 7119eefa8ba4ea3408da9b41031cd4f4, type: 3}
   namE: DestroyBuilding
-  cost: 
+  keyCode: D
+  cost: 0

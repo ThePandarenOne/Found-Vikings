@@ -31,7 +31,7 @@ public class Panel : MonoBehaviour
             buttons[i].gameObject.SetActive(false);
             if (objectUnit != null)
             {
-                if (objectUnit.TryGetComponent(out Unit unit) && group == null && unit.action[i])
+                if (objectUnit.TryGetComponent(out Unit unit) && group == null && unit.action[i] != null)
                 {
                     buttons[i].action = unit.action[i];
                     buttons[i].GetAction();
@@ -42,7 +42,7 @@ public class Panel : MonoBehaviour
                         GiveActionUnit(i);
                     }
                 }
-                else if (objectUnit.TryGetComponent(out Building build) && build.action[i])
+                else if (objectUnit.TryGetComponent(out Building build) && build.action[i] != null)
                 {
                     buttons[i].action = build.action[i];
                     buttons[i].GetAction();
@@ -143,6 +143,14 @@ public class Panel : MonoBehaviour
             if (buttons[i].action.namE == "Defend")
             {
                 buttons[i].acsessButton.onClick.AddListener(unit.AttackPosition);
+            }
+            if (buttons[i].action.namE == "JumpUp")
+            {
+                buttons[i].acsessButton.onClick.AddListener(unit.JumpUp);
+            }
+            if (buttons[i].action.namE == "JumpDown")
+            {
+                buttons[i].acsessButton.onClick.AddListener(unit.JumpDown);
             }
         }
     }

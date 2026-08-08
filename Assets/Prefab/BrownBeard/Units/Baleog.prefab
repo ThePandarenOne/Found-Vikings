@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5933203103083843357}
   m_Layer: 0
   m_Name: Baleog
-  m_TagString: Untagged
+  m_TagString: BrownBeard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,6 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6914d5faec57748befc2e8185503d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Unit
+  playerManager: {fileID: 0}
   spriteIcon: {fileID: -8582637112200185598, guid: 7119eefa8ba4ea3408da9b41031cd4f4, type: 3}
   side: 1
   objectName: Baleog

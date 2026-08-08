@@ -121,7 +121,7 @@ public class Building : Object
     }
     public void AddUnitToQueue(byte NameOfUnit)//Добавляет юнита в очередь
     {
-        Debug.Log("AddUnitToQueue");
+        //Debug.Log("AddUnitToQueue");
         if(unitQueue.Count < 5)
         {
             unitQueue.Add(NameOfUnit);
@@ -135,7 +135,7 @@ public class Building : Object
     }
     void QueueUpdate()//Обновляет в очередь
     {
-        Debug.Log("QueueUpdate");
+        //Debug.Log("QueueUpdate");
         if (unitQueue.Count > 0)
         {
             panel.UpdateUnitsIconsInQueue(this);

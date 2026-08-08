@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 6501774719363588482}
   m_Layer: 0
   m_Name: Barracks
-  m_TagString: Untagged
+  m_TagString: BrownBeard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -243,9 +243,9 @@ MonoBehaviour:
   attackTime: 0
   speed: 0
   action:
-  - {fileID: 11400000, guid: 85a73b768cb98c84aa7e86dee97aeb5c, type: 2}
   - {fileID: 11400000, guid: 038e7add3ff0efc43be34708ee0ce04e, type: 2}
   - {fileID: 11400000, guid: c5e4986ffbbbed841a52ab00da3e217b, type: 2}
+  - {fileID: 11400000, guid: 85a73b768cb98c84aa7e86dee97aeb5c, type: 2}
   - {fileID: 0}
   - {fileID: 11400000, guid: f18cf37f18fc9a9459e55cb857582f8b, type: 2}
   panel: {fileID: 0}

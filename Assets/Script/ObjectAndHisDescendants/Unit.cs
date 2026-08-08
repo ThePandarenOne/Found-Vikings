@@ -13,9 +13,11 @@ public class Unit : Object
 {
     public MovementType movementType;
     public UnitState unitState = UnitState.Idle;
+    SpriteRenderer spriteRenderer;
 
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         StartObject();
         panel = FindAnyObjectByType<Panel>();
     }
@@ -42,10 +44,12 @@ public class Unit : Object
                 {
                     if (targetUnit.transform.position.x > transform.position.x)
                     {
+                        spriteRenderer.flipX = false;
                         transform.position += new Vector3(speed, 0, 0) * Time.deltaTime;
                     }
                     else
                     {
+                        spriteRenderer.flipX = true;
                         transform.position += new Vector3(-speed, 0, 0) * Time.deltaTime;
                     }
                 }
@@ -64,10 +68,12 @@ public class Unit : Object
                     case MovementType.AnDMove:
                         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
                         {
+                            spriteRenderer.flipX = false;
                             transform.position += new Vector3(speed, 0, 0) * Time.deltaTime;
                         }
                         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
                         {
+                            spriteRenderer.flipX = true;
                             transform.position += new Vector3(-speed, 0, 0) * Time.deltaTime;
                         }
                         if (panel.objectUnit != this && SearchForUnitInGroup() == false)
@@ -139,10 +145,12 @@ public class Unit : Object
             }
             if (clickPosition.x > transform.position.x)
             {
+                spriteRenderer.flipX = false;
                 transform.position += new Vector3(speed, 0, 0) * Time.deltaTime;
             }
             else if (clickPosition.x < transform.position.x)
             {
+                spriteRenderer.flipX = true;
                 transform.position += new Vector3(-speed, 0, 0) * Time.deltaTime;
             }
         }

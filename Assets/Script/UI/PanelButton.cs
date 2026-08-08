@@ -9,6 +9,7 @@ public class PanelButton : MonoBehaviour
     private Image icon;
     public Text nameText;
     public Text costText;
+    public Text keyText;
 
     private Button button;
     public Button acsessButton
@@ -30,6 +31,7 @@ public class PanelButton : MonoBehaviour
         icon.sprite = action.icon;
         nameText.text = action.namE;
         costText.text = action.cost.ToString();
+        keyText.text = action.keyCode.ToString();
     }
     public void GetCost()
     {
@@ -38,6 +40,14 @@ public class PanelButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (action == null)
+        {
+            gameObject.SetActive(false);
+        }
+        if (action != null &&Input.GetKeyDown(action.keyCode.ToLower()))
+        {
+            button.onClick.Invoke();
+        }
         if(action != null)
         {
             if (action.cost == 0)
@@ -56,10 +66,6 @@ public class PanelButton : MonoBehaviour
             {
                 button.interactable = true;
             }
-        }
-        if(action == false)
-        {
-            gameObject.SetActive(false);
         }
     }
 }

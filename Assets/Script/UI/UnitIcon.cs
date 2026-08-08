@@ -35,12 +35,24 @@ public class UnitIcon : MonoBehaviour
         switch (typeOfIcon)
         {
             case TypeOfIcon.UnitQueueIcon:
+                if (panel.objectUnit != null &&!panel.objectUnit.GetComponent<Building>() || panel.objectUnit == null)
+                {
+                    typeOfIcon = TypeOfIcon.Disabled;
+                }
                 UpdateUnitInQueue();
                 break;
             case TypeOfIcon.UnitGroupIcon:
+                if(panel.group == null)
+                {
+                    typeOfIcon = TypeOfIcon.Disabled;
+                }
                 UpdateIconStats();
                 break ;
             case TypeOfIcon.Building:
+                if (!panel.objectUnit.GetComponent<BuildPlace>())
+                {
+                    typeOfIcon = TypeOfIcon.Disabled;
+                }
                 UpdateBuilding();
                 break;
             case TypeOfIcon.Disabled:
@@ -52,7 +64,7 @@ public class UnitIcon : MonoBehaviour
     {
         button.onClick.RemoveAllListeners();
         button.interactable = false;
-        if (panel.objectUnit.TryGetComponent(out Building building))
+        if (panel.objectUnit != null && panel.objectUnit.TryGetComponent(out Building building))
         {
             timer = unit.respawnSpeed-building.timer;
         }

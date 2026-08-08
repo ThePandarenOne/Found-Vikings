@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ActionData
   icon: {fileID: 92700689, guid: 7119eefa8ba4ea3408da9b41031cd4f4, type: 3}
   namE: Build tower
+  keyCode: 3
   cost: 60

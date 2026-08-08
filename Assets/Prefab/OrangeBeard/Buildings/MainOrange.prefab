@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1637543711934846051}
   m_Layer: 0
   m_Name: MainOrange
-  m_TagString: Untagged
+  m_TagString: OrangeBeard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c9d93acbc2896d4c9760694300d677a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Spawner
+  playerManager: {fileID: 0}
   spriteIcon: {fileID: 0}
   side: 0
   objectName: Leader

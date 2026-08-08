@@ -940,9 +940,11 @@ MonoBehaviour:
   action: []
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
-  spriteBrown: {fileID: 48112207813887276, guid: d0ccefb52de0a7a4caab7baff0328ff1, type: 3}
-  spriteOrange: {fileID: 71782914445180282, guid: d0ccefb52de0a7a4caab7baff0328ff1, type: 3}
-  typeOfObjective: 1
+  spriteBrown: {fileID: -9045529242607513629, guid: d0ccefb52de0a7a4caab7baff0328ff1, type: 3}
+  spriteOrange: {fileID: 4793206520738474760, guid: d0ccefb52de0a7a4caab7baff0328ff1, type: 3}
+  typeOfObjective: 0
+  line: {fileID: 9117749111981303359}
+  choGall: {fileID: 6835758257466584583, guid: 94726f473277bd94eb1bd0ad8bd70d09, type: 3}
 --- !u!1 &7700508058276621689
 GameObject:
   m_ObjectHideFlags: 0
@@ -4812,11 +4814,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecc3168ea0427724bb31c379e5c7624d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Line
-  choGall: {fileID: 6835758257466584583, guid: 94726f473277bd94eb1bd0ad8bd70d09, type: 3}
   lineType: 3
-  playerScore: 0
-  enemyScore: 0
   unitsBrown: []
   unitsOrange: []
   playerManager: {fileID: 0}
   enemyManager: {fileID: 0}
+  lineObjective: {fileID: 726943821434374214}

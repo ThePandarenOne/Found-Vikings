@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 5450873962202441801}
   m_Layer: 0
   m_Name: MainBrown
-  m_TagString: Untagged
+  m_TagString: BrownBeard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -198,6 +198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c9d93acbc2896d4c9760694300d677a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Spawner
+  playerManager: {fileID: 0}
   spriteIcon: {fileID: 0}
   side: 1
   objectName: Leader
