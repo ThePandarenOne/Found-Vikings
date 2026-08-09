@@ -53,16 +53,22 @@ public class Group : MonoBehaviour
     }
     private void UpdateActions()
     {
+        foreach(PanelButton panelButton in panel.buttons)
+        {
+            panelButton.gameObject.SetActive(true);
+            panelButton.acsessButton.onClick.RemoveAllListeners();
+        }
         for (byte i = 0; i < panel.buttons.Length; i++)
         {
-            panel.buttons[i].acsessButton.onClick.RemoveAllListeners();
-            panel.buttons[i].gameObject.SetActive(true);
             for (byte u = 0; u < units.Count; u++)
             {
-                panel.buttons[i].action = units[u].action[i];
-                panel.buttons[i].GetAction();
-                panel.GiveActionUnitsInGroup(i);
+                if(units[u].action[i] != null)
+                {
+                    panel.buttons[i].action = units[u].action[i];
+                    panel.buttons[i].GetAction();
+                }
             }
+            panel.GiveActionUnitsInGroup(i);
         }
     }
     private bool askForUnitInGroup(Unit unit)

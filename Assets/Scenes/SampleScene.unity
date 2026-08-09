@@ -13385,6 +13385,7 @@ MonoBehaviour:
   sliderHP: {fileID: 867697989}
   group: {fileID: 0}
   groupPrefab: {fileID: 5434829580924849458, guid: b6abf523d7ad25b4ca3316523b8cce44, type: 3}
+  selectionSquare: {fileID: 6193289636378049715, guid: 52debe33f414dcb4791765bd25dca78b, type: 3}
 --- !u!1 &1848165620
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,6 +17,9 @@ public class Panel : MonoBehaviour
     public Group groupPrefab;
     bool cannew = true;
     List<Unit> units = new List<Unit>();
+
+    public SelectionSquare selectionSquare;
+    SelectionSquare sl;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -114,6 +117,31 @@ public class Panel : MonoBehaviour
     public void GiveActionUnitsInGroup(byte i)
     {
         units = group.units;
+        /*
+        for(byte u = 0; u <units.Count; u++)
+        {
+            if (buttons[i].action.namE == "ClickMove")
+            {
+                buttons[i].acsessButton.onClick.AddListener(units[u].ClickMovement);
+            }
+            if (buttons[i].action.namE == "Attack")
+            {
+                buttons[i].acsessButton.onClick.AddListener(units[u].Attack);
+            }
+            if (buttons[i].action.namE == "Defend")
+            {
+                buttons[i].acsessButton.onClick.AddListener(units[u].AttackPosition);
+            }
+            if (buttons[i].action.namE == "JumpUp" && units[u].action[3].name == "JumpDown")
+            {
+                buttons[i].acsessButton.onClick.AddListener(units[u].JumpUp);
+            }
+            if (buttons[i].action.namE == "JumpDown" && units[u].action[4].name == "JumpDown")
+            {
+                buttons[i].acsessButton.onClick.AddListener(units[u].JumpDown);
+            }
+        }
+         */
         foreach (Unit unit in units)
         {
             if (buttons[i].action.namE == "ClickMove")
@@ -230,6 +258,16 @@ public class Panel : MonoBehaviour
     }
     void Update()
     {
+        if(Input.GetMouseButton(0) && sl == null)
+        {
+            Vector2 v = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //sl = Instantiate(selectionSquare,v,transform.rotation);
+            //sl.startPoint = v;
+        }
+        if(Input.GetMouseButtonUp(0) && sl != null)
+        {
+            Destroy(sl);
+        }
         moneyCounter.text = "Money:"+playerManager.money;
         if (group != null && group.units.Count > 0)//Обновляет иконки юнитов в группе
         {

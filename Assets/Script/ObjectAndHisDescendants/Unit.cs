@@ -18,6 +18,10 @@ public class Unit : Object
     public Vector2 clickPosition = new Vector2(- 270, 270);
     void Update()
     {
+        //if(unitState != UnitState.Hunt)
+        {
+            //rb.constraints &= ~RigidbodyConstraints2D.FreezePositionX;
+        }
         collider.isTrigger = canGoThrough;
         if (panel.objectUnit == this)
         {
@@ -57,14 +61,15 @@ public class Unit : Object
             case UnitState.Hunt:
                 if (targetUnit != null && Mathf.Abs(targetUnit.transform.position.x - transform.position.x) > range)
                 {
-                    canGoThrough = true;
                     if (targetUnit.transform.position.x > transform.position.x)
                     {
+                        canGoThrough = true;
                         spriteRenderer.flipX = false;
                         transform.position += new Vector3(speed, 0, 0) * Time.deltaTime;
                     }
                     else
                     {
+                        canGoThrough = true;
                         spriteRenderer.flipX = true;
                         transform.position += new Vector3(-speed, 0, 0) * Time.deltaTime;
                     }
@@ -82,6 +87,7 @@ public class Unit : Object
             case UnitState.Move:
                 if (Input.GetKeyDown(KeyCode.Mouse1))
                 {
+                    canGoThrough = true;
                     if (panel.objectUnit == this || SearchForUnitInGroup() == true)
                     {
                         clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -128,7 +134,6 @@ public class Unit : Object
     }
     public void Move()
     {
-        canGoThrough = true;
         if (transform.position.x != clickPosition.x && clickPosition != new Vector2(-270, 270))
         {
             if (Mathf.Abs(clickPosition.x - transform.position.x) < 0.1f)
@@ -138,24 +143,26 @@ public class Unit : Object
             }
             if (clickPosition.x > transform.position.x)
             {
+                canGoThrough = true;
                 spriteRenderer.flipX = false;
                 transform.position += new Vector3(speed, 0, 0) * Time.deltaTime;
             }
             else if (clickPosition.x < transform.position.x)
             {
+                canGoThrough = true;
                 spriteRenderer.flipX = true;
                 transform.position += new Vector3(-speed, 0, 0) * Time.deltaTime;
             }
         }
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.TryGetComponent(out Object objectt) && objectt.side != side)
         {
             canGoThrough = false;
         }
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.TryGetComponent(out Object objectt) && objectt.side != side)
         {
@@ -164,17 +171,28 @@ public class Unit : Object
     }
     public void JumpUp()
     {
-        if(transform.position.y < 7.5)
+        if(transform.position.y < 7.5 && AskForAction("JumpUp"))
         {
             StartCoroutine(WaitForJump(+10));
         }
     }
     public void JumpDown()
     {
-        if (transform.position.y > -12.5)
+        if (transform.position.y > -12.5 && AskForAction("JumpDown"))
         {
             StartCoroutine(WaitForJump(-10));
         }
+    }
+    bool AskForAction(string name)
+    {
+        for (byte b = 0; b < action.Length; b++)
+        {
+            if (action[b] != null &&action[b].name == name)
+            {
+                return true;
+            }
+        }
+        return false;
     }
     IEnumerator WaitForJump(int jumpHeigth)
     {

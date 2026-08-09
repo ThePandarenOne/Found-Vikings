@@ -127,6 +127,7 @@ MonoBehaviour:
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
   unitState: 0
+  clickPosition: {x: -270, y: 270}
 --- !u!61 &131697497724829495
 BoxCollider2D:
   m_ObjectHideFlags: 0

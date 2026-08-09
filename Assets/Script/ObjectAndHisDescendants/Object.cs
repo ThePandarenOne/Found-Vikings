@@ -34,11 +34,13 @@ public class Object : MonoBehaviour
 
     public ActionData[] action;
 
+    //protected Rigidbody2D rb;
     public Panel panel;
     public Object targetUnit;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //rb = GetComponent<Rigidbody2D>();
         panel = FindAnyObjectByType<Panel>();
     }
     public void StartObject()
@@ -83,6 +85,7 @@ public class Object : MonoBehaviour
     }
     public void AttackTarget()
     {
+        //rb.constraints = RigidbodyConstraints2D.FreezePosition;
         if (targetUnit.side == side)
         {
             targetUnit = null;
