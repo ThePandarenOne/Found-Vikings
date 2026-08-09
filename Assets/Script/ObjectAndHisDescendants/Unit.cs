@@ -6,9 +6,11 @@ public class Unit : Object
 {
     public UnitState unitState = UnitState.Idle;
     SpriteRenderer spriteRenderer;
-
+    bool canGoThrough = false;
+    Collider2D collider;
     void Start()
     {
+        collider = GetComponent<Collider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         StartObject();
         panel = FindAnyObjectByType<Panel>();
@@ -16,7 +18,8 @@ public class Unit : Object
     public Vector2 clickPosition = new Vector2(- 270, 270);
     void Update()
     {
-        if(panel.objectUnit == this)
+        collider.isTrigger = canGoThrough;
+        if (panel.objectUnit == this)
         {
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
@@ -54,6 +57,7 @@ public class Unit : Object
             case UnitState.Hunt:
                 if (targetUnit != null && Mathf.Abs(targetUnit.transform.position.x - transform.position.x) > range)
                 {
+                    canGoThrough = true;
                     if (targetUnit.transform.position.x > transform.position.x)
                     {
                         spriteRenderer.flipX = false;
@@ -67,6 +71,7 @@ public class Unit : Object
                 }
                 if (targetUnit != null && Mathf.Abs(targetUnit.transform.position.x - transform.position.x) < range && readyAttack)
                 {
+                    canGoThrough = false;
                     AttackTarget();
                 }
                 if(targetUnit == null)
@@ -85,7 +90,8 @@ public class Unit : Object
                 Move();
                 break;
             case UnitState.Defend:
-                if(targetUnit == null)
+                canGoThrough = false;
+                if (targetUnit == null)
                 {
                     Collider2D[] touchableObjects = Physics2D.OverlapCircleAll(transform.position, range);
                     foreach (Collider2D touchableObject in touchableObjects)
@@ -100,6 +106,9 @@ public class Unit : Object
                 {
                     AttackTarget();
                 }
+                break;
+            case UnitState.Idle:
+                canGoThrough = false;
                 break;
         }
     }
@@ -119,6 +128,7 @@ public class Unit : Object
     }
     public void Move()
     {
+        canGoThrough = true;
         if (transform.position.x != clickPosition.x && clickPosition != new Vector2(-270, 270))
         {
             if (Mathf.Abs(clickPosition.x - transform.position.x) < 0.1f)
@@ -138,7 +148,20 @@ public class Unit : Object
             }
         }
     }
-        
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out Object objectt) && objectt.side != side)
+        {
+            canGoThrough = false;
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out Object objectt) && objectt.side != side)
+        {
+            canGoThrough = false;
+        }
+    }
     public void JumpUp()
     {
         if(transform.position.y < 7.5)
