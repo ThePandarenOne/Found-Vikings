@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4238768840406840117}
   - component: {fileID: 3747770937238667148}
   - component: {fileID: 3952535106124958793}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Eric
   m_TagString: OrangeBeard
   m_Icon: {fileID: 0}
@@ -126,7 +126,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b7f7cd3b4f43fce4ea68f7f131de1571, type: 2}
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
-  movementType: 0
   unitState: 0
 --- !u!61 &3747770937238667148
 BoxCollider2D:

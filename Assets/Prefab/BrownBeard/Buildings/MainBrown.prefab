@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1358720482811319782}
   - component: {fileID: 1589051189191165541}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Units_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 1410168344143539059}
   - component: {fileID: 4160756765690789459}
   - component: {fileID: 5450873962202441801}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MainBrown
   m_TagString: BrownBeard
   m_Icon: {fileID: 0}

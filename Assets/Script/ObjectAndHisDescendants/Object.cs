@@ -52,7 +52,7 @@ public class Object : MonoBehaviour
     public void ChooseUnit(bool d)
     {
         panel = FindAnyObjectByType<Panel>();
-        if (panel.group != null || d == true)
+        if (panel.group != null && !Input.GetKey(KeyCode.LeftControl) || d == true)
         {
             Destroy(panel.group.gameObject);
             Destroy(panel.group);

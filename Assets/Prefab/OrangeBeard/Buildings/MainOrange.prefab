@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1964602250563990283}
   - component: {fileID: 2703988535113201949}
   - component: {fileID: 1637543711934846051}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MainOrange
   m_TagString: OrangeBeard
   m_Icon: {fileID: 0}
@@ -218,7 +218,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5217986906454470602}
   - component: {fileID: 3363588183943796848}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Units_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}

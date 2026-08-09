@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8234078751798651514}
   - component: {fileID: 3946687193587204640}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Units_18
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 7317771156436929578}
   - component: {fileID: 3455481791439808481}
   - component: {fileID: 2922445388914061631}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Mine
   m_TagString: OrangeBeard
   m_Icon: {fileID: 0}
@@ -256,7 +256,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0

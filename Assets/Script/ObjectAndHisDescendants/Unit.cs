@@ -2,16 +2,8 @@ using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
 
-public enum MovementType
-{
-    AnDMove,
-    cursorFollow,
-    clickMove
-}
-
 public class Unit : Object
 {
-    public MovementType movementType;
     public UnitState unitState = UnitState.Idle;
     SpriteRenderer spriteRenderer;
 
@@ -21,9 +13,29 @@ public class Unit : Object
         StartObject();
         panel = FindAnyObjectByType<Panel>();
     }
-    Vector2 clickPosition = new Vector2(- 270, 270);
+    public Vector2 clickPosition = new Vector2(- 270, 270);
     void Update()
     {
+        if(panel.objectUnit == this)
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                unitState = UnitState.Move;
+                if (panel.objectUnit == this || SearchForUnitInGroup() == true)
+                {
+                    clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+                if (hit == true && hit.transform.gameObject.TryGetComponent(out targetUnit))
+                {
+                    unitState = UnitState.Hunt;
+                }
+            }
+        }
         UpdateObject();
         switch(unitState)
         {
@@ -63,43 +75,14 @@ public class Unit : Object
                 }
                 break;
             case UnitState.Move:
-                switch (movementType)
+                if (Input.GetKeyDown(KeyCode.Mouse1))
                 {
-                    case MovementType.AnDMove:
-                        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-                        {
-                            spriteRenderer.flipX = false;
-                            transform.position += new Vector3(speed, 0, 0) * Time.deltaTime;
-                        }
-                        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-                        {
-                            spriteRenderer.flipX = true;
-                            transform.position += new Vector3(-speed, 0, 0) * Time.deltaTime;
-                        }
-                        if (panel.objectUnit != this && SearchForUnitInGroup() == false)
-                        {
-                            unitState = UnitState.Idle;
-                        }
-                        break;
-                    case MovementType.clickMove:
-                        if (Input.GetKeyDown(KeyCode.Mouse1))
-                        {
-                            if (panel.objectUnit == this || SearchForUnitInGroup() == true)
-                            {
-                                clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                            }
-                        }
-                        Move();
-                        break;
-                    case MovementType.cursorFollow:
+                    if (panel.objectUnit == this || SearchForUnitInGroup() == true)
+                    {
                         clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                        if (panel.objectUnit != this && SearchForUnitInGroup() == false)
-                        {
-                            unitState = UnitState.Idle;
-                        }
-                        Move();
-                        break;
+                    }
                 }
+                Move();
                 break;
             case UnitState.Defend:
                 if(targetUnit == null)
@@ -138,7 +121,7 @@ public class Unit : Object
     {
         if (transform.position.x != clickPosition.x && clickPosition != new Vector2(-270, 270))
         {
-            if (Mathf.Abs(clickPosition.x - transform.position.x) < 0.1f && movementType == MovementType.clickMove)
+            if (Mathf.Abs(clickPosition.x - transform.position.x) < 0.1f)
             {
                 transform.position = new Vector3(clickPosition.x, transform.position.y);
                 unitState = UnitState.Idle;
@@ -183,24 +166,9 @@ public class Unit : Object
     {
         unitState = UnitState.Defend;
     }
-    public void ChangeMovementType(MovementType t)
-    {
-        movementType = t;
-    }
-    public void AnD()
-    {
-        unitState = UnitState.Move;
-        movementType = MovementType.AnDMove; 
-    }
-    public void CursorFollow()
-    {
-        unitState = UnitState.Move;
-        movementType = MovementType.cursorFollow;
-    }
     public void ClickMovement()
     {
         clickPosition = new Vector2(-270, 270);
         unitState = UnitState.Move;
-        movementType = MovementType.clickMove;
     }
 }

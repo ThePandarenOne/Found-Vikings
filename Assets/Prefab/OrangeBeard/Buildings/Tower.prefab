@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3509769336782873641}
   - component: {fileID: 547372328010945314}
   - component: {fileID: 7741775978783883351}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tower
   m_TagString: OrangeBeard
   m_Icon: {fileID: 0}
@@ -218,7 +218,7 @@ GameObject:
   m_Component:
   - component: {fileID: 597841243526122412}
   - component: {fileID: 6953944831979615869}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Units_19
   m_TagString: Untagged
   m_Icon: {fileID: 0}

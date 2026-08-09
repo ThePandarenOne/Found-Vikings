@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 305469131928527975}
   - component: {fileID: 131697497724829495}
   - component: {fileID: 4906317481990076536}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Baleog
   m_TagString: OrangeBeard
   m_Icon: {fileID: 0}
@@ -126,7 +126,6 @@ MonoBehaviour:
   - {fileID: 0}
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
-  movementType: 0
   unitState: 0
 --- !u!61 &131697497724829495
 BoxCollider2D:

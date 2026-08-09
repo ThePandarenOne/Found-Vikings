@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6835758257466584583}
   - component: {fileID: 6982609912415148468}
   - component: {fileID: 9198407794535013314}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cho'Gall
   m_TagString: BrownBeard
   m_Icon: {fileID: 0}
@@ -126,7 +126,6 @@ MonoBehaviour:
   - {fileID: 0}
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
-  movementType: 0
   unitState: 0
 --- !u!61 &6982609912415148468
 BoxCollider2D:

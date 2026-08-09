@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5990615462527870311}
   - component: {fileID: 8760468479226273932}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Units_19
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 8687076843372783262}
   - component: {fileID: 8082708850244135332}
   - component: {fileID: 2063886254104495552}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tower
   m_TagString: BrownBeard
   m_Icon: {fileID: 0}

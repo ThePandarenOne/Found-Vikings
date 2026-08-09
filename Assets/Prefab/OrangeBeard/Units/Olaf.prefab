@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5788655847963936905}
   - component: {fileID: 8694770237521119095}
   - component: {fileID: 2937764471652689961}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Olaf
   m_TagString: OrangeBeard
   m_Icon: {fileID: 0}
@@ -126,7 +126,6 @@ MonoBehaviour:
   - {fileID: 0}
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
-  movementType: 0
   unitState: 0
 --- !u!61 &8694770237521119095
 BoxCollider2D:

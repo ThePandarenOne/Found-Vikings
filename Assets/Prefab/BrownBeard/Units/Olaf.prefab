@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7292784029640933218}
   - component: {fileID: 6507925746433712195}
   - component: {fileID: 2942802059150613558}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Olaf
   m_TagString: BrownBeard
   m_Icon: {fileID: 0}
@@ -119,14 +119,13 @@ MonoBehaviour:
   attackTime: 2
   speed: 2
   action:
-  - {fileID: 11400000, guid: 0af3d9fc94932564ea50eda3f3d32787, type: 2}
-  - {fileID: 11400000, guid: 05cca6b9812805c49a45545959c1dcb6, type: 2}
   - {fileID: 11400000, guid: a1215525ec0b7b24bb99b3e991ce82d1, type: 2}
   - {fileID: 11400000, guid: a984f422fe06f604f9878e404675951d, type: 2}
   - {fileID: 11400000, guid: 3d7dab7dbcf5c604b8751343f3ff90fc, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
-  movementType: 0
   unitState: 0
 --- !u!61 &6507925746433712195
 BoxCollider2D:
@@ -200,4 +199,4 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 6

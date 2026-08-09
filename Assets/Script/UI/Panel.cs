@@ -90,14 +90,6 @@ public class Panel : MonoBehaviour
     public void GiveActionUnit(byte i)
     {
         Unit unit = objectUnit.GetComponent<Unit>();
-        if (buttons[i].action.namE == "A/D")
-        {
-            buttons[i].acsessButton.onClick.AddListener(unit.AnD);
-        }
-        if (buttons[i].action.namE == "FollowCursor")
-        {
-            buttons[i].acsessButton.onClick.AddListener(unit.CursorFollow);
-        }
         if (buttons[i].action.namE == "ClickMove")
         {
             buttons[i].acsessButton.onClick.AddListener(unit.ClickMovement);
@@ -124,14 +116,6 @@ public class Panel : MonoBehaviour
         units = group.units;
         foreach (Unit unit in units)
         {
-            if (buttons[i].action.namE == "A/D")
-            {
-                buttons[i].acsessButton.onClick.AddListener(unit.AnD);
-            }
-            if (buttons[i].action.namE == "FollowCursor")
-            {
-                buttons[i].acsessButton.onClick.AddListener(unit.CursorFollow);
-            }
             if (buttons[i].action.namE == "ClickMove")
             {
                 buttons[i].acsessButton.onClick.AddListener(unit.ClickMovement);

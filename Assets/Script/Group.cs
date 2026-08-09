@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using static Object;
+
 public class Group : MonoBehaviour
 {
     public PlayerManager playerManager;
@@ -14,7 +16,27 @@ public class Group : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(panel.group != this)
+        foreach(Unit unit in units)
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                unit.unitState = UnitState.Move;
+                if (panel.objectUnit == this || unit.SearchForUnitInGroup() == true)
+                {
+                    unit.clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+                if (hit == true && hit.transform.gameObject.TryGetComponent(out unit.targetUnit))
+                {
+                    unit.unitState = UnitState.Hunt;
+                }
+            }
+        }
+        if (panel.group != this)
         {
             Destroy(gameObject);
         }
