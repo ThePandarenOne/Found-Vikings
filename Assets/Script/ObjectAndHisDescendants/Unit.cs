@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
+using static UnityEngine.UI.CanvasScaler;
 
 public class Unit : Object
 {
@@ -16,6 +17,11 @@ public class Unit : Object
         panel = FindAnyObjectByType<Panel>();
     }
     public Vector2 clickPosition = new Vector2(- 270, 270);
+    IEnumerator WaitForRush()
+    {
+        yield return new WaitForSeconds(0.1f);
+        unitState = UnitState.Rush;
+    }
     void Update()
     {
         //if(unitState != UnitState.Hunt)
@@ -25,7 +31,7 @@ public class Unit : Object
         collider.isTrigger = canGoThrough;
         if (panel.objectUnit == this)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse1))
+            if (Input.GetKeyDown(KeyCode.Mouse1) && unitState != UnitState.Attack)
             {
                 unitState = UnitState.Move;
                 if (panel.objectUnit == this || SearchForUnitInGroup() == true)
@@ -56,6 +62,36 @@ public class Unit : Object
                         hit.transform.gameObject.TryGetComponent(out targetUnit);
                         unitState = UnitState.Hunt;
                     }
+                    else
+                    {
+                        Debug.Log("Rush");
+                        clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        StartCoroutine(WaitForRush());
+                    }
+                }
+                break;
+            case UnitState.Rush:
+                if (targetUnit == null)
+                {
+                    Collider2D[] touchableObjects = Physics2D.OverlapCircleAll(transform.position, range);
+                    foreach (Collider2D touchableObject in touchableObjects)
+                    {
+                        if (touchableObject.TryGetComponent(out Object unit) && unit.side != side && unit.transform.position.x - transform.position.x < range)
+                        {
+                            targetUnit = unit;
+                        }
+                    }
+                    Move();
+                }
+                if (targetUnit != null && targetUnit.transform.position.x - transform.position.x > range)
+                {
+                    targetUnit = null;
+                }
+                if (targetUnit != null && Mathf.Abs(targetUnit.transform.position.x - transform.position.x) <= range && readyAttack)
+                {
+                    Debug.Log(1);
+                    canGoThrough = false;
+                    AttackTarget();
                 }
                 break;
             case UnitState.Hunt:
@@ -102,7 +138,7 @@ public class Unit : Object
                     Collider2D[] touchableObjects = Physics2D.OverlapCircleAll(transform.position, range);
                     foreach (Collider2D touchableObject in touchableObjects)
                     {
-                        if (touchableObject.TryGetComponent(out Unit unit) && unit.side != side)
+                        if (touchableObject.TryGetComponent(out Object unit) && unit.side != side)
                         {
                             targetUnit = unit;
                         }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
@@ -117,52 +118,30 @@ public class Panel : MonoBehaviour
     public void GiveActionUnitsInGroup(byte i)
     {
         units = group.units;
-        /*
-        for(byte u = 0; u <units.Count; u++)
-        {
-            if (buttons[i].action.namE == "ClickMove")
-            {
-                buttons[i].acsessButton.onClick.AddListener(units[u].ClickMovement);
-            }
-            if (buttons[i].action.namE == "Attack")
-            {
-                buttons[i].acsessButton.onClick.AddListener(units[u].Attack);
-            }
-            if (buttons[i].action.namE == "Defend")
-            {
-                buttons[i].acsessButton.onClick.AddListener(units[u].AttackPosition);
-            }
-            if (buttons[i].action.namE == "JumpUp" && units[u].action[3].name == "JumpDown")
-            {
-                buttons[i].acsessButton.onClick.AddListener(units[u].JumpUp);
-            }
-            if (buttons[i].action.namE == "JumpDown" && units[u].action[4].name == "JumpDown")
-            {
-                buttons[i].acsessButton.onClick.AddListener(units[u].JumpDown);
-            }
-        }
-         */
         foreach (Unit unit in units)
         {
-            if (buttons[i].action.namE == "ClickMove")
+            if (buttons[i].action != null)
             {
-                buttons[i].acsessButton.onClick.AddListener(unit.ClickMovement);
-            }
-            if (buttons[i].action.namE == "Attack")
-            {
-                buttons[i].acsessButton.onClick.AddListener(unit.Attack);
-            }
-            if (buttons[i].action.namE == "Defend")
-            {
-                buttons[i].acsessButton.onClick.AddListener(unit.AttackPosition);
-            }
-            if (buttons[i].action.namE == "JumpUp")
-            {
-                buttons[i].acsessButton.onClick.AddListener(unit.JumpUp);
-            }
-            if (buttons[i].action.namE == "JumpDown")
-            {
-                buttons[i].acsessButton.onClick.AddListener(unit.JumpDown);
+                if (buttons[i].action.namE == "ClickMove")
+                {
+                    buttons[i].acsessButton.onClick.AddListener(unit.ClickMovement);
+                }
+                if (buttons[i].action.namE == "Attack")
+                {
+                    buttons[i].acsessButton.onClick.AddListener(unit.Attack);
+                }
+                if (buttons[i].action.namE == "Defend")
+                {
+                    buttons[i].acsessButton.onClick.AddListener(unit.AttackPosition);
+                }
+                if (buttons[i].action.namE == "JumpUp")
+                {
+                    buttons[i].acsessButton.onClick.AddListener(unit.JumpUp);
+                }
+                if (buttons[i].action.namE == "JumpDown")
+                {
+                    buttons[i].acsessButton.onClick.AddListener(unit.JumpDown);
+                }
             }
         }
     }
@@ -213,7 +192,7 @@ public class Panel : MonoBehaviour
     // Update is called once per frame
     void UpdateUnitsIconsInGroup()
     {
-        Debug.Log("UpdateUnitsIconsInGroup");
+        //Debug.Log("UpdateUnitsIconsInGroup");
         for(byte i = 0; i < group.units.Count;i++)
         {
             if(group.units[i] != null)
@@ -256,17 +235,27 @@ public class Panel : MonoBehaviour
             unitIcons[0].typeOfIcon = UnitIcon.TypeOfIcon.Disabled;
         }
     }
+    IEnumerator WaitForSquare()
+    {
+        Vector2 a = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        yield return new WaitForSeconds(0.1f);
+        Vector2 b = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (Input.GetMouseButton(0) && sl == null)
+        {
+            if((a.x - b.x > 2f) && (a.y - b.y > 2f) || (a.x - b.x < 2f) && (a.y - b.y < 2f))
+            {
+                sl = Instantiate(selectionSquare, b, transform.rotation);
+                sl.panel = this;
+                sl.playerManager = playerManager;
+                sl.startPoint = a;
+            }
+        }
+    }
     void Update()
     {
-        if(Input.GetMouseButton(0) && sl == null)
+        if(Input.GetMouseButton(0) && sl == null)//Создаёт квадрат выделения
         {
-            Vector2 v = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            //sl = Instantiate(selectionSquare,v,transform.rotation);
-            //sl.startPoint = v;
-        }
-        if(Input.GetMouseButtonUp(0) && sl != null)
-        {
-            Destroy(sl);
+            //StartCoroutine(WaitForSquare());
         }
         moneyCounter.text = "Money:"+playerManager.money;
         if (group != null && group.units.Count > 0)//Обновляет иконки юнитов в группе
@@ -317,14 +306,11 @@ public class Panel : MonoBehaviour
             objectUnit = null;
             if (group == null || cannew)
             {
-                group = Instantiate(groupPrefab);
-                group.panel = this;
-                group.playerManager = playerManager;
-                cannew = false;
+                SpawnGroup();
             }
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                group.SearchForUnit();
+                group.SearchForUnit(false);
             }
         }
         else
@@ -345,6 +331,13 @@ public class Panel : MonoBehaviour
         {
             sliderHP.gameObject.SetActive(false);
         }
+    }
+    public void SpawnGroup()
+    {
+        group = Instantiate(groupPrefab);
+        group.panel = this;
+        group.playerManager = playerManager;
+        cannew = false;
     }
 }
    

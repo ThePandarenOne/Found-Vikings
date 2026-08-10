@@ -20,9 +20,10 @@ public class Group : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
-                unit.unitState = UnitState.Move;
-                if (panel.objectUnit == this || unit.SearchForUnitInGroup() == true)
+                Debug.Log(unit.unitState);
+                if (unit.unitState != UnitState.Attack)
                 {
+                    unit.unitState = UnitState.Move;
                     unit.clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 }
             }
@@ -42,10 +43,14 @@ public class Group : MonoBehaviour
         }
         panel.nameOfSelectUnit.text = "Group: " + units.Count.ToString();
     }
-    public void SearchForUnit()
+    public void SearchForUnit(bool inSquare)
     {
+        if (inSquare)
+        {
+            UpdateActions();
+        }
         RaycastHit2D rayhit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-        if (rayhit && rayhit.collider.gameObject.TryGetComponent(out Unit unit) && units.Count < 12 && askForUnitInGroup(unit) == false && unit.side == playerManager.sidePlayer)
+        if (rayhit && rayhit.collider.gameObject.TryGetComponent(out Unit unit) && units.Count < 12 && AskForUnitInGroup(unit) == false && unit.side == playerManager.sidePlayer && inSquare == false)
         {
             units.Add(unit);
             UpdateActions();
@@ -71,7 +76,7 @@ public class Group : MonoBehaviour
             panel.GiveActionUnitsInGroup(i);
         }
     }
-    private bool askForUnitInGroup(Unit unit)
+    private bool AskForUnitInGroup(Unit unit)
     {
         for (byte i = 0; i < units.Count; i++)
         {

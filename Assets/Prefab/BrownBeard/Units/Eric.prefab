@@ -117,7 +117,7 @@ MonoBehaviour:
   range: 6
   respawnSpeed: 2
   attackTime: 1
-  speed: 4
+  speed: 3.5
   action:
   - {fileID: 11400000, guid: a1215525ec0b7b24bb99b3e991ce82d1, type: 2}
   - {fileID: 11400000, guid: a984f422fe06f604f9878e404675951d, type: 2}
@@ -127,6 +127,7 @@ MonoBehaviour:
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
   unitState: 0
+  clickPosition: {x: -270, y: 270}
 --- !u!61 &5831257311675976594
 BoxCollider2D:
   m_ObjectHideFlags: 0

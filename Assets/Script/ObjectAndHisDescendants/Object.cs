@@ -10,7 +10,8 @@ public class Object : MonoBehaviour
         Move,
         Defend,
         Attack,
-        Hunt
+        Hunt,
+        Rush
     }
     public enum Side
     {
@@ -85,6 +86,7 @@ public class Object : MonoBehaviour
     }
     public void AttackTarget()
     {
+        Debug.Log(2);
         //rb.constraints = RigidbodyConstraints2D.FreezePosition;
         if (targetUnit.side == side)
         {
@@ -92,6 +94,7 @@ public class Object : MonoBehaviour
         }
         if (targetUnit != null)
         {
+            Debug.Log(3);
             targetUnit.GetDamage(dmg);
             readyAttack = false;
             if (targetUnit.hp <= 0)
