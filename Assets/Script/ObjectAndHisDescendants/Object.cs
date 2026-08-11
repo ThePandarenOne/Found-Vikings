@@ -1,5 +1,7 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
+using System.Linq;
 using static UnityEngine.Rendering.DebugUI;
 
 public class Object : MonoBehaviour
@@ -36,6 +38,8 @@ public class Object : MonoBehaviour
     public ActionData[] action;
 
     //protected Rigidbody2D rb;
+    public GameObject selectArrow;
+    public Slider hpBar;
     public Panel panel;
     public Object targetUnit;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -52,14 +56,13 @@ public class Object : MonoBehaviour
     {
         ChooseUnit(false);
     }
+
     public void ChooseUnit(bool d)
     {
         panel = FindAnyObjectByType<Panel>();
         if (panel.group != null && !Input.GetKey(KeyCode.LeftControl) || d == true)
         {
             Destroy(panel.group.gameObject);
-            Destroy(panel.group);
-            panel.group = null;
         }
         panel.objectUnit = this;
         if(GetComponent<Unit>() && Input.GetKey(KeyCode.LeftControl) && panel.group != null)
@@ -72,10 +75,35 @@ public class Object : MonoBehaviour
         }
     }
 
+    GameObject gm;
     // Update is called once per frame
     public void UpdateObject()
     {
-        if (hp <= 0)
+        if (gm == null)
+        {
+            if (panel.objectUnit == this || TryGetComponent(out Unit unit) && unit.SearchForUnitInGroup() == true)
+            {
+                gm = Instantiate(selectArrow, new Vector2(transform.position.x, transform.position.y + 2f), transform.rotation, transform);
+                selectArrow.gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            if (panel.objectUnit != this && TryGetComponent(out Unit unit) && unit.SearchForUnitInGroup() == false)
+            {
+                Destroy(gm);
+            }
+            if (panel.objectUnit != this && !GetComponent<Unit>())
+            {
+                Destroy(gm);
+            }
+        }
+        if (hpBar != null)
+        {
+            hpBar.value = hp;
+            hpBar.maxValue = maxhp;
+        }
+        if (hp <= 0 && !GetComponent<BuildPlace>())
         {
             Destroy(gameObject);
         }
@@ -86,15 +114,13 @@ public class Object : MonoBehaviour
     }
     public void AttackTarget()
     {
-        Debug.Log(2);
         //rb.constraints = RigidbodyConstraints2D.FreezePosition;
         if (targetUnit.side == side)
         {
             targetUnit = null;
         }
-        if (targetUnit != null)
+        if (targetUnit != null && transform.position.y - targetUnit.transform.position.y < range)
         {
-            Debug.Log(3);
             targetUnit.GetDamage(dmg);
             readyAttack = false;
             if (targetUnit.hp <= 0)

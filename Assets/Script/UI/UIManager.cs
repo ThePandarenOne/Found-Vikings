@@ -6,6 +6,8 @@ public class UIManager : MonoBehaviour
     public AudioSource music;
     public GameObject pauseMenu;
     public Slider musicSlider;
+    public GameObject winMenu;
+    public Text winText;
     public void Pause()
     {
         if(pauseMenu.activeSelf)
@@ -30,6 +32,11 @@ public class UIManager : MonoBehaviour
     public void Exit()
     {
         Application.Quit();
+    }
+    public void VictoryMenu(string side)
+    {
+        winMenu.SetActive(true);
+        winText.text = "Victory by the " + side;
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

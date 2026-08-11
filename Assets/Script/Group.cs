@@ -20,7 +20,6 @@ public class Group : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
-                Debug.Log(unit.unitState);
                 if (unit.unitState != UnitState.Attack)
                 {
                     unit.unitState = UnitState.Move;

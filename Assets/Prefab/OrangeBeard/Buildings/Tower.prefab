@@ -112,10 +112,10 @@ MonoBehaviour:
   side: 0
   objectName: Tower
   readyAttack: 1
-  hp: 20
-  maxhp: 20
-  dmg: 2
-  range: 5
+  hp: 30
+  maxhp: 30
+  dmg: 3
+  range: 7
   respawnSpeed: 10
   attackTime: 1
   speed: 0
@@ -125,6 +125,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 11400000, guid: f18cf37f18fc9a9459e55cb857582f8b, type: 2}
+  selectArrow: {fileID: 1424023923020399744, guid: cb756d74c04a0114f866965e6857318e, type: 3}
+  hpBar: {fileID: 0}
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
   buildPlace: {fileID: 0}

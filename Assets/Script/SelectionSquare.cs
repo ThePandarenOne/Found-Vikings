@@ -29,9 +29,8 @@ public class SelectionSquare : MonoBehaviour
         {
             if (hasDone)
             {
-                panel.SpawnGroup();
-                hasDone = false;
                 canAdd = true;
+                hasDone = false;
                 StartCoroutine(WaitForDestroy());
             }
         }
@@ -39,19 +38,28 @@ public class SelectionSquare : MonoBehaviour
     IEnumerator WaitForDestroy()
     {
         yield return new WaitForSeconds(0.1f);
-        if (panel.group.units.Count == 0)
+        if (panel.group != null && panel.group.units.Count == 0)
         {
             Destroy(panel.group.gameObject);
             panel.ChangePanel();
         }
         Destroy(gameObject);
     }
+    bool hasSpawned;
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out Unit unit) && AskForUnitInGroup(collision) == false && canAdd && panel.group.units.Count < 12)
+        if (collision.TryGetComponent(out Unit unit) && canAdd)
         {
-            panel.group.units.Add(unit);
-            panel.group.SearchForUnit(true);
+            if(hasSpawned == false)
+            {
+                panel.SpawnGroup();
+                hasSpawned = true;
+            }
+            if (panel.group.units.Count < 12 && AskForUnitInGroup(collision) == false)
+            {
+                panel.group.units.Add(unit);
+                panel.group.SearchForUnit(true);
+            }
         }
     }
     bool AskForUnitInGroup(Collider2D collision)
@@ -60,11 +68,9 @@ public class SelectionSquare : MonoBehaviour
         {
             if (u.gameObject == collision.gameObject)
             {
-                Debug.Log("Return true");
                 return true;
             }
         }
-        Debug.Log("Return false");
         return false;
     }
 }

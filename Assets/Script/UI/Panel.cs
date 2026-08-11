@@ -255,7 +255,7 @@ public class Panel : MonoBehaviour
     {
         if(Input.GetMouseButton(0) && sl == null)//Создаёт квадрат выделения
         {
-            //StartCoroutine(WaitForSquare());
+            StartCoroutine(WaitForSquare());
         }
         moneyCounter.text = "Money:"+playerManager.money;
         if (group != null && group.units.Count > 0)//Обновляет иконки юнитов в группе
@@ -303,7 +303,6 @@ public class Panel : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.LeftControl))
         {
-            objectUnit = null;
             if (group == null || cannew)
             {
                 SpawnGroup();
@@ -334,6 +333,7 @@ public class Panel : MonoBehaviour
     }
     public void SpawnGroup()
     {
+        objectUnit = null;
         group = Instantiate(groupPrefab);
         group.panel = this;
         group.playerManager = playerManager;

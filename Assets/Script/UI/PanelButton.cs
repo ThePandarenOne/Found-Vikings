@@ -35,6 +35,10 @@ public class PanelButton : MonoBehaviour
     }
     public void GetCost()
     {
+        if (panel.objectUnit.TryGetComponent(out BuildPlace buildPlace) && buildPlace.isBuilding == true)
+        {
+            return;
+        }
         panel.playerManager.money -= action.cost;
     }
     // Update is called once per frame
@@ -44,7 +48,7 @@ public class PanelButton : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
-        if (action != null &&Input.GetKeyDown(action.keyCode.ToLower()))
+        if (action != null &&Input.GetKeyDown(action.keyCode.ToLower()) && button.interactable)
         {
             button.onClick.Invoke();
         }

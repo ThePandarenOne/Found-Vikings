@@ -32,7 +32,7 @@ public class Building : Object
     }
     void Update()
     {
-        if(hp <= 0)
+        if(hp <= 0 && typeOfBuilding != TypeOfBuilding.MainBuilding)
         {
             buildPlace.gameObject.SetActive(true);
         }
@@ -155,7 +155,8 @@ public class Building : Object
             yield return new WaitForSeconds(1f);
             if (i <= 0)
             {
-                Instantiate(unit, new Vector3(spawnplace.transform.position.x, spawnplace.transform.position.y, 0), spawnplace.transform.rotation);
+                Unit un = Instantiate(unit, new Vector3(spawnplace.transform.position.x, spawnplace.transform.position.y, 0), spawnplace.transform.rotation);
+                un.playerManager = playerManager;
                 canSpawn = true;
                 QueueUpdate();
             }

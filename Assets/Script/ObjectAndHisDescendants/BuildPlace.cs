@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using static UnityEngine.Rendering.DebugUI;
+using System.Linq;
 
 public class BuildPlace : Object
 {
@@ -76,6 +77,9 @@ public class BuildPlace : Object
     // Update is called once per frame
     void Update()
     {
-
+        if (playerManager == null)
+        {
+            playerManager = FindObjectsByType<PlayerManager>(FindObjectsSortMode.None).FirstOrDefault(pm => pm.sidePlayer == side);
+        }
     }
 }

@@ -248,6 +248,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 85a73b768cb98c84aa7e86dee97aeb5c, type: 2}
   - {fileID: 0}
   - {fileID: 11400000, guid: f18cf37f18fc9a9459e55cb857582f8b, type: 2}
+  selectArrow: {fileID: 1424023923020399744, guid: db0af58aa70b75a48baa6db02db6e788, type: 3}
+  hpBar: {fileID: 0}
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
   buildPlace: {fileID: 0}

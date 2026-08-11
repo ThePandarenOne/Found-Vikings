@@ -50,6 +50,10 @@ public class Unit : Object
             }
         }
         UpdateObject();
+        if(targetUnit != null && targetUnit.side == side)
+        {
+            targetUnit = null;
+        }
         switch(unitState)
         {
             case UnitState.Attack:
@@ -59,12 +63,14 @@ public class Unit : Object
                     RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
                     if (hit == true)
                     {
-                        hit.transform.gameObject.TryGetComponent(out targetUnit);
-                        unitState = UnitState.Hunt;
+                        if(hit.transform.gameObject.TryGetComponent(out Object obj) && obj.side != side)
+                        {
+                            targetUnit = obj;
+                            unitState = UnitState.Hunt;
+                        }
                     }
                     else
                     {
-                        Debug.Log("Rush");
                         clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                         StartCoroutine(WaitForRush());
                     }
@@ -89,7 +95,6 @@ public class Unit : Object
                 }
                 if (targetUnit != null && Mathf.Abs(targetUnit.transform.position.x - transform.position.x) <= range && readyAttack)
                 {
-                    Debug.Log(1);
                     canGoThrough = false;
                     AttackTarget();
                 }
@@ -233,7 +238,10 @@ public class Unit : Object
     IEnumerator WaitForJump(int jumpHeigth)
     {
         yield return new WaitForSeconds(1f);
-        transform.position += new Vector3(0,jumpHeigth);
+        if(transform.position.y > -12.5 && transform.position.y <7.5 && transform.position.x > -40.5 && transform.position.x < 40.5)
+        {
+            transform.position += new Vector3(0, jumpHeigth);
+        }
     }
     public void Attack()
     {
