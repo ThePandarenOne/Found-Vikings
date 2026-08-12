@@ -23,7 +23,14 @@ public class Gate : MonoBehaviour
             if (unitsPlaces.ContainsKey(unit) == false)
             {
                 teleportGate.unitsPlaces.Add(unit, unit.transform.position);
-                collision.transform.position = teleportGate.tpPlace.position;
+                if(unit.name != "Baleog" && unit.name != "Olaf" && unit.name != "Eric")
+                {
+                    collision.transform.position = new Vector2(teleportGate.tpPlace.position.x, teleportGate.tpPlace.position.y+0.5f);
+                }
+                else
+                {
+                    collision.transform.position = teleportGate.tpPlace.position;
+                }
             }
             else if(teleportGate == null)
             {

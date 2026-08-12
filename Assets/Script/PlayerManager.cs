@@ -8,6 +8,7 @@ public class PlayerManager : MonoBehaviour
     public int money;
     public Building main;
     public Panel panel;
+    public bool ai;
 
     UIManager manager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created

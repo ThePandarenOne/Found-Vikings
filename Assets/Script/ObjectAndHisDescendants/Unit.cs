@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using Unity.VisualScripting;
 using static UnityEngine.UI.CanvasScaler;
@@ -53,6 +54,19 @@ public class Unit : Object
         if(targetUnit != null && targetUnit.side == side)
         {
             targetUnit = null;
+        }
+        if(playerManager.ai)
+        {
+            if (Mathf.Abs(playerManager.enemyManager.main.transform.position.x) > range)
+            {
+                unitState = UnitState.Rush;
+                clickPosition = playerManager.enemyManager.main.transform.position;
+            }
+            else if(Mathf.Abs(playerManager.enemyManager.main.transform.position.x) < range)
+            {
+                unitState = UnitState.Attack;
+                targetUnit = playerManager.enemyManager.main;
+            }
         }
         switch(unitState)
         {
@@ -212,14 +226,14 @@ public class Unit : Object
     }
     public void JumpUp()
     {
-        if(transform.position.y < 7.5 && AskForAction("JumpUp"))
+        if(transform.position.y < 8 && AskForAction("JumpUp"))
         {
             StartCoroutine(WaitForJump(+10));
         }
     }
     public void JumpDown()
     {
-        if (transform.position.y > -12.5 && AskForAction("JumpDown"))
+        if (transform.position.y > -13 && AskForAction("JumpDown"))
         {
             StartCoroutine(WaitForJump(-10));
         }
@@ -238,9 +252,14 @@ public class Unit : Object
     IEnumerator WaitForJump(int jumpHeigth)
     {
         yield return new WaitForSeconds(1f);
-        if(transform.position.y > -12.5 && transform.position.y <7.5 && transform.position.x > -40.5 && transform.position.x < 40.5)
+        Debug.Log(transform.position.y > -13 && transform.position.y < 8);
+        if(transform.position.y > -13 && transform.position.y <8 && Math.Abs(transform.position.x) < 40.5f)
         {
-            transform.position += new Vector3(0, jumpHeigth);
+            Debug.Log(4);
+            if (transform.position.y + jumpHeigth < 9 && jumpHeigth + transform.position.y > -13)
+            {
+                transform.position += new Vector3(0, jumpHeigth);
+            }
         }
     }
     public void Attack()

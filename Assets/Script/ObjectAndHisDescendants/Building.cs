@@ -129,7 +129,6 @@ public class Building : Object
             {
                 canSpawn = false;
                 StartCoroutine(WaitForSpawn(unitSpawn[NameOfUnit]));
-                //FindUnit(NameOfUnit);
             }
         }
     }

@@ -237,8 +237,8 @@ MonoBehaviour:
   side: 0
   objectName: Cho'Gall
   readyAttack: 1
-  hp: 60
-  maxhp: 60
+  hp: 40
+  maxhp: 40
   dmg: 15
   range: 5
   respawnSpeed: 1

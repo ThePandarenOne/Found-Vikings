@@ -14,7 +14,8 @@ public class LineObjective : Object
     bool can = true;
     bool canSpawnChoGall = false;
     public Line line;
-    public Unit choGall;
+    public Unit choGallBrown;
+    public Unit choGallOrange;
     SpriteRenderer sr;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -63,20 +64,17 @@ public class LineObjective : Object
     {
         hp = maxhp;
         side = sidee;
-        if(typeOfObjective != TypeOfObjective.ChoGall)
+        if (sidee == Side.Player)
         {
-            if (sidee == Side.Player)
-            {
-                sr.sprite = spriteOrange;
-            }
-            else if (sidee == Side.Enemy)
-            {
-                sr.sprite = spriteBrown;
-            }
+            sr.sprite = spriteOrange;
         }
-        else
+        else if (sidee == Side.Enemy)
         {
-            if(canSpawnChoGall)
+            sr.sprite = spriteBrown;
+        }
+        if (typeOfObjective == TypeOfObjective.ChoGall)
+        {
+            if (canSpawnChoGall)
             {
                 GiveChoGall(sidee);
             }
@@ -84,18 +82,15 @@ public class LineObjective : Object
     }
     void GiveChoGall(Side side)
     {
-        sr.color = new Color(255, 255, 255, 0);
-        Unit unit = Instantiate(choGall, new Vector2(transform.position.x,transform.position.y-0.5f), transform.rotation);
-        unit.side = side;
         if (side == Side.Player)
         {
-            unit.GetComponent<SpriteRenderer>().sprite = spriteOrange;
+            Unit unit = Instantiate(choGallOrange, new Vector2(transform.position.x, transform.position.y), transform.rotation);
             unit.playerManager = line.playerManager;
         }
         else if (side == Side.Enemy)
         {
-            unit.GetComponent<SpriteRenderer>().sprite = spriteBrown;
-            unit.playerManager = line.enemyManager;
+            Unit unit = Instantiate(choGallBrown, new Vector2(transform.position.x, transform.position.y), transform.rotation);
+            unit.playerManager = line.playerManager;
         }
         canSpawnChoGall = false;
     }

@@ -193,9 +193,15 @@ public class Panel : MonoBehaviour
     void UpdateUnitsIconsInGroup()
     {
         //Debug.Log("UpdateUnitsIconsInGroup");
-        for(byte i = 0; i < group.units.Count;i++)
+        for(byte i = 0; i < 12;i++)
         {
-            if(group.units[i] != null)
+            //Debug.Log(i);
+            //Debug.Log(group.units.Count);
+            if (i >= group.units.Count)
+            {
+                unitIcons[i].typeOfIcon = UnitIcon.TypeOfIcon.Disabled;
+            }
+            else if (group.units[i] != null)
             {
                 unitIcons[i].typeOfIcon = UnitIcon.TypeOfIcon.UnitGroupIcon;
                 unitIcons[i].gameObject.SetActive(true);  

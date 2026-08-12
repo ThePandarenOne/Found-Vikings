@@ -123,6 +123,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0e7c7261572812e48939483ff45c09fa, type: 2}
   - {fileID: 0}
   - {fileID: 0}
+  selectArrow: {fileID: 0}
+  hpBar: {fileID: 0}
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
   timer: 0
@@ -715,6 +717,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0e7c7261572812e48939483ff45c09fa, type: 2}
   - {fileID: 0}
   - {fileID: 0}
+  selectArrow: {fileID: 0}
+  hpBar: {fileID: 0}
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
   timer: 0
@@ -857,7 +861,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 8989412856780543466, guid: d0ccefb52de0a7a4caab7baff0328ff1, type: 3}
+  m_Sprite: {fileID: -648766031, guid: ecaf0d4fcb7725440a7693dd560b22f1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -905,7 +909,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3, y: 3}
+    oldSize: {x: 4, y: 2}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -928,7 +932,7 @@ MonoBehaviour:
   playerManager: {fileID: 0}
   spriteIcon: {fileID: 0}
   side: 2
-  objectName: Cho'Gall
+  objectName: Cho'Gall cave
   readyAttack: 1
   hp: 50
   maxhp: 50
@@ -938,13 +942,16 @@ MonoBehaviour:
   attackTime: 0
   speed: 0
   action: []
+  selectArrow: {fileID: 0}
+  hpBar: {fileID: 0}
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
-  spriteBrown: {fileID: -9045529242607513629, guid: d0ccefb52de0a7a4caab7baff0328ff1, type: 3}
-  spriteOrange: {fileID: 4793206520738474760, guid: d0ccefb52de0a7a4caab7baff0328ff1, type: 3}
+  spriteBrown: {fileID: 8394346119094992772, guid: ecaf0d4fcb7725440a7693dd560b22f1, type: 3}
+  spriteOrange: {fileID: 410141323, guid: ecaf0d4fcb7725440a7693dd560b22f1, type: 3}
   typeOfObjective: 0
   line: {fileID: 9117749111981303359}
-  choGall: {fileID: 6835758257466584583, guid: 94726f473277bd94eb1bd0ad8bd70d09, type: 3}
+  choGallBrown: {fileID: 6835758257466584583, guid: 94726f473277bd94eb1bd0ad8bd70d09, type: 3}
+  choGallOrange: {fileID: 6835758257466584583, guid: 082cb847b8ab3d24092311b07711ade5, type: 3}
 --- !u!1 &7700508058276621689
 GameObject:
   m_ObjectHideFlags: 0
@@ -1068,6 +1075,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0e7c7261572812e48939483ff45c09fa, type: 2}
   - {fileID: 0}
   - {fileID: 0}
+  selectArrow: {fileID: 0}
+  hpBar: {fileID: 0}
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
   timer: 0
@@ -1250,6 +1259,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0e7c7261572812e48939483ff45c09fa, type: 2}
   - {fileID: 0}
   - {fileID: 0}
+  selectArrow: {fileID: 0}
+  hpBar: {fileID: 0}
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
   timer: 0

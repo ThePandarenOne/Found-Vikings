@@ -2960,17 +2960,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 77474082}
     m_Modifications:
-    - target: {fileID: 1358720482811319782, guid: f7a2f883674099840830ac46108558d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.45
-      objectReference: {fileID: 0}
     - target: {fileID: 3015873395051118834, guid: f7a2f883674099840830ac46108558d5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 56.99
+      value: 57.5
       objectReference: {fileID: 0}
     - target: {fileID: 3015873395051118834, guid: f7a2f883674099840830ac46108558d5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: -1.5
       objectReference: {fileID: 0}
     - target: {fileID: 3015873395051118834, guid: f7a2f883674099840830ac46108558d5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3003,14 +2999,6 @@ PrefabInstance:
     - target: {fileID: 3015873395051118834, guid: f7a2f883674099840830ac46108558d5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4160756765690789459, guid: f7a2f883674099840830ac46108558d5, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4160756765690789459, guid: f7a2f883674099840830ac46108558d5, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5787132005204752676, guid: f7a2f883674099840830ac46108558d5, type: 3}
       propertyPath: m_Name
@@ -3203,7 +3191,7 @@ Transform:
   m_GameObject: {fileID: 229016100}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 42.98, y: -2.5, z: 0}
+  m_LocalPosition: {x: 41.56, y: -2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5132,7 +5120,7 @@ Transform:
   m_GameObject: {fileID: 512082316}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -43.03, y: -2.5, z: 0}
+  m_LocalPosition: {x: -41.56, y: -2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12792,11 +12780,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 828614340436615855, guid: 1395aaffc190fd041b6231762df78efe, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -57
+      value: -57.5
       objectReference: {fileID: 0}
     - target: {fileID: 828614340436615855, guid: 1395aaffc190fd041b6231762df78efe, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: -1.5
       objectReference: {fileID: 0}
     - target: {fileID: 828614340436615855, guid: 1395aaffc190fd041b6231762df78efe, type: 3}
       propertyPath: m_LocalPosition.z
@@ -12838,22 +12826,6 @@ PrefabInstance:
       propertyPath: playerManager
       value: 
       objectReference: {fileID: 582152349}
-    - target: {fileID: 2703988535113201949, guid: 1395aaffc190fd041b6231762df78efe, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2703988535113201949, guid: 1395aaffc190fd041b6231762df78efe, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3252510870333544357, guid: 1395aaffc190fd041b6231762df78efe, type: 3}
-      propertyPath: m_SortingOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5217986906454470602, guid: 1395aaffc190fd041b6231762df78efe, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.45
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15802,22 +15774,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 668623208757977910, guid: 900cbf729bfb266478d345bd15f0b3c6, type: 3}
-      propertyPath: m_Size.x
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 668623208757977910, guid: 900cbf729bfb266478d345bd15f0b3c6, type: 3}
-      propertyPath: m_Size.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 668623208757977910, guid: 900cbf729bfb266478d345bd15f0b3c6, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 668623208757977910, guid: 900cbf729bfb266478d345bd15f0b3c6, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2130421265261725245, guid: 900cbf729bfb266478d345bd15f0b3c6, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -15871,16 +15827,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6460815204242478244, guid: 900cbf729bfb266478d345bd15f0b3c6, type: 3}
-      propertyPath: m_Name
-      value: Cho'GallCave
-      objectReference: {fileID: 0}
-    - target: {fileID: 6460815204242478244, guid: 900cbf729bfb266478d345bd15f0b3c6, type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7665728303292819100, guid: 900cbf729bfb266478d345bd15f0b3c6, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 7700508058276621689, guid: 900cbf729bfb266478d345bd15f0b3c6, type: 3}
       propertyPath: m_IsActive
