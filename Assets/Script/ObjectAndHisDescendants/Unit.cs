@@ -6,6 +6,16 @@ using static UnityEngine.UI.CanvasScaler;
 
 public class Unit : Object
 {
+    public enum TypeOfUnit
+    {
+        Olaf,
+        Baleog,
+        Eric,
+        ChoGall,
+        Moonshiner,
+        Dragon
+    }
+    public TypeOfUnit typeOfUnit;
     public UnitState unitState = UnitState.Idle;
     SpriteRenderer spriteRenderer;
     bool canGoThrough = false;
@@ -252,10 +262,8 @@ public class Unit : Object
     IEnumerator WaitForJump(int jumpHeigth)
     {
         yield return new WaitForSeconds(1f);
-        Debug.Log(transform.position.y > -13 && transform.position.y < 8);
         if(transform.position.y > -13 && transform.position.y <8 && Math.Abs(transform.position.x) < 40.5f)
         {
-            Debug.Log(4);
             if (transform.position.y + jumpHeigth < 9 && jumpHeigth + transform.position.y > -13)
             {
                 transform.position += new Vector3(0, jumpHeigth);

@@ -3016,14 +3016,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainBrown
       objectReference: {fileID: 0}
-    - target: {fileID: 6580065589067295744, guid: f7a2f883674099840830ac46108558d5, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6580065589067295744, guid: f7a2f883674099840830ac46108558d5, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12838,14 +12830,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1684022592359015707, guid: 1395aaffc190fd041b6231762df78efe, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1684022592359015707, guid: 1395aaffc190fd041b6231762df78efe, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1823929617992110034, guid: 1395aaffc190fd041b6231762df78efe, type: 3}
       propertyPath: m_Name
       value: MainOrange
@@ -15833,6 +15817,14 @@ PrefabInstance:
     - target: {fileID: 668623208757977910, guid: 900cbf729bfb266478d345bd15f0b3c6, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 726943821434374214, guid: 900cbf729bfb266478d345bd15f0b3c6, type: 3}
+      propertyPath: typeOfObjective
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 726943821434374214, guid: 900cbf729bfb266478d345bd15f0b3c6, type: 3}
+      propertyPath: 'action.Array.data[0]'
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2130421265261725245, guid: 900cbf729bfb266478d345bd15f0b3c6, type: 3}
       propertyPath: m_IsActive

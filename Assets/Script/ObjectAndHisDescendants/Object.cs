@@ -103,7 +103,7 @@ public class Object : MonoBehaviour
             hpBar.value = hp;
             hpBar.maxValue = maxhp;
         }
-        if (hp <= 0 && !GetComponent<BuildPlace>())
+        if (hp <= 0 && GetComponent<Unit>())
         {
             Destroy(gameObject);
         }
@@ -123,6 +123,10 @@ public class Object : MonoBehaviour
         {
             targetUnit.GetDamage(dmg);
             readyAttack = false;
+            if(GetComponent<Unit>().typeOfUnit == Unit.TypeOfUnit.Olaf)
+            {
+                targetUnit.targetUnit = this;
+            }
             if (targetUnit.hp <= 0)
             {
                 if (targetUnit.TryGetComponent(out BuildPlace buildPlace))

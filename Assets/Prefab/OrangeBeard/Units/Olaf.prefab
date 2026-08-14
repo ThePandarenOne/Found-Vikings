@@ -431,6 +431,7 @@ MonoBehaviour:
   hpBar: {fileID: 4386731912347363837}
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
+  typeOfUnit: 0
   unitState: 0
   clickPosition: {x: -270, y: 270}
 --- !u!61 &8694770237521119095

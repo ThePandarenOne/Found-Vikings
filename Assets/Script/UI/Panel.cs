@@ -68,6 +68,19 @@ public class Panel : MonoBehaviour
                         GiveActionBuildingPlacement(i);
                     }
                 }
+                /*
+                else if(objectUnit.TryGetComponent(out LineObjective lineObjective))
+                {
+                    buttons[i].action = lineObjective.action[i];
+                    buttons[i].GetAction();
+                    if (objectUnit.side == playerManager.sidePlayer)
+                    {
+                        buttons[i].gameObject.SetActive(true);
+                        buttons[i].acsessButton.onClick.AddListener(buttons[i].GetCost);
+                        GiveActionLineObjective(i);
+                    }
+                }
+                */
 
                 else
                 {
@@ -77,7 +90,7 @@ public class Panel : MonoBehaviour
         }
         if (objectUnit != null)
         {
-            nameOfSelectUnit.text = objectUnit.name;
+            nameOfSelectUnit.text = objectUnit.objectName;
             characteristics[0].text = "Damage:" + objectUnit.dmg.ToString();
             characteristics[1].text = "AttackSpeed:" + objectUnit.attackTime.ToString();
             characteristics[2].text = "Speed:" + objectUnit.speed.ToString();
@@ -189,6 +202,20 @@ public class Panel : MonoBehaviour
             buttons[i].acsessButton.onClick.AddListener(building.BuildTower);
         }
     }
+    /*
+    public void GiveActionLineObjective(byte i)
+    {
+        LineObjective building = objectUnit.GetComponent<LineObjective>();
+        if (buttons[i].action.namE == "Spawn Cho'gall")
+        {
+            buttons[i].acsessButton.onClick.AddListener(building.SpawnUnit);
+        }
+        if (buttons[i].action.namE == "Spawn Moonshiner")
+        {
+            buttons[i].acsessButton.onClick.AddListener(building.SpawnUnit);
+        }
+    }
+    */
     // Update is called once per frame
     void UpdateUnitsIconsInGroup()
     {

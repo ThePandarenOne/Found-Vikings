@@ -49,6 +49,8 @@ public class BuildPlace : Object
                 Building spawnedBuilding = Instantiate(building, transform.position, transform.rotation);
                 spawnedBuilding.buildPlace = this;
                 spawnedBuilding.playerManager = playerManager;
+                panel.objectUnit = spawnedBuilding;
+                panel.ChangePanel();
                 building = null;
                 gameObject.SetActive(false);
             }

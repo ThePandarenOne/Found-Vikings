@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 399184807061052016}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.2274227, y: -12.509861, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -129,6 +129,7 @@ MonoBehaviour:
   hpBar: {fileID: 420183140209038949}
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
+  typeOfUnit: 0
   unitState: 0
   clickPosition: {x: -270, y: 270}
 --- !u!61 &5847711823852985430

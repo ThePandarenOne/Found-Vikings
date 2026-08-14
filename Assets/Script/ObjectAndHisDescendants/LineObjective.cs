@@ -4,7 +4,8 @@ public class LineObjective : Object
 {
     public enum TypeOfObjective
     {
-        ChoGall,
+        ChoGallCave,
+        DragonAltar,
         Mine,
         Grill
     }
@@ -14,16 +15,16 @@ public class LineObjective : Object
     bool can = true;
     bool canSpawnChoGall = false;
     public Line line;
-    public Unit choGallBrown;
-    public Unit choGallOrange;
+    public Unit unitBrown;
+    public Unit unitOrange;
     SpriteRenderer sr;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
-        if(typeOfObjective == TypeOfObjective.ChoGall)
+        if(typeOfObjective == TypeOfObjective.DragonAltar)
         {
-            StartCoroutine(WaitForChoGallReload());
+            StartCoroutine(WaitForDragonReload());
         }
     }
 
@@ -32,15 +33,15 @@ public class LineObjective : Object
     {
         switch (typeOfObjective)
         {
-            case TypeOfObjective.ChoGall:
+            case TypeOfObjective.DragonAltar:
                 if (canSpawnChoGall && side != Side.Neutral)
                 {
-                    GiveChoGall(side);
+                    GiveDragon(side);
                 }
                 else if(canSpawnChoGall == false && can)
                 {
                     can = false;
-                    StartCoroutine(WaitForChoGallReload());
+                    StartCoroutine(WaitForDragonReload());
                 }
                 break;
             case TypeOfObjective.Grill:
@@ -72,29 +73,44 @@ public class LineObjective : Object
         {
             sr.sprite = spriteBrown;
         }
-        if (typeOfObjective == TypeOfObjective.ChoGall)
+        if (typeOfObjective == TypeOfObjective.DragonAltar)
         {
             if (canSpawnChoGall)
             {
-                GiveChoGall(sidee);
+                GiveDragon(sidee);
             }
         }
     }
-    void GiveChoGall(Side side)
+    public void SpawnUnit()
+    {
+        if(side == Side.Player)
+        {
+
+        }
+        else if (side == Side.Enemy)
+        {
+
+        }
+    }
+    IEnumerator WaitForSpawn(Unit unit)
+    {
+        yield return new WaitForSeconds(unit.respawnSpeed);
+    }
+    void GiveDragon(Side side)
     {
         if (side == Side.Player)
         {
-            Unit unit = Instantiate(choGallOrange, new Vector2(transform.position.x, transform.position.y), transform.rotation);
+            Unit unit = Instantiate(unitOrange, new Vector2(transform.position.x, transform.position.y), transform.rotation);
             unit.playerManager = line.playerManager;
         }
         else if (side == Side.Enemy)
         {
-            Unit unit = Instantiate(choGallBrown, new Vector2(transform.position.x, transform.position.y), transform.rotation);
+            Unit unit = Instantiate(unitBrown, new Vector2(transform.position.x, transform.position.y), transform.rotation);
             unit.playerManager = line.playerManager;
         }
         canSpawnChoGall = false;
     }
-    IEnumerator WaitForChoGallReload()
+    IEnumerator WaitForDragonReload()
     {
         yield return new WaitForSeconds(60f);
         can = true;

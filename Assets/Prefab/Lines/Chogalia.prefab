@@ -941,7 +941,12 @@ MonoBehaviour:
   respawnSpeed: 0
   attackTime: 0
   speed: 0
-  action: []
+  action:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   selectArrow: {fileID: 0}
   hpBar: {fileID: 0}
   panel: {fileID: 0}
@@ -950,8 +955,8 @@ MonoBehaviour:
   spriteOrange: {fileID: 410141323, guid: ecaf0d4fcb7725440a7693dd560b22f1, type: 3}
   typeOfObjective: 0
   line: {fileID: 9117749111981303359}
-  choGallBrown: {fileID: 6835758257466584583, guid: 94726f473277bd94eb1bd0ad8bd70d09, type: 3}
-  choGallOrange: {fileID: 6835758257466584583, guid: 082cb847b8ab3d24092311b07711ade5, type: 3}
+  unitBrown: {fileID: 6835758257466584583, guid: 94726f473277bd94eb1bd0ad8bd70d09, type: 3}
+  unitOrange: {fileID: 6835758257466584583, guid: 082cb847b8ab3d24092311b07711ade5, type: 3}
 --- !u!1 &7700508058276621689
 GameObject:
   m_ObjectHideFlags: 0

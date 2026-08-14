@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1239927520103593768}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -114,10 +114,10 @@ MonoBehaviour:
   readyAttack: 1
   hp: 40
   maxhp: 40
-  dmg: 15
+  dmg: 20
   range: 5
   respawnSpeed: 1
-  attackTime: 3
+  attackTime: 4
   speed: 3
   action:
   - {fileID: 11400000, guid: a1215525ec0b7b24bb99b3e991ce82d1, type: 2}
@@ -129,6 +129,7 @@ MonoBehaviour:
   hpBar: {fileID: 8648234866460452070}
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
+  typeOfUnit: 0
   unitState: 0
   clickPosition: {x: -270, y: 270}
 --- !u!61 &6982609912415148468
