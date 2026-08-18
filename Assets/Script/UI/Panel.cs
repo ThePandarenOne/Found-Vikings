@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
+using System.Linq;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 
@@ -24,7 +25,11 @@ public class Panel : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        if(playerManager == null)
+        {
+            playerManager = FindObjectsByType<PlayerManager>(FindObjectsSortMode.None).FirstOrDefault(pm => pm.IsOwner);
+            Debug.Log(playerManager);
+        }
     }
     public void ChangePanel()
     {
@@ -33,7 +38,9 @@ public class Panel : MonoBehaviour
             buttons[i].action = null;
             buttons[i].acsessButton.onClick.RemoveAllListeners();
             buttons[i].gameObject.SetActive(false);
-            if (objectUnit != null)
+            //Debug.Log("1"+objectUnit.playerManager);
+            //Debug.Log("1" + playerManager.IsOwner);
+            if (objectUnit != null && playerManager == objectUnit.playerManager)
             {
                 if (objectUnit.TryGetComponent(out Unit unit) && group == null && unit.action[i] != null)
                 {

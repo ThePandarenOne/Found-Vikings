@@ -3,24 +3,34 @@ using UnityEngine;
 
 public class PlayerManager : NetworkBehaviour
 {
+    public ulong d;
     public string nameOfFaction;
     public Object.Side sidePlayer;
     public PlayerManager enemyManager;
     public int money;
     public Building main;
-    public Panel panel;
-    public bool ai;
 
     UIManager manager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         manager = FindAnyObjectByType<UIManager>();
+        if (IsHost && sidePlayer == Object.Side.Player)
+        {
+            GetComponent<NetworkObject>().ChangeOwnership(0);
+        }
+        else if(IsClient && sidePlayer == Object.Side.Enemy)
+        {
+            AskHostForOwnerServerRpc();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        ulong ownerId = OwnerClientId;
+        d = ownerId;
+        Debug.Log(gameObject.name + OwnerClientId);
         if(money < 0)
         {
             money = 0;
@@ -34,12 +44,16 @@ public class PlayerManager : NetworkBehaviour
             manager.VictoryMenu(nameOfFaction);
         }
     }
-    public void Defeat()
+    [ServerRpc] public void UpdateUnitOwnerServerRpc(NetworkObjectReference netObj)
     {
-        Debug.Log("Defeat");
+        if (netObj.TryGet(out NetworkObject ownerObj))
+        {
+            ownerObj.ChangeOwnership(OwnerClientId);
+        }
     }
-    public void Victory()
+    [ServerRpc(RequireOwnership = false)] void AskHostForOwnerServerRpc(ServerRpcParams rpcParams = default)
     {
-        Debug.Log("Victory");
+        ulong callingClientId = rpcParams.Receive.SenderClientId;
+        GetComponent<NetworkObject>().ChangeOwnership(callingClientId);
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using Unity.VisualScripting;
 using static UnityEngine.UI.CanvasScaler;
+using Unity.Netcode;
 
 public class Unit : Object
 {
@@ -33,6 +34,26 @@ public class Unit : Object
         yield return new WaitForSeconds(0.1f);
         unitState = UnitState.Rush;
     }
+    void ClickCommands()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse1) && unitState != UnitState.Attack)
+        {
+            unitState = UnitState.Move;
+            if (panel.objectUnit == this || SearchForUnitInGroup() == true)
+            {
+                clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+            if (hit == true && hit.transform.gameObject.TryGetComponent(out targetUnit))
+            {
+                unitState = UnitState.Hunt;
+            }
+        }
+    }
     void Update()
     {
         //if(unitState != UnitState.Hunt)
@@ -40,43 +61,14 @@ public class Unit : Object
             //rb.constraints &= ~RigidbodyConstraints2D.FreezePositionX;
         }
         collider.isTrigger = canGoThrough;
-        if (panel.objectUnit == this)
+        if (panel.objectUnit == this && playerManager.IsOwner)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse1) && unitState != UnitState.Attack)
-            {
-                unitState = UnitState.Move;
-                if (panel.objectUnit == this || SearchForUnitInGroup() == true)
-                {
-                    clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                }
-            }
-            if (Input.GetKeyDown(KeyCode.Mouse1))
-            {
-                Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
-                if (hit == true && hit.transform.gameObject.TryGetComponent(out targetUnit))
-                {
-                    unitState = UnitState.Hunt;
-                }
-            }
+            ClickCommands();
         }
         UpdateObject();
         if(targetUnit != null && targetUnit.side == side)
         {
             targetUnit = null;
-        }
-        if(playerManager.ai)
-        {
-            if (Mathf.Abs(playerManager.enemyManager.main.transform.position.x) > range)
-            {
-                unitState = UnitState.Rush;
-                clickPosition = playerManager.enemyManager.main.transform.position;
-            }
-            else if(Mathf.Abs(playerManager.enemyManager.main.transform.position.x) < range)
-            {
-                unitState = UnitState.Attack;
-                targetUnit = playerManager.enemyManager.main;
-            }
         }
         switch(unitState)
         {
@@ -111,7 +103,7 @@ public class Unit : Object
                             targetUnit = unit;
                         }
                     }
-                    Move();
+                    MoveResearch();
                 }
                 if (targetUnit != null && targetUnit.transform.position.x - transform.position.x > range)
                 {
@@ -158,7 +150,7 @@ public class Unit : Object
                         clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     }
                 }
-                Move();
+                MoveResearch();
                 break;
             case UnitState.Defend:
                 canGoThrough = false;
@@ -183,6 +175,7 @@ public class Unit : Object
                 break;
         }
     }
+    //private NetworkVariable<Vector2> serverTargetPosition = new NetworkVariable<Vector2>(new Vector2(-270, 270));
     public bool SearchForUnitInGroup()
     {
         if(panel.group != null)
@@ -197,8 +190,32 @@ public class Unit : Object
         }
         return false;
     }
+    public void MoveResearch()
+    {
+        if (playerManager.IsServer)
+        {
+            MoveServerRpc();
+        }
+        else if (playerManager.IsClient)
+        {
+            //transform.position = serverTargetPosition.Value;
+            MoveClientRpc();
+        }
+    }
+    [ServerRpc]
+    public void MoveServerRpc()
+    {
+        Move();
+        MoveClientRpc();
+    }
+    [ClientRpc]
+    public void MoveClientRpc()
+    {
+        Move();
+    }
     public void Move()
     {
+        //serverTargetPosition.Value = transform.position;
         if (transform.position.x != clickPosition.x && clickPosition != new Vector2(-270, 270))
         {
             if (Mathf.Abs(clickPosition.x - transform.position.x) < 0.1f)

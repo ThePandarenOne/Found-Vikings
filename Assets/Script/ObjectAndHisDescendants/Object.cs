@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Linq;
 using static UnityEngine.Rendering.DebugUI;
+using System;
+using Unity.Netcode;
 
 public class Object : MonoBehaviour
 {
@@ -43,8 +45,18 @@ public class Object : MonoBehaviour
     public Panel panel;
     public Object targetUnit;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [ServerRpc]void GiveOwnerServerRpc()
+    {
+        GetComponent<NetworkObject>().ChangeOwnership(playerManager.OwnerClientId);
+    }
     void Start()
     {
+        if (playerManager.IsServer == false)
+        {
+            Debug.Log("A");
+            playerManager.UpdateUnitOwnerServerRpc(GetComponent<NetworkObject>());
+            //GiveOwnerServerRpc();
+        }
         //rb = GetComponent<Rigidbody2D>();
         panel = FindAnyObjectByType<Panel>();
     }
@@ -79,6 +91,10 @@ public class Object : MonoBehaviour
     // Update is called once per frame
     public void UpdateObject()
     {
+        if (playerManager.IsServer == false)
+        {
+            playerManager.UpdateUnitOwnerServerRpc(GetComponent<NetworkObject>());
+        }
         if (gm == null)
         {
             if (panel.objectUnit == this || TryGetComponent(out Unit unit) && unit.SearchForUnitInGroup() == true)
