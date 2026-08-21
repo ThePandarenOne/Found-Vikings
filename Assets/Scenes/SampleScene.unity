@@ -5861,13 +5861,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 812a2ce6a024ed343abdc6ba073794ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
+  ShowTopMostFoldoutHeaderGroup: 1
+  d: 0
   nameOfFaction: Orange beard
   sidePlayer: 0
   enemyManager: {fileID: 934709385}
   money: 500
   main: {fileID: 1861463809}
-  panel: {fileID: 1842682052}
-  ai: 0
 --- !u!4 &582152350
 Transform:
   m_ObjectHideFlags: 0
@@ -6050,6 +6050,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbd626c63c3d49b4c90b36a35c95f123, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildPlace
+  ShowTopMostFoldoutHeaderGroup: 1
+  currentState:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+  unitState: 0
   playerManager: {fileID: 582152349}
   spriteIcon: {fileID: 0}
   side: 0
@@ -6057,6 +6064,11 @@ MonoBehaviour:
   readyAttack: 1
   hp: 5
   maxhp: 5
+  currentHp:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 558
   dmg: 0
   range: 0
   respawnSpeed: 0
@@ -8563,13 +8575,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 812a2ce6a024ed343abdc6ba073794ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
+  ShowTopMostFoldoutHeaderGroup: 1
+  d: 0
   nameOfFaction: Brown beard
   sidePlayer: 1
   enemyManager: {fileID: 582152349}
   money: 500
   main: {fileID: 1006975651}
-  panel: {fileID: 0}
-  ai: 0
 --- !u!4 &934709386
 Transform:
   m_ObjectHideFlags: 0
@@ -12608,6 +12620,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbd626c63c3d49b4c90b36a35c95f123, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildPlace
+  ShowTopMostFoldoutHeaderGroup: 1
+  currentState:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+  unitState: 0
   playerManager: {fileID: 0}
   spriteIcon: {fileID: 0}
   side: 1
@@ -12615,6 +12634,11 @@ MonoBehaviour:
   readyAttack: 1
   hp: 5
   maxhp: 5
+  currentHp:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 558
   dmg: 0
   range: 0
   respawnSpeed: 0

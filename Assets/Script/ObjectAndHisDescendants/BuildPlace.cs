@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using static UnityEngine.Rendering.DebugUI;
 using System.Linq;
+using Unity.Netcode;
 
 public class BuildPlace : Object
 {
@@ -58,6 +59,7 @@ public class BuildPlace : Object
     }
     public void SideChange(Side sidee)
     {
+        Debug.Log("SideChange");
         hp = maxhp;
         side = sidee;
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
@@ -73,15 +75,42 @@ public class BuildPlace : Object
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        StartObject();
     }
 
     // Update is called once per frame
     void Update()
     {
+        UpdateObject();
         if (playerManager == null)
         {
             playerManager = FindObjectsByType<PlayerManager>(FindObjectsSortMode.None).FirstOrDefault(pm => pm.sidePlayer == side);
         }
+    }
+    public void AskForSideChange(Side sidee)
+    {
+        Debug.Log("AskForSideChange");
+        if(IsHost)
+        {
+            Debug.Log("IsHost");
+            SideChangeClientRpc(sidee);
+        }
+        else
+        {
+            Debug.Log("IsClient");
+            SideChangeServerRpc(sidee);
+        }
+    }
+    [ServerRpc(RequireOwnership = false)]
+    void SideChangeServerRpc(Side sidee)
+    {
+        Debug.Log("SideChangeServerRpc");
+        SideChangeClientRpc(sidee);
+    }
+    [ClientRpc]
+    void SideChangeClientRpc(Side sidee)
+    {
+        Debug.Log("SideChangeClientRpc");
+        SideChange(sidee);
     }
 }

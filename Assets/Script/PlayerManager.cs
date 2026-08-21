@@ -9,7 +9,7 @@ public class PlayerManager : NetworkBehaviour
     public PlayerManager enemyManager;
     public int money;
     public Building main;
-
+    Panel panel;
     UIManager manager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -30,7 +30,7 @@ public class PlayerManager : NetworkBehaviour
     {
         ulong ownerId = OwnerClientId;
         d = ownerId;
-        Debug.Log(gameObject.name + OwnerClientId);
+        //Debug.Log(gameObject.name + OwnerClientId);
         if(money < 0)
         {
             money = 0;
@@ -44,7 +44,8 @@ public class PlayerManager : NetworkBehaviour
             manager.VictoryMenu(nameOfFaction);
         }
     }
-    [ServerRpc] public void UpdateUnitOwnerServerRpc(NetworkObjectReference netObj)
+    [ServerRpc(RequireOwnership = false)]
+    public void UpdateUnitOwnerServerRpc(NetworkObjectReference netObj)
     {
         if (netObj.TryGet(out NetworkObject ownerObj))
         {

@@ -25,11 +25,7 @@ public class Panel : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if(playerManager == null)
-        {
-            playerManager = FindObjectsByType<PlayerManager>(FindObjectsSortMode.None).FirstOrDefault(pm => pm.IsOwner);
-            Debug.Log(playerManager);
-        }
+
     }
     public void ChangePanel()
     {
@@ -40,7 +36,7 @@ public class Panel : MonoBehaviour
             buttons[i].gameObject.SetActive(false);
             //Debug.Log("1"+objectUnit.playerManager);
             //Debug.Log("1" + playerManager.IsOwner);
-            if (objectUnit != null && playerManager == objectUnit.playerManager)
+            if (objectUnit != null && objectUnit.playerManager == playerManager)
             {
                 if (objectUnit.TryGetComponent(out Unit unit) && group == null && unit.action[i] != null)
                 {
@@ -134,6 +130,14 @@ public class Panel : MonoBehaviour
         {
             buttons[i].acsessButton.onClick.AddListener(unit.JumpDown);
         }
+        if (buttons[i].action.namE == "Heal")
+        {
+            buttons[i].acsessButton.onClick.AddListener(unit.Attack);
+        }
+        if (buttons[i].action.namE == "HealPosition")
+        {
+            buttons[i].acsessButton.onClick.AddListener(unit.AttackPosition);
+        }
     }
     public void GiveActionUnitsInGroup(byte i)
     {
@@ -162,6 +166,16 @@ public class Panel : MonoBehaviour
                 {
                     buttons[i].acsessButton.onClick.AddListener(unit.JumpDown);
                 }
+                /*        
+                if (buttons[i].action.namE == "Heal")
+                {
+                    buttons[i].acsessButton.onClick.AddListener(unit.Attack);
+                }
+                if (buttons[i].action.namE == "HealPosition")
+                {
+                buttons[i].acsessButton.onClick.AddListener(unit.AttackPosition);
+                }
+                 */
             }
         }
     }
@@ -293,11 +307,18 @@ public class Panel : MonoBehaviour
     }
     void Update()
     {
-        if(Input.GetMouseButton(0) && sl == null)//Создаёт квадрат выделения
+        if (playerManager == null || playerManager != null&&playerManager.IsOwner == false)
+        {
+            playerManager = FindObjectsByType<PlayerManager>(FindObjectsSortMode.None).FirstOrDefault(pm => pm.IsOwner);
+        }
+        if (Input.GetMouseButton(0) && sl == null)//Создаёт квадрат выделения
         {
             StartCoroutine(WaitForSquare());
         }
-        moneyCounter.text = "Money:"+playerManager.money;
+        if(playerManager != null && moneyCounter != null)
+        {
+            moneyCounter.text = "Money:" + playerManager.money;
+        }
         if (group != null && group.units.Count > 0)//Обновляет иконки юнитов в группе
         {
             UpdateUnitsIconsInGroup();

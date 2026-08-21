@@ -22,7 +22,7 @@ public class Group : MonoBehaviour
             {
                 if (unit.unitState != UnitState.Attack)
                 {
-                    unit.unitState = UnitState.Move;
+                    unit.AskForChangeUnitState(UnitState.Move);
                     unit.clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 }
             }
@@ -32,7 +32,7 @@ public class Group : MonoBehaviour
                 RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
                 if (hit == true && hit.transform.gameObject.TryGetComponent(out unit.targetUnit))
                 {
-                    unit.unitState = UnitState.Hunt;
+                    unit.AskForChangeUnitState(UnitState.Hunt);
                 }
             }
         }

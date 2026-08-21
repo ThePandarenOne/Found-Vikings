@@ -55,7 +55,7 @@ public class SelectionSquare : MonoBehaviour
                 panel.SpawnGroup();
                 hasSpawned = true;
             }
-            if (panel.group.units.Count < 12 && AskForUnitInGroup(collision) == false)
+            if (panel.group.units.Count < 12 && AskForUnitInGroup(collision) == false && unit.side == panel.playerManager.sidePlayer)
             {
                 panel.group.units.Add(unit);
                 panel.group.SearchForUnit(true);

@@ -21,6 +21,7 @@ public class LineObjective : Object
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        StartObject();
         sr = GetComponent<SpriteRenderer>();
         if(typeOfObjective == TypeOfObjective.DragonAltar)
         {
@@ -31,6 +32,7 @@ public class LineObjective : Object
     // Update is called once per frame
     void Update()
     {
+        UpdateObject();
         switch (typeOfObjective)
         {
             case TypeOfObjective.DragonAltar:

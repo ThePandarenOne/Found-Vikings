@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6914d5faec57748befc2e8185503d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Unit
+  ShowTopMostFoldoutHeaderGroup: 1
   playerManager: {fileID: 0}
   spriteIcon: {fileID: -8582637112200185598, guid: 7119eefa8ba4ea3408da9b41031cd4f4, type: 3}
   side: 1
@@ -114,6 +115,11 @@ MonoBehaviour:
   readyAttack: 1
   hp: 10
   maxhp: 10
+  currentHp:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
   dmg: 3
   range: 4
   respawnSpeed: 2
@@ -129,7 +135,7 @@ MonoBehaviour:
   hpBar: {fileID: 420183140209038949}
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
-  typeOfUnit: 0
+  typeOfUnit: 1
   unitState: 0
   clickPosition: {x: -270, y: 270}
 --- !u!61 &5847711823852985430

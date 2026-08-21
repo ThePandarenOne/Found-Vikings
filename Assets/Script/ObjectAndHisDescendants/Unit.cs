@@ -17,13 +17,12 @@ public class Unit : Object
         Dragon
     }
     public TypeOfUnit typeOfUnit;
-    public UnitState unitState = UnitState.Idle;
     SpriteRenderer spriteRenderer;
     bool canGoThrough = false;
-    Collider2D collider;
+    Collider2D collider_;
     void Start()
     {
-        collider = GetComponent<Collider2D>();
+        collider_ = GetComponent<Collider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         StartObject();
         panel = FindAnyObjectByType<Panel>();
@@ -32,13 +31,13 @@ public class Unit : Object
     IEnumerator WaitForRush()
     {
         yield return new WaitForSeconds(0.1f);
-        unitState = UnitState.Rush;
+        AskForChangeUnitState(UnitState.Rush);
     }
     void ClickCommands()
     {
         if (Input.GetKeyDown(KeyCode.Mouse1) && unitState != UnitState.Attack)
         {
-            unitState = UnitState.Move;
+            AskForChangeUnitState(UnitState.Move);
             if (panel.objectUnit == this || SearchForUnitInGroup() == true)
             {
                 clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -50,7 +49,7 @@ public class Unit : Object
             RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
             if (hit == true && hit.transform.gameObject.TryGetComponent(out targetUnit))
             {
-                unitState = UnitState.Hunt;
+                AskForChangeUnitState(UnitState.Hunt);
             }
         }
     }
@@ -60,7 +59,7 @@ public class Unit : Object
         {
             //rb.constraints &= ~RigidbodyConstraints2D.FreezePositionX;
         }
-        collider.isTrigger = canGoThrough;
+        collider_.isTrigger = canGoThrough;
         if (panel.objectUnit == this && playerManager.IsOwner)
         {
             ClickCommands();
@@ -68,9 +67,10 @@ public class Unit : Object
         UpdateObject();
         if(targetUnit != null && targetUnit.side == side)
         {
+            Debug.Log("TargetUnit = null 2");
             targetUnit = null;
         }
-        switch(unitState)
+        switch(currentState.Value)
         {
             case UnitState.Attack:
                 if (Input.GetKeyDown(KeyCode.Mouse1))
@@ -82,7 +82,7 @@ public class Unit : Object
                         if(hit.transform.gameObject.TryGetComponent(out Object obj) && obj.side != side)
                         {
                             targetUnit = obj;
-                            unitState = UnitState.Hunt;
+                            AskForChangeUnitState(UnitState.Hunt);
                         }
                     }
                     else
@@ -107,12 +107,16 @@ public class Unit : Object
                 }
                 if (targetUnit != null && targetUnit.transform.position.x - transform.position.x > range)
                 {
+                    Debug.Log("TargetUnit = null 3");
                     targetUnit = null;
                 }
-                if (targetUnit != null && Mathf.Abs(targetUnit.transform.position.x - transform.position.x) <= range && readyAttack)
+                if (targetUnit != null && Mathf.Abs(targetUnit.transform.position.x - transform.position.x) <= range)
                 {
                     canGoThrough = false;
-                    AttackTarget();
+                    if (readyAttack)
+                    {
+                        AskForAttack();
+                    }
                 }
                 break;
             case UnitState.Hunt:
@@ -134,11 +138,12 @@ public class Unit : Object
                 if (targetUnit != null && Mathf.Abs(targetUnit.transform.position.x - transform.position.x) < range && readyAttack)
                 {
                     canGoThrough = false;
-                    AttackTarget();
+                    AskForAttack();
                 }
-                if(targetUnit == null)
+                if(targetUnit.hp <= 0)
                 {
-                    unitState = UnitState.Idle;
+                    Debug.Log("No target (");
+                    AskForChangeUnitState(UnitState.Idle);
                 }
                 break;
             case UnitState.Move:
@@ -165,9 +170,12 @@ public class Unit : Object
                         }
                     }
                 }
-                if (targetUnit != null && Mathf.Abs(targetUnit.transform.position.x - transform.position.x) < range && readyAttack)
+                if (targetUnit != null && Mathf.Abs(targetUnit.transform.position.x - transform.position.x) < range)
                 {
-                    AttackTarget();
+                    if(readyAttack)
+                    {
+                        AskForAttack();
+                    }
                 }
                 break;
             case UnitState.Idle:
@@ -192,36 +200,44 @@ public class Unit : Object
     }
     public void MoveResearch()
     {
-        if (playerManager.IsServer)
+        if(IsOwner)
         {
-            MoveServerRpc();
+            //Debug.Log(gameObject.name + ": MoveResearch");
+            if (playerManager.IsHost)
+            {
+                MoveClientRpc();
+            }
+            else
+            {
+                MoveServerRpc();
+            }
         }
-        else if (playerManager.IsClient)
+        else
         {
-            //transform.position = serverTargetPosition.Value;
-            MoveClientRpc();
+            //Debug.Log(gameObject.name +": "+ IsOwner);
         }
     }
     [ServerRpc]
     public void MoveServerRpc()
     {
-        Move();
+        //Debug.Log(gameObject.name + ": MoveServerRpc");
         MoveClientRpc();
     }
     [ClientRpc]
     public void MoveClientRpc()
     {
+        //Debug.Log(gameObject.name + ": MoveClientRpc");
         Move();
     }
     public void Move()
     {
-        //serverTargetPosition.Value = transform.position;
         if (transform.position.x != clickPosition.x && clickPosition != new Vector2(-270, 270))
         {
+            //Debug.Log(gameObject.name + ": Move");
             if (Mathf.Abs(clickPosition.x - transform.position.x) < 0.1f)
             {
                 transform.position = new Vector3(clickPosition.x, transform.position.y);
-                unitState = UnitState.Idle;
+                AskForChangeUnitState(UnitState.Idle);
             }
             if (clickPosition.x > transform.position.x)
             {
@@ -289,15 +305,15 @@ public class Unit : Object
     }
     public void Attack()
     {
-        unitState = UnitState.Attack;
+        AskForChangeUnitState(UnitState.Attack);
     }
     public void AttackPosition()
     {
-        unitState = UnitState.Defend;
+        AskForChangeUnitState(UnitState.Defend);
     }
     public void ClickMovement()
     {
         clickPosition = new Vector2(-270, 270);
-        unitState = UnitState.Move;
+        AskForChangeUnitState(UnitState.Move);
     }
 }

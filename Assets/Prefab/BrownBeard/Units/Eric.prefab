@@ -320,13 +320,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6914d5faec57748befc2e8185503d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Unit
+  ShowTopMostFoldoutHeaderGroup: 1
+  currentState:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+  unitState: 0
   playerManager: {fileID: 0}
   spriteIcon: {fileID: 939115, guid: 7119eefa8ba4ea3408da9b41031cd4f4, type: 3}
   side: 1
-  objectName: Baleog
+  objectName: Eric
   readyAttack: 1
   hp: 5
   maxhp: 5
+  currentHp:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
   dmg: 1
   range: 6
   respawnSpeed: 2
@@ -336,14 +348,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a1215525ec0b7b24bb99b3e991ce82d1, type: 2}
   - {fileID: 11400000, guid: a984f422fe06f604f9878e404675951d, type: 2}
   - {fileID: 11400000, guid: 3d7dab7dbcf5c604b8751343f3ff90fc, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 046de8e3d0f5b584c9f4536a28a19fb7, type: 2}
+  - {fileID: 11400000, guid: b7f7cd3b4f43fce4ea68f7f131de1571, type: 2}
   selectArrow: {fileID: 1424023923020399744, guid: db0af58aa70b75a48baa6db02db6e788, type: 3}
   hpBar: {fileID: 284233929488349005}
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
-  typeOfUnit: 0
-  unitState: 0
+  typeOfUnit: 2
   clickPosition: {x: -270, y: 270}
 --- !u!61 &5831257311675976594
 BoxCollider2D:

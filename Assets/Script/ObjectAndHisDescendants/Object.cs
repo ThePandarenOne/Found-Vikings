@@ -6,7 +6,7 @@ using static UnityEngine.Rendering.DebugUI;
 using System;
 using Unity.Netcode;
 
-public class Object : MonoBehaviour
+public class Object : NetworkBehaviour
 {
     public enum UnitState
     {
@@ -17,6 +17,12 @@ public class Object : MonoBehaviour
         Hunt,
         Rush
     }
+    public NetworkVariable<UnitState> currentState = new NetworkVariable<UnitState>(
+    UnitState.Idle,
+    NetworkVariableReadPermission.Everyone,
+    NetworkVariableWritePermission.Server
+);
+    public UnitState unitState = UnitState.Idle;
     public enum Side
     {
         Player,
@@ -31,6 +37,11 @@ public class Object : MonoBehaviour
 
     public int hp;
     public int maxhp;
+    public NetworkVariable<int> currentHp = new NetworkVariable<int>(
+    558,
+    NetworkVariableReadPermission.Everyone,
+    NetworkVariableWritePermission.Owner
+);
     public int dmg;
     public byte range;
     public byte respawnSpeed;
@@ -45,23 +56,21 @@ public class Object : MonoBehaviour
     public Panel panel;
     public Object targetUnit;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    [ServerRpc]void GiveOwnerServerRpc()
-    {
-        GetComponent<NetworkObject>().ChangeOwnership(playerManager.OwnerClientId);
-    }
     void Start()
     {
+        currentHp.Value = hp;
         if (playerManager.IsServer == false)
         {
-            Debug.Log("A");
-            playerManager.UpdateUnitOwnerServerRpc(GetComponent<NetworkObject>());
-            //GiveOwnerServerRpc();
+            StartObject();
         }
-        //rb = GetComponent<Rigidbody2D>();
         panel = FindAnyObjectByType<Panel>();
     }
     public void StartObject()
     {
+        if (playerManager != null && playerManager.IsServer == false)
+        {
+            //playerManager.UpdateUnitOwnerServerRpc(GetComponent<NetworkObject>());
+        }
         gameObject.name = objectName;
     }
     public void OnMouseDown()
@@ -89,13 +98,43 @@ public class Object : MonoBehaviour
 
     GameObject gm;
     // Update is called once per frame
+    [ServerRpc(RequireOwnership = false)]
+    void UpdateHPServerRpc()
+    {
+        UpdateHPClientRpc();
+    }
+    [ClientRpc]
+    void UpdateHPClientRpc()
+    {
+        currentHp.Value = hp;
+    }
     public void UpdateObject()
     {
+        if(IsSpawned == false)
+        {
+            return;
+        }
+        if(IsOwner&&currentHp.Value != hp)
+        {
+            UpdateHPServerRpc();
+        }
+        if(currentState.Value != unitState)
+        {
+            currentState.Value = unitState;
+        }
+        if (playerManager.sidePlayer == side)
+        {
+            playerManager.UpdateUnitOwnerServerRpc(GetComponent<NetworkObject>());
+        }
+        if(panel == null)
+        {
+            panel = FindFirstObjectByType<Panel>();
+        }
         if (playerManager.IsServer == false)
         {
             playerManager.UpdateUnitOwnerServerRpc(GetComponent<NetworkObject>());
         }
-        if (gm == null)
+        if (gm == null && selectArrow != null)
         {
             if (panel.objectUnit == this || TryGetComponent(out Unit unit) && unit.SearchForUnitInGroup() == true)
             {
@@ -116,28 +155,63 @@ public class Object : MonoBehaviour
         }
         if (hpBar != null)
         {
-            hpBar.value = hp;
+            hpBar.value = currentHp.Value;
             hpBar.maxValue = maxhp;
         }
         if (hp <= 0 && GetComponent<Unit>())
         {
-            Destroy(gameObject);
+            GetComponent<NetworkObject>().Despawn();
+            if(IsHost)
+            {
+                DestroyClientRpc();
+            }
+            else
+            {
+                DestroyServerRpc();
+            }
         }
     }
-    public void GetDamage(int damage)
+    public void AskForAttack()
     {
-        hp -= damage;
-    }
-    public void AttackTarget()
-    {
-        //rb.constraints = RigidbodyConstraints2D.FreezePosition;
-        if (targetUnit.side == side)
+        if(readyAttack)
         {
+            Debug.Log("ReadyAttack " + readyAttack);
+            readyAttack = false;
+            Debug.Log("AskforAttack");
+            AttackServerRpc();
+        }
+    }
+    [ServerRpc(RequireOwnership = false)] void AttackServerRpc()
+    {
+        readyAttack = false;
+        //Debug.Log("AttackServerRpc");
+        AttackClientRpc();
+    }
+    [ClientRpc] void AttackClientRpc()
+    {
+        readyAttack = false;
+        //Debug.Log("AttackClientRpc");
+        AttackTarget();
+    }
+    void AttackTarget()
+    {
+        readyAttack = false;
+        //Debug.Log("AttackTarget");
+        StartCoroutine(WaitForAttack());
+        //Debug.Log(1);
+        //rb.constraints = RigidbodyConstraints2D.FreezePosition;
+        if (targetUnit.side == side && targetUnit.IsOwner != IsOwner)
+        {
+            Debug.Log("TargetUnit = null 1");
             targetUnit = null;
         }
         if (targetUnit != null && transform.position.y - targetUnit.transform.position.y < range)
         {
-            targetUnit.GetDamage(dmg);
+            //Debug.Log(2);
+            if(IsHost)
+            {
+                targetUnit.GetDamageServerRpc(dmg);
+            }
             readyAttack = false;
             if(GetComponent<Unit>().typeOfUnit == Unit.TypeOfUnit.Olaf)
             {
@@ -148,12 +222,14 @@ public class Object : MonoBehaviour
                 if (targetUnit.TryGetComponent(out BuildPlace buildPlace))
                 {
                     buildPlace.playerManager = playerManager;
-                    buildPlace.SideChange(side);
+                    Debug.Log("1 Check");
+                    buildPlace.AskForSideChange(side);
                 }
                 else if (targetUnit.TryGetComponent(out Building building))
                 {
                     building.buildPlace.playerManager = playerManager;
-                    building.buildPlace.SideChange(side);
+                    Debug.Log("2 Check");
+                    building.buildPlace.AskForSideChange(side);
                 }
                 else if(targetUnit.TryGetComponent(out LineObjective lineObjective))
                 {
@@ -163,11 +239,57 @@ public class Object : MonoBehaviour
                 //panel.ChangePanel();
             }
         }
-        StartCoroutine(WaitForAttack());
     }
     IEnumerator WaitForAttack()
     {
         yield return new WaitForSeconds(attackTime);
         readyAttack = true;
+    }
+    public void GetDamage(int damage)
+    {
+        //Debug.Log(5);
+        hp -= damage;
+        //currentHp.Value -= damage;
+    }
+    [ServerRpc(RequireOwnership = false)]
+    void GetDamageServerRpc(int dmg)
+    {
+        //Debug.Log(3);
+        GetDamageClientRpc(dmg);
+    }
+    [ClientRpc]
+    void GetDamageClientRpc(int dmg)
+    {
+        //Debug.Log(4);
+        GetDamage(dmg);
+    }
+    [ClientRpc]
+    protected void DestroyClientRpc()
+    {
+        Destroy(gameObject);
+    }
+    [ServerRpc(RequireOwnership = false)]
+    protected void DestroyServerRpc()
+    {
+        DestroyClientRpc();
+    }
+
+    public void AskForChangeUnitState(UnitState unitStatee)
+    {
+        Debug.Log(unitStatee);
+        ChangeUnitStateServerRpc(unitStatee);
+    }
+    [ServerRpc(RequireOwnership = false)] void ChangeUnitStateServerRpc(UnitState unitStatee)
+    {
+        ChangeUnitStateClientRpc(unitStatee);
+    }
+    [ClientRpc]
+    void ChangeUnitStateClientRpc(UnitState unitStatee)
+    {
+        ChangeUnitState(unitStatee);
+    }
+    void ChangeUnitState(UnitState unitStatee)
+    {
+        unitState = unitStatee;
     }
 }

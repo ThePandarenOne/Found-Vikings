@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using static UnityEngine.Rendering.DebugUI;
 using UnityEngine.UIElements;
+using Unity.Netcode;
 
 public class Building : Object
 {
@@ -14,7 +15,7 @@ public class Building : Object
         MainBuilding
     }
     public BuildPlace buildPlace;
-    public UnitState unitState = UnitState.Idle;
+    //public UnitState unitState = UnitState.Idle;
     public TypeOfBuilding typeOfBuilding;
     public List<byte> unitQueue = new List<byte>();
     public bool passiveSpawn;
@@ -34,7 +35,7 @@ public class Building : Object
     {
         if(hp <= 0 && typeOfBuilding != TypeOfBuilding.MainBuilding)
         {
-            buildPlace.gameObject.SetActive(true);
+            AskForBuildingDestroy();
         }
         UpdateObject();
         switch (typeOfBuilding)
@@ -51,14 +52,9 @@ public class Building : Object
             case TypeOfBuilding.Tower:
                 break;
             case TypeOfBuilding.MainBuilding:
-                if (readyAttack)
-                {
-                    StartCoroutine(GiveMoney(1));
-                    readyAttack = false;
-                }
                 break;
         }
-        switch(unitState)
+        switch(currentState.Value)
         {
             case UnitState.Idle:
                 break;
@@ -76,7 +72,7 @@ public class Building : Object
                 }
                 if (targetUnit != null && Mathf.Abs(targetUnit.transform.position.x - transform.position.x) < range && readyAttack)
                 {
-                    AttackTarget();
+                    AskForAttack();
                 }
                 break;
             case UnitState.Attack:
@@ -91,7 +87,7 @@ public class Building : Object
                 }
                 if (targetUnit != null && Mathf.Abs(targetUnit.transform.position.x - transform.position.x) < range && readyAttack)
                 {
-                    AttackTarget();
+                    AskForAttack();
                 }
                 break;
         }
@@ -104,11 +100,11 @@ public class Building : Object
     }
     public void Attack()
     {
-        unitState = UnitState.Attack;
+        AskForChangeUnitState(UnitState.Attack);
     }
     public void AttackPosition()
     {
-        unitState = UnitState.Defend;
+        AskForChangeUnitState(UnitState.Defend);
     }
     public void SelfDestroy()
     {
@@ -146,6 +142,34 @@ public class Building : Object
         }
     }
     public int timer;
+    public void AskForBuildingDestroy()
+    {
+        if(IsHost)
+        {
+            BuildingDestroyClientRpc();
+        }
+        else
+        {
+            BuildingDestroyServerRpc();
+        }
+    }
+    [ServerRpc]
+    void BuildingDestroyServerRpc()
+    {
+        BuildingDestroyClientRpc();
+    }
+    [ClientRpc]
+    void BuildingDestroyClientRpc()
+    {
+        BuildingDestroy();
+    }
+    void BuildingDestroy()
+    {
+        Destroy(gameObject);
+        playerManager.UpdateUnitOwnerServerRpc(buildPlace.GetComponent<NetworkObject>());
+        buildPlace.gameObject.SetActive(true);
+    }
+
     IEnumerator WaitForSpawn(Unit unit)
     {
         for (int i = unit.respawnSpeed; i >= 0; i--)
