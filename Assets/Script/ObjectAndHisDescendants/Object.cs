@@ -17,10 +17,13 @@ public class Object : NetworkBehaviour
         Hunt,
         Rush
     }
+
+    [Header("OBJECT")]
+
     public NetworkVariable<UnitState> currentState = new NetworkVariable<UnitState>(
     UnitState.Idle,
     NetworkVariableReadPermission.Everyone,
-    NetworkVariableWritePermission.Server
+    NetworkVariableWritePermission.Owner
 );
     public UnitState unitState = UnitState.Idle;
     public enum Side
@@ -58,7 +61,10 @@ public class Object : NetworkBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        currentHp.Value = hp;
+        if(IsOwner)
+        {
+            currentHp.Value = hp;
+        }
         if (playerManager.IsServer == false)
         {
             StartObject();
@@ -80,6 +86,9 @@ public class Object : NetworkBehaviour
 
     public void ChooseUnit(bool d)
     {
+        //Debug.Log("IsOwner"+IsOwner);
+        //Debug.Log("OwnerId"+OwnerClientId);
+        //Debug.Log("ChooseUnit");
         panel = FindAnyObjectByType<Panel>();
         if (panel.group != null && !Input.GetKey(KeyCode.LeftControl) || d == true)
         {
@@ -106,7 +115,10 @@ public class Object : NetworkBehaviour
     [ClientRpc]
     void UpdateHPClientRpc()
     {
-        currentHp.Value = hp;
+        if(IsOwner)
+        {
+            currentHp.Value = hp;
+        }
     }
     public void UpdateObject()
     {
@@ -118,7 +130,7 @@ public class Object : NetworkBehaviour
         {
             UpdateHPServerRpc();
         }
-        if(currentState.Value != unitState)
+        if(currentState.Value != unitState && IsOwner)
         {
             currentState.Value = unitState;
         }
@@ -175,9 +187,9 @@ public class Object : NetworkBehaviour
     {
         if(readyAttack)
         {
-            Debug.Log("ReadyAttack " + readyAttack);
+            //Debug.Log("ReadyAttack " + readyAttack);
             readyAttack = false;
-            Debug.Log("AskforAttack");
+            //Debug.Log("AskforAttack");
             AttackServerRpc();
         }
     }
@@ -202,7 +214,7 @@ public class Object : NetworkBehaviour
         //rb.constraints = RigidbodyConstraints2D.FreezePosition;
         if (targetUnit.side == side && targetUnit.IsOwner != IsOwner)
         {
-            Debug.Log("TargetUnit = null 1");
+            //Debug.Log("TargetUnit = null 1");
             targetUnit = null;
         }
         if (targetUnit != null && transform.position.y - targetUnit.transform.position.y < range)
@@ -213,25 +225,26 @@ public class Object : NetworkBehaviour
                 targetUnit.GetDamageServerRpc(dmg);
             }
             readyAttack = false;
-            if(GetComponent<Unit>().typeOfUnit == Unit.TypeOfUnit.Olaf)
+            if(GetComponent<Unit>() && GetComponent<Unit>().typeOfUnit == Unit.TypeOfUnit.Olaf)
             {
                 targetUnit.targetUnit = this;
             }
             if (targetUnit.hp <= 0)
             {
-                if (targetUnit.TryGetComponent(out BuildPlace buildPlace))
+                //if (targetUnit.TryGetComponent(out BuildPlace buildPlace))
                 {
-                    buildPlace.playerManager = playerManager;
-                    Debug.Log("1 Check");
-                    buildPlace.AskForSideChange(side);
+                    //buildPlace.playerManager = playerManager;
+                    //Debug.Log("1 Check");
+                    //buildPlace.AskForSideChange(side);
                 }
-                else if (targetUnit.TryGetComponent(out Building building))
+                //else if (targetUnit.TryGetComponent(out Building building))
                 {
-                    building.buildPlace.playerManager = playerManager;
-                    Debug.Log("2 Check");
-                    building.buildPlace.AskForSideChange(side);
+                    //building.SpawnBuildingPlacementServerRpc(side);
+                    //building.buildPlace.playerManager = playerManager;
+                    //Debug.Log("2 Check");
+                    //building.buildPlace.AskForSideChange(side);
                 }
-                else if(targetUnit.TryGetComponent(out LineObjective lineObjective))
+                if(targetUnit.TryGetComponent(out LineObjective lineObjective))
                 {
                     lineObjective.playerManager = playerManager;
                     lineObjective.SideChange(side);
@@ -263,6 +276,9 @@ public class Object : NetworkBehaviour
         //Debug.Log(4);
         GetDamage(dmg);
     }
+
+    //Destroy
+
     [ClientRpc]
     protected void DestroyClientRpc()
     {
@@ -274,9 +290,11 @@ public class Object : NetworkBehaviour
         DestroyClientRpc();
     }
 
+    //Unit state
+
     public void AskForChangeUnitState(UnitState unitStatee)
     {
-        Debug.Log(unitStatee);
+        //Debug.Log(unitStatee);
         ChangeUnitStateServerRpc(unitStatee);
     }
     [ServerRpc(RequireOwnership = false)] void ChangeUnitStateServerRpc(UnitState unitStatee)

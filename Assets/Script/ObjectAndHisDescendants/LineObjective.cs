@@ -9,6 +9,9 @@ public class LineObjective : Object
         Mine,
         Grill
     }
+
+    [Header("LINEOBJECTIVE")]
+
     public Sprite spriteBrown;
     public Sprite spriteOrange;
     public TypeOfObjective typeOfObjective;

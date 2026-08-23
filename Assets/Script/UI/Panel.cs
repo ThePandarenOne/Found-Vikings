@@ -29,6 +29,7 @@ public class Panel : MonoBehaviour
     }
     public void ChangePanel()
     {
+        Debug.Log("ChangPanel method");
         for (byte i = 0; i < buttons.Length; i++)
         {
             buttons[i].action = null;
@@ -36,7 +37,7 @@ public class Panel : MonoBehaviour
             buttons[i].gameObject.SetActive(false);
             //Debug.Log("1"+objectUnit.playerManager);
             //Debug.Log("1" + playerManager.IsOwner);
-            if (objectUnit != null && objectUnit.playerManager == playerManager)
+            if (objectUnit != null && objectUnit.side == playerManager.sidePlayer)
             {
                 if (objectUnit.TryGetComponent(out Unit unit) && group == null && unit.action[i] != null)
                 {
@@ -184,15 +185,15 @@ public class Panel : MonoBehaviour
         Building building = objectUnit.GetComponent<Building>();
         if (buttons[i].action.namE == "Spawn Baleog")
         {
-            buttons[i].acsessButton.onClick.AddListener(() => building.AddUnitToQueue(1));
+            buttons[i].acsessButton.onClick.AddListener(() => building.AskForAddUnitToQueue(1));
         }
         if (buttons[i].action.namE == "Spawn Olaf")
         {
-            buttons[i].acsessButton.onClick.AddListener(() => building.AddUnitToQueue(2));
+            buttons[i].acsessButton.onClick.AddListener(() => building.AskForAddUnitToQueue(2));
         }
         if (buttons[i].action.namE == "Spawn Erik")
         {
-            buttons[i].acsessButton.onClick.AddListener(() => building.AddUnitToQueue(3));
+            buttons[i].acsessButton.onClick.AddListener(() => building.AskForAddUnitToQueue(3));
         }
         if (buttons[i].action.namE == "Attack")
         {

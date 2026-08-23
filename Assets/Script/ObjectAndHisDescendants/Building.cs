@@ -14,7 +14,11 @@ public class Building : Object
         Tower,
         MainBuilding
     }
-    public BuildPlace buildPlace;
+
+    [Header("BUILDING")]
+
+    public BuildPlace buildPlaceBrown;
+    public BuildPlace buildPlaceOrange;
     //public UnitState unitState = UnitState.Idle;
     public TypeOfBuilding typeOfBuilding;
     public List<byte> unitQueue = new List<byte>();
@@ -35,7 +39,14 @@ public class Building : Object
     {
         if(hp <= 0 && typeOfBuilding != TypeOfBuilding.MainBuilding)
         {
-            AskForBuildingDestroy();
+            if(side == Side.Player)
+            {
+                AskForBuildingDestroy(Side.Enemy);
+            }
+            else if(side == Side.Enemy)
+            {
+                AskForBuildingDestroy(Side.Player);
+            }
         }
         UpdateObject();
         switch (typeOfBuilding)
@@ -98,6 +109,9 @@ public class Building : Object
         panel.playerManager.money += count;
         readyAttack = true;
     }
+
+    // ACTIONS
+
     public void Attack()
     {
         AskForChangeUnitState(UnitState.Attack);
@@ -113,8 +127,31 @@ public class Building : Object
     IEnumerator WaitForDestroy()
     {
         yield return new WaitForSeconds(2f);
-        hp = 0;
+        AskForBuildingDestroy(side);
     }
+
+    // QUEUE
+    public void AskForAddUnitToQueue(byte NameOfUnit)
+    {
+        if(IsHost)
+        {
+            AddUnitToQueueClientRpc(NameOfUnit);
+        }
+        else
+        {
+            AddUnitToQueueServerRpc(NameOfUnit);
+        }
+    }
+    [ServerRpc]void AddUnitToQueueServerRpc(byte NameOfUnit)
+    {
+        AddUnitToQueueClientRpc(NameOfUnit);
+    }
+
+    [ClientRpc]void AddUnitToQueueClientRpc(byte NameOfUnit)
+    {
+        AddUnitToQueue(NameOfUnit);
+    }
+
     public void AddUnitToQueue(byte NameOfUnit)//Добавляет юнита в очередь
     {
         //Debug.Log("AddUnitToQueue");
@@ -142,33 +179,6 @@ public class Building : Object
         }
     }
     public int timer;
-    public void AskForBuildingDestroy()
-    {
-        if(IsHost)
-        {
-            BuildingDestroyClientRpc();
-        }
-        else
-        {
-            BuildingDestroyServerRpc();
-        }
-    }
-    [ServerRpc]
-    void BuildingDestroyServerRpc()
-    {
-        BuildingDestroyClientRpc();
-    }
-    [ClientRpc]
-    void BuildingDestroyClientRpc()
-    {
-        BuildingDestroy();
-    }
-    void BuildingDestroy()
-    {
-        Destroy(gameObject);
-        playerManager.UpdateUnitOwnerServerRpc(buildPlace.GetComponent<NetworkObject>());
-        buildPlace.gameObject.SetActive(true);
-    }
 
     IEnumerator WaitForSpawn(Unit unit)
     {
@@ -183,6 +193,79 @@ public class Building : Object
                 canSpawn = true;
                 QueueUpdate();
             }
+        }
+    }
+
+    // BUILDING DESTROY
+
+    public void AskForBuildingDestroy(Side side)
+    {
+        if(IsHost)
+        {
+            BuildingDestroyClientRpc(side);
+        }
+        else
+        {
+            BuildingDestroyServerRpc(side);
+        }
+    }
+    [ServerRpc]
+    void BuildingDestroyServerRpc(Side side)
+    {
+        BuildingDestroyClientRpc(side);
+    }
+    [ClientRpc]
+    void BuildingDestroyClientRpc(Side side)
+    {
+        BuildingDestroy(side);
+    }
+    void BuildingDestroy(Side side)
+    {
+        SpawnBuildingPlacementServerRpc(side);
+        Destroy(gameObject);
+        //playerManager.UpdateUnitOwnerServerRpc(buildPlace.GetComponent<NetworkObject>());
+        //buildPlace.gameObject.SetActive(true);
+    }
+    [ServerRpc(RequireOwnership = false)]
+    public void SpawnBuildingPlacementServerRpc(Side side)
+    {
+        SpawnBuildingPlacement(side);
+    }
+    void SpawnBuildingPlacement(Side side)
+    {
+        {
+            BuildPlace spawnedBuilding = null;
+
+            if (side == Side.Player)
+            {
+                spawnedBuilding = Instantiate(buildPlaceOrange, transform.position, Quaternion.identity);
+                spawnedBuilding.GetComponent<NetworkObject>().SpawnWithOwnership(0);//Призывает BuildPlace
+            }
+            else if (side == Side.Enemy)
+            {
+                spawnedBuilding = Instantiate(buildPlaceBrown, transform.position, Quaternion.identity);
+                spawnedBuilding.GetComponent<NetworkObject>().SpawnWithOwnership(1);//Призывает BuildPlace
+            }
+            if(side == Side.Enemy)
+            {
+
+            }
+            else if(side == Side.Player)
+            {
+
+            }
+            panel.objectUnit = spawnedBuilding;
+            SpawnBuildingPlacementClientRpc(spawnedBuilding.GetComponent<NetworkObject>());
+        }
+    }
+    [ClientRpc(RequireOwnership = false)]
+    void SpawnBuildingPlacementClientRpc(NetworkObjectReference buildingReference)
+    {
+        if (buildingReference.TryGet(out NetworkObject networkObject))
+        {
+            BuildPlace buildingSpawned = networkObject.GetComponent<BuildPlace>();
+            buildingSpawned.playerManager = playerManager;
+            panel.ChangePanel();
         }
     }
 }

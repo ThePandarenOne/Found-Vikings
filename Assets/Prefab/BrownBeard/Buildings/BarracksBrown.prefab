@@ -407,11 +407,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1137564643263923014}
   - component: {fileID: 9050024710976441635}
+  - component: {fileID: 1918517298110478565}
   - component: {fileID: 5640490521061471939}
   - component: {fileID: 3916730941701762807}
   - component: {fileID: 6501774719363588482}
   m_Layer: 7
-  m_Name: Barracks
+  m_Name: BarracksBrown
   m_TagString: BrownBeard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -494,6 +495,32 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1918517298110478565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6077605243510192780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 3925985591
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &5640490521061471939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,6 +533,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c9d93acbc2896d4c9760694300d677a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Spawner
+  ShowTopMostFoldoutHeaderGroup: 1
+  currentState:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+  unitState: 0
   playerManager: {fileID: 0}
   spriteIcon: {fileID: -788367354, guid: 7119eefa8ba4ea3408da9b41031cd4f4, type: 3}
   side: 1
@@ -513,9 +547,14 @@ MonoBehaviour:
   readyAttack: 1
   hp: 20
   maxhp: 20
+  currentHp:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
   dmg: 0
   range: 0
-  respawnSpeed: 20
+  respawnSpeed: 2
   attackTime: 0
   speed: 0
   action:
@@ -528,16 +567,16 @@ MonoBehaviour:
   hpBar: {fileID: 6364483928106834194}
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
-  buildPlace: {fileID: 0}
-  unitState: 0
+  buildPlaceBrown: {fileID: 4644509518478174433, guid: b02b07cacb3567f4ca52d354932bad95, type: 3}
+  buildPlaceOrange: {fileID: 4644509518478174433, guid: 6fadd406ab93be841b79b69ddc3a5480, type: 3}
   typeOfBuilding: 0
   unitQueue: 
   passiveSpawn: 0
   unitSpawn:
   - {fileID: 0}
-  - {fileID: 305469131928527975, guid: 742c5d456871acf4889c11cedde7bbdc, type: 3}
-  - {fileID: 5788655847963936905, guid: 39b4fd187cfe4f14c92cffe50abf5cb5, type: 3}
-  - {fileID: 4238768840406840117, guid: 3090d643155e5dc4ba09efbeca45940f, type: 3}
+  - {fileID: 7587528900000341202, guid: 0f161ba7a3afd904193b6602bda7bade, type: 3}
+  - {fileID: 7292784029640933218, guid: d781dd45303b83a48940967c26b3ce76, type: 3}
+  - {fileID: 4306380388257475699, guid: 6352f4f436b8f4d47ac6eccbde16eed5, type: 3}
   spawnplace: {fileID: 4819760817376897108}
   timer: 0
 --- !u!61 &3916730941701762807

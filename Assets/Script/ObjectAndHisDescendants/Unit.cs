@@ -16,6 +16,9 @@ public class Unit : Object
         Moonshiner,
         Dragon
     }
+
+    [Header("UNIT")]
+
     public TypeOfUnit typeOfUnit;
     SpriteRenderer spriteRenderer;
     bool canGoThrough = false;
@@ -140,7 +143,7 @@ public class Unit : Object
                     canGoThrough = false;
                     AskForAttack();
                 }
-                if(targetUnit.hp <= 0)
+                if(targetUnit == null ||targetUnit != null&& targetUnit.hp <= 0)
                 {
                     Debug.Log("No target (");
                     AskForChangeUnitState(UnitState.Idle);
