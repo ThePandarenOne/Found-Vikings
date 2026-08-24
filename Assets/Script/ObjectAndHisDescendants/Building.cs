@@ -24,7 +24,7 @@ public class Building : Object
     public List<byte> unitQueue = new List<byte>();
     public bool passiveSpawn;
     public Unit[] unitSpawn;
-    private bool canSpawn = true;
+    protected bool canSpawn = true;
     public GameObject spawnplace;
     void Start()
     {
@@ -152,7 +152,7 @@ public class Building : Object
         AddUnitToQueue(NameOfUnit);
     }
 
-    public void AddUnitToQueue(byte NameOfUnit)//Добавляет юнита в очередь
+    public virtual void AddUnitToQueue(byte NameOfUnit)//Добавляет юнита в очередь
     {
         //Debug.Log("AddUnitToQueue");
         if(unitQueue.Count < 5)
@@ -180,7 +180,7 @@ public class Building : Object
     }
     public int timer;
 
-    IEnumerator WaitForSpawn(Unit unit)
+    protected IEnumerator WaitForSpawn(Unit unit)
     {
         for (int i = unit.respawnSpeed; i >= 0; i--)
         {
@@ -188,7 +188,11 @@ public class Building : Object
             yield return new WaitForSeconds(1f);
             if (i <= 0)
             {
-                Unit un = Instantiate(unit, new Vector3(spawnplace.transform.position.x, spawnplace.transform.position.y, 0), spawnplace.transform.rotation);
+                Unit un = null;
+                if(IsHost)
+                {
+                    un = Instantiate(unit, new Vector3(spawnplace.transform.position.x, spawnplace.transform.position.y, 0), spawnplace.transform.rotation);
+                }
                 un.GetComponent<NetworkObject>().SpawnWithOwnership(OwnerClientId);
                 un.playerManager = playerManager;
                 canSpawn = true;

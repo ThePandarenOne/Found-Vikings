@@ -156,7 +156,7 @@ MonoBehaviour:
     m_InternalValue: 0
   dmg: 20
   range: 5
-  respawnSpeed: 1
+  respawnSpeed: 10
   attackTime: 4
   speed: 3
   action:

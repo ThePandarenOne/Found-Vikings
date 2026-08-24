@@ -58,6 +58,17 @@ public class Object : NetworkBehaviour
     public Slider hpBar;
     public Panel panel;
     public Object targetUnit;
+
+    protected double timerCooldown;
+
+    [ServerRpc]protected virtual void TimeCheckServerRpc(float cooldown)
+    {
+        if (NetworkManager.Singleton.ServerTime.Time > timerCooldown)
+        {
+            timerCooldown = NetworkManager.Singleton.ServerTime.Time + cooldown;
+        }
+
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -120,31 +131,49 @@ public class Object : NetworkBehaviour
             currentHp.Value = hp;
         }
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    void UpdatecurrentStateServerRpc()
+    {
+        UpdatecurrentStateClientRpc();
+    }
+    [ClientRpc]
+    void UpdatecurrentStateClientRpc()
+    {
+        if (IsOwner)
+        {
+            currentState.Value = unitState;
+        }
+    }
+
     public void UpdateObject()
     {
-        if(IsSpawned == false)
+        if (IsSpawned == false)
         {
             return;
         }
-        if(IsOwner&&currentHp.Value != hp)
+
+        if (playerManager == null)
+        {
+            playerManager = FindObjectsByType<PlayerManager>(FindObjectsSortMode.None).FirstOrDefault(m => m.sidePlayer == side);
+        }
+        else
+        {
+            playerManager.UpdateUnitOwnerServerRpc(GetComponent<NetworkObject>());
+        }
+
+        if (panel == null)
+        {
+            panel = FindFirstObjectByType<Panel>();
+        }
+
+        if (IsOwner&&currentHp.Value != hp)
         {
             UpdateHPServerRpc();
         }
         if(currentState.Value != unitState && IsOwner)
         {
-            currentState.Value = unitState;
-        }
-        if (playerManager.sidePlayer == side)
-        {
-            playerManager.UpdateUnitOwnerServerRpc(GetComponent<NetworkObject>());
-        }
-        if(panel == null)
-        {
-            panel = FindFirstObjectByType<Panel>();
-        }
-        if (playerManager.IsServer == false)
-        {
-            playerManager.UpdateUnitOwnerServerRpc(GetComponent<NetworkObject>());
+            UpdatecurrentStateServerRpc();
         }
         if (gm == null && selectArrow != null)
         {
@@ -156,13 +185,16 @@ public class Object : NetworkBehaviour
         }
         else
         {
-            if (panel.objectUnit != this && TryGetComponent(out Unit unit) && unit.SearchForUnitInGroup() == false)
+            if(panel.objectUnit != this)
             {
-                Destroy(gm);
-            }
-            if (panel.objectUnit != this && !GetComponent<Unit>())
-            {
-                Destroy(gm);
+                if (TryGetComponent(out Unit unit) && unit.SearchForUnitInGroup() == false)
+                {
+                    Destroy(gm);
+                }
+                if (!GetComponent<Unit>())
+                {
+                    Destroy(gm);
+                }
             }
         }
         if (hpBar != null)

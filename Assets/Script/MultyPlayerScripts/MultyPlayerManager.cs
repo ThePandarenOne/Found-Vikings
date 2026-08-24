@@ -55,7 +55,7 @@ public class RelayManager : MonoBehaviour
     //Кнопка для клиента
     public void ClientButton()
     {
-        Debug.Log("ClientButton");
+        //Debug.Log("ClientButton");
         JoinRelay(inputField.text);
     }
     private async void Start()
@@ -84,7 +84,7 @@ public class RelayManager : MonoBehaviour
 
     async void JoinRelay(string joinCode)
     {
-        Debug.Log("JoinRelay");
+        //Debug.Log("JoinRelay");
         var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode.ToUpper());
 
         // Исправлено для Unity 6

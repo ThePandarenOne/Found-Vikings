@@ -183,6 +183,9 @@ public class Panel : MonoBehaviour
     public void GiveActionBuilding(byte i)
     {
         Building building = objectUnit.GetComponent<Building>();
+
+        //Building
+
         if (buttons[i].action.namE == "Spawn Baleog")
         {
             buttons[i].acsessButton.onClick.AddListener(() => building.AskForAddUnitToQueue(1));
@@ -206,6 +209,17 @@ public class Panel : MonoBehaviour
         if (buttons[i].action.namE == "DestroyBuilding")
         {
             buttons[i].acsessButton.onClick.AddListener(building.SelfDestroy);
+        }
+
+        //LineObjective
+
+        if (buttons[i].action.namE == "Spawn Cho'gall")
+        {
+            buttons[i].acsessButton.onClick.AddListener(() => building.AskForAddUnitToQueue(0));
+        }
+        if (buttons[i].action.namE == "Spawn Moonshiner")
+        {
+            buttons[i].acsessButton.onClick.AddListener(() => building.AskForAddUnitToQueue(0));
         }
     }
     public void GiveActionBuildingPlacement(byte i)
@@ -268,7 +282,14 @@ public class Panel : MonoBehaviour
                 {
                     unitIcons[i].typeOfIcon = UnitIcon.TypeOfIcon.UnitQueueIcon;
                     unitIcons[i].gameObject.SetActive(true);
-                    unitIcons[i].unit = build.unitSpawn[build.unitQueue[i]];
+                    if(!build.GetComponent<LineObjective>())
+                    {
+                        unitIcons[i].unit = build.unitSpawn[build.unitQueue[i]];
+                    }
+                    else
+                    {
+                        unitIcons[i].unit = build.GetComponent<LineObjective>().unitOrange;
+                    }
                 }
                 else
                 {

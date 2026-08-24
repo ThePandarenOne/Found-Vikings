@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ActionData
   icon: {fileID: -721112897, guid: d0ccefb52de0a7a4caab7baff0328ff1, type: 3}
   namE: Spawn Cho'gall
-  keyCode: 1
+  keyCode: C
   cost: 100

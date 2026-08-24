@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b763f101f798604787f528927bb4070, type: 3}
-  m_Name: HealPosition
+  m_Name: DragonFlame
   m_EditorClassIdentifier: Assembly-CSharp::ActionData
-  icon: {fileID: -1024900642, guid: 654d19d5a03265a42b633dcd3f105742, type: 3}
-  namE: HealPosition
-  keyCode: D
+  icon: {fileID: 324015132220589302, guid: 654d19d5a03265a42b633dcd3f105742, type: 3}
+  namE: DragonFlame
+  keyCode: A
   cost: 0

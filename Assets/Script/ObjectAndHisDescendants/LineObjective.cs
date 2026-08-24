@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using Unity.Netcode;
 
-public class LineObjective : Object
+public class LineObjective : Building
 {
     public enum TypeOfObjective
     {
@@ -26,14 +26,36 @@ public class LineObjective : Object
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (typeOfObjective == TypeOfObjective.DragonAltar)
+        {
+            timerCooldown = respawnSpeed;
+        }
         StartObject();
         sr = GetComponent<SpriteRenderer>();
         if(typeOfObjective == TypeOfObjective.DragonAltar)
         {
-            StartCoroutine(WaitForDragonReload());
+            TimeCheckServerRpc(respawnSpeed);
         }
     }
-
+    [ServerRpc]
+    protected override void TimeCheckServerRpc(float cooldown)
+    {
+        Debug.Log("TimeCheckServerRpc1");
+        Debug.Log(NetworkManager.Singleton.ServerTime.Time);
+        Debug.Log(timerCooldown);
+        if (NetworkManager.Singleton.ServerTime.Time > timerCooldown)
+        {
+            Debug.Log("TimeCheckServerRpc2");
+            if(typeOfObjective == TypeOfObjective.DragonAltar)
+            {
+                timerCooldown = Mathf.Ceil(((float)NetworkManager.Singleton.ServerTime.Time) / respawnSpeed);
+                timerCooldown *= respawnSpeed;
+                Debug.Log(timerCooldown);
+                can = false;
+                canSpawnChoGall = true;
+            }
+        }
+    }
     // Update is called once per frame
     void Update()
     {
@@ -41,14 +63,17 @@ public class LineObjective : Object
         switch (typeOfObjective)
         {
             case TypeOfObjective.DragonAltar:
-                if (canSpawnChoGall && side != Side.Neutral)
+                TimeCheckServerRpc(respawnSpeed);
+                if (canSpawnChoGall && side != Side.Neutral && IsHost)
                 {
+                    Debug.Log("UpdateCheck");
+                    canSpawnChoGall = false;
                     AskForGiveDragon();
                 }
                 else if(canSpawnChoGall == false && can)
                 {
                     can = false;
-                    StartCoroutine(WaitForDragonReload());
+
                 }
                 break;
             case TypeOfObjective.Grill:
@@ -103,39 +128,30 @@ public class LineObjective : Object
         {
             sr.sprite = spriteBrown;
         }
-        if (typeOfObjective == TypeOfObjective.DragonAltar)
-        {
-            if (canSpawnChoGall)
-            {
-                GiveDragon(sidee);
-            }
-        }
     }
 
     // UNIT SPAWN
-
-    public void AskForUnitSpawn()
+    
+    public override void AddUnitToQueue(byte NameOfUnit)
     {
-        if(IsHost)
+        if (unitQueue.Count < 5)
         {
-            SpawnUnitClientRpc();
+            unitQueue.Add(NameOfUnit);
+            if (canSpawn)
+            {
+                canSpawn = false;
+                if(side == Side.Player)
+                {
+                    StartCoroutine(WaitForSpawn(unitOrange));
+                }
+                else if(side == Side.Enemy)
+                {
+                    StartCoroutine(WaitForSpawn(unitBrown));
+                }
+            }
         }
-        else
-        {
-            SpawnUnitServerRpc();
-        }
     }
-
-    [ServerRpc] void SpawnUnitServerRpc()
-    {
-        SpawnUnitClientRpc();
-    }
-    [ClientRpc]
-    void SpawnUnitClientRpc()
-    {
-        SpawnUnit();
-    }
-
+    
     public void SpawnUnit()
     {
         if (side == Side.Player)
@@ -151,15 +167,12 @@ public class LineObjective : Object
             unit.playerManager = line.playerManager;
         }
     }
-    IEnumerator WaitForSpawn(Unit unit)
-    {
-        yield return new WaitForSeconds(unit.respawnSpeed);
-    }
 
     // DRAGON OBJECTIVE
 
     public void AskForGiveDragon()
     {
+        Debug.Log("AskForGiveDragon");
         if (IsHost)
         {
             GiveDragonClientRpc();
@@ -178,29 +191,42 @@ public class LineObjective : Object
     [ClientRpc]
     void GiveDragonClientRpc()
     {
-        SpawnUnit();
+        Debug.Log("GiveDragonClientRpc");
+        GiveDragon(side);
     }
 
     void GiveDragon(Side side)
     {
-        if (side == Side.Player)
+        Debug.Log("GiveDragon");
+        if(IsHost)
         {
-            Unit unit = Instantiate(unitOrange, new Vector2(transform.position.x, transform.position.y), transform.rotation);
-            unit.GetComponent<NetworkObject>().SpawnWithOwnership(0);
-            unit.playerManager = line.playerManager;
+            if (side == Side.Player)
+            {
+                Unit unit = Instantiate(unitOrange, new Vector2(transform.position.x, transform.position.y), transform.rotation);
+                if (IsHost)
+                {
+                    unit.GetComponent<NetworkObject>().SpawnWithOwnership(0);
+                }
+                unit.playerManager = line.playerManager;
+                if (line.playerManager == null)
+                {
+                    unit.playerManager = playerManager;
+                }
+            }
+            else if (side == Side.Enemy)
+            {
+                Unit unit = Instantiate(unitBrown, new Vector2(transform.position.x, transform.position.y), transform.rotation);
+                if (IsHost)
+                {
+                    unit.GetComponent<NetworkObject>().SpawnWithOwnership(1);
+                }
+                unit.playerManager = line.playerManager;
+                if (line.playerManager == null)
+                {
+                    unit.playerManager = playerManager;
+                }
+            }
+            canSpawnChoGall = false;
         }
-        else if (side == Side.Enemy)
-        {
-            Unit unit = Instantiate(unitBrown, new Vector2(transform.position.x, transform.position.y), transform.rotation);
-            unit.GetComponent<NetworkObject>().SpawnWithOwnership(1);
-            unit.playerManager = line.playerManager;
-        }
-        canSpawnChoGall = false;
-    }
-    IEnumerator WaitForDragonReload()
-    {
-        yield return new WaitForSeconds(60f);
-        can = true;
-        canSpawnChoGall = true;
     }
 }

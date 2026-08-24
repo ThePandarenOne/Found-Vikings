@@ -70,7 +70,7 @@ public class Unit : Object
         UpdateObject();
         if(targetUnit != null && targetUnit.side == side)
         {
-            Debug.Log("TargetUnit = null 2");
+            //Debug.Log("TargetUnit = null 2");
             targetUnit = null;
         }
         switch(currentState.Value)
@@ -110,7 +110,7 @@ public class Unit : Object
                 }
                 if (targetUnit != null && targetUnit.transform.position.x - transform.position.x > range)
                 {
-                    Debug.Log("TargetUnit = null 3");
+                    //Debug.Log("TargetUnit = null 3");
                     targetUnit = null;
                 }
                 if (targetUnit != null && Mathf.Abs(targetUnit.transform.position.x - transform.position.x) <= range)
