@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using Unity.Netcode;
+
 public class LineObjective : Object
 {
     public enum TypeOfObjective
@@ -41,7 +43,7 @@ public class LineObjective : Object
             case TypeOfObjective.DragonAltar:
                 if (canSpawnChoGall && side != Side.Neutral)
                 {
-                    GiveDragon(side);
+                    AskForGiveDragon();
                 }
                 else if(canSpawnChoGall == false && can)
                 {
@@ -66,6 +68,29 @@ public class LineObjective : Object
         playerManager.money += count;
         can = true;
     }
+
+    //SIDE CHANGE
+
+    public void AskForSideChange(Side sidee)
+    {
+        if(IsHost)
+        {
+            SideChangeClientRpc(sidee);
+        }
+        else
+        {
+            SideChangeServerRpc(sidee);
+        }
+    }
+    [ServerRpc] void SideChangeServerRpc(Side sidee)
+    {
+        SideChangeClientRpc(sidee);
+    }
+    [ClientRpc]
+    void SideChangeClientRpc(Side sidee)
+    {
+        SideChange(sidee);
+    }
     public void SideChange(Side sidee)
     {
         hp = maxhp;
@@ -86,31 +111,88 @@ public class LineObjective : Object
             }
         }
     }
+
+    // UNIT SPAWN
+
+    public void AskForUnitSpawn()
+    {
+        if(IsHost)
+        {
+            SpawnUnitClientRpc();
+        }
+        else
+        {
+            SpawnUnitServerRpc();
+        }
+    }
+
+    [ServerRpc] void SpawnUnitServerRpc()
+    {
+        SpawnUnitClientRpc();
+    }
+    [ClientRpc]
+    void SpawnUnitClientRpc()
+    {
+        SpawnUnit();
+    }
+
     public void SpawnUnit()
     {
-        if(side == Side.Player)
+        if (side == Side.Player)
         {
-
+            Unit unit = Instantiate(unitOrange, new Vector2(transform.position.x, transform.position.y), transform.rotation);
+            unit.GetComponent<NetworkObject>().SpawnWithOwnership(0);
+            unit.playerManager = line.playerManager;
         }
         else if (side == Side.Enemy)
         {
-
+            Unit unit = Instantiate(unitBrown, new Vector2(transform.position.x, transform.position.y), transform.rotation);
+            unit.GetComponent<NetworkObject>().SpawnWithOwnership(1);
+            unit.playerManager = line.playerManager;
         }
     }
     IEnumerator WaitForSpawn(Unit unit)
     {
         yield return new WaitForSeconds(unit.respawnSpeed);
     }
+
+    // DRAGON OBJECTIVE
+
+    public void AskForGiveDragon()
+    {
+        if (IsHost)
+        {
+            GiveDragonClientRpc();
+        }
+        else
+        {
+            GiveDragonServerRpc();
+        }
+    }
+
+    [ServerRpc]
+    void GiveDragonServerRpc()
+    {
+        GiveDragonClientRpc();
+    }
+    [ClientRpc]
+    void GiveDragonClientRpc()
+    {
+        SpawnUnit();
+    }
+
     void GiveDragon(Side side)
     {
         if (side == Side.Player)
         {
             Unit unit = Instantiate(unitOrange, new Vector2(transform.position.x, transform.position.y), transform.rotation);
+            unit.GetComponent<NetworkObject>().SpawnWithOwnership(0);
             unit.playerManager = line.playerManager;
         }
         else if (side == Side.Enemy)
         {
             Unit unit = Instantiate(unitBrown, new Vector2(transform.position.x, transform.position.y), transform.rotation);
+            unit.GetComponent<NetworkObject>().SpawnWithOwnership(1);
             unit.playerManager = line.playerManager;
         }
         canSpawnChoGall = false;

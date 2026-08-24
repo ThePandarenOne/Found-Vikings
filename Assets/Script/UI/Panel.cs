@@ -29,7 +29,7 @@ public class Panel : MonoBehaviour
     }
     public void ChangePanel()
     {
-        Debug.Log("ChangPanel method");
+        //Debug.Log("ChangPanel method");
         for (byte i = 0; i < buttons.Length; i++)
         {
             buttons[i].action = null;
@@ -311,6 +311,7 @@ public class Panel : MonoBehaviour
         if (playerManager == null || playerManager != null&&playerManager.IsOwner == false)
         {
             playerManager = FindObjectsByType<PlayerManager>(FindObjectsSortMode.None).FirstOrDefault(pm => pm.IsOwner);
+            Debug.Log(playerManager);
         }
         if (Input.GetMouseButton(0) && sl == null)//Создаёт квадрат выделения
         {

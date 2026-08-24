@@ -189,6 +189,7 @@ public class Building : Object
             if (i <= 0)
             {
                 Unit un = Instantiate(unit, new Vector3(spawnplace.transform.position.x, spawnplace.transform.position.y, 0), spawnplace.transform.rotation);
+                un.GetComponent<NetworkObject>().SpawnWithOwnership(OwnerClientId);
                 un.playerManager = playerManager;
                 canSpawn = true;
                 QueueUpdate();

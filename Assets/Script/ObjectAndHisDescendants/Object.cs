@@ -185,11 +185,15 @@ public class Object : NetworkBehaviour
     }
     public void AskForAttack()
     {
+        Debug.Log("ReadyAttack " + readyAttack);
+        if (readyAttack == false)
+        {
+            return;
+        }
         if(readyAttack)
         {
-            //Debug.Log("ReadyAttack " + readyAttack);
             readyAttack = false;
-            //Debug.Log("AskforAttack");
+            Debug.Log("AskforAttack");
             AttackServerRpc();
         }
     }
@@ -247,7 +251,7 @@ public class Object : NetworkBehaviour
                 if(targetUnit.TryGetComponent(out LineObjective lineObjective))
                 {
                     lineObjective.playerManager = playerManager;
-                    lineObjective.SideChange(side);
+                    lineObjective.AskForSideChange(side);
                 }
                 //panel.ChangePanel();
             }
