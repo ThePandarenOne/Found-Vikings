@@ -5,6 +5,8 @@ using System.Linq;
 using static UnityEngine.Rendering.DebugUI;
 using System;
 using Unity.Netcode;
+using static LineObjective;
+using Unity.VisualScripting;
 
 public class Object : NetworkBehaviour
 {
@@ -23,7 +25,7 @@ public class Object : NetworkBehaviour
     public NetworkVariable<UnitState> currentState = new NetworkVariable<UnitState>(
     UnitState.Idle,
     NetworkVariableReadPermission.Everyone,
-    NetworkVariableWritePermission.Owner
+    NetworkVariableWritePermission.Server
 );
     public UnitState unitState = UnitState.Idle;
     public enum Side
@@ -43,7 +45,7 @@ public class Object : NetworkBehaviour
     public NetworkVariable<int> currentHp = new NetworkVariable<int>(
     558,
     NetworkVariableReadPermission.Everyone,
-    NetworkVariableWritePermission.Owner
+    NetworkVariableWritePermission.Server
 );
     public int dmg;
     public byte range;
@@ -61,21 +63,19 @@ public class Object : NetworkBehaviour
 
     protected double timerCooldown;
 
-    [ServerRpc]protected virtual void TimeCheckServerRpc(float cooldown)
+    [ServerRpc(RequireOwnership = false)]protected void ReadyAttackCheckServerRpc()
     {
         if (NetworkManager.Singleton.ServerTime.Time > timerCooldown)
         {
-            timerCooldown = NetworkManager.Singleton.ServerTime.Time + cooldown;
+            if (readyAttack == false)
+            {
+                readyAttack = true;
+            }
         }
 
     }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if(IsOwner)
-        {
-            currentHp.Value = hp;
-        }
         if (playerManager.IsServer == false)
         {
             StartObject();
@@ -117,7 +117,6 @@ public class Object : NetworkBehaviour
     }
 
     GameObject gm;
-    // Update is called once per frame
     [ServerRpc(RequireOwnership = false)]
     void UpdateHPServerRpc()
     {
@@ -126,7 +125,7 @@ public class Object : NetworkBehaviour
     [ClientRpc]
     void UpdateHPClientRpc()
     {
-        if(IsOwner)
+        if(IsHost)
         {
             currentHp.Value = hp;
         }
@@ -140,7 +139,7 @@ public class Object : NetworkBehaviour
     [ClientRpc]
     void UpdatecurrentStateClientRpc()
     {
-        if (IsOwner)
+        if (IsHost)
         {
             currentState.Value = unitState;
         }
@@ -152,7 +151,7 @@ public class Object : NetworkBehaviour
         {
             return;
         }
-
+        ReadyAttackCheckServerRpc();
         if (playerManager == null)
         {
             playerManager = FindObjectsByType<PlayerManager>(FindObjectsSortMode.None).FirstOrDefault(m => m.sidePlayer == side);
@@ -217,45 +216,46 @@ public class Object : NetworkBehaviour
     }
     public void AskForAttack()
     {
-        Debug.Log("ReadyAttack " + readyAttack);
+        Debug.Log("AskForAttack1");
         if (readyAttack == false)
         {
             return;
         }
         if(readyAttack)
         {
+            Debug.Log("AskForAttack2");
             readyAttack = false;
-            Debug.Log("AskforAttack");
-            AttackServerRpc();
+            if (IsHost)
+            {
+                AttackClientRpc();
+            }
+            else
+            {
+                AttackServerRpc();
+            }
         }
     }
     [ServerRpc(RequireOwnership = false)] void AttackServerRpc()
     {
-        readyAttack = false;
-        //Debug.Log("AttackServerRpc");
         AttackClientRpc();
     }
     [ClientRpc] void AttackClientRpc()
     {
-        readyAttack = false;
-        //Debug.Log("AttackClientRpc");
         AttackTarget();
     }
     void AttackTarget()
     {
+        Debug.Log("AttackTarget");
         readyAttack = false;
-        //Debug.Log("AttackTarget");
-        StartCoroutine(WaitForAttack());
-        //Debug.Log(1);
+        timerCooldown = NetworkManager.Singleton.ServerTime.Time + attackTime;
         //rb.constraints = RigidbodyConstraints2D.FreezePosition;
-        if (targetUnit.side == side && targetUnit.IsOwner != IsOwner)
+        if (targetUnit != null&&targetUnit.side == side)
         {
             //Debug.Log("TargetUnit = null 1");
             targetUnit = null;
         }
         if (targetUnit != null && transform.position.y - targetUnit.transform.position.y < range)
         {
-            //Debug.Log(2);
             if(IsHost)
             {
                 targetUnit.GetDamageServerRpc(dmg);
@@ -263,7 +263,7 @@ public class Object : NetworkBehaviour
             readyAttack = false;
             if(GetComponent<Unit>() && GetComponent<Unit>().typeOfUnit == Unit.TypeOfUnit.Olaf)
             {
-                targetUnit.targetUnit = this;
+                //targetUnit.targetUnit = this;
             }
             if (targetUnit.hp <= 0)
             {
@@ -289,27 +289,18 @@ public class Object : NetworkBehaviour
             }
         }
     }
-    IEnumerator WaitForAttack()
-    {
-        yield return new WaitForSeconds(attackTime);
-        readyAttack = true;
-    }
     public void GetDamage(int damage)
     {
-        //Debug.Log(5);
         hp -= damage;
-        //currentHp.Value -= damage;
     }
     [ServerRpc(RequireOwnership = false)]
     void GetDamageServerRpc(int dmg)
     {
-        //Debug.Log(3);
         GetDamageClientRpc(dmg);
     }
     [ClientRpc]
     void GetDamageClientRpc(int dmg)
     {
-        //Debug.Log(4);
         GetDamage(dmg);
     }
 
@@ -330,7 +321,6 @@ public class Object : NetworkBehaviour
 
     public void AskForChangeUnitState(UnitState unitStatee)
     {
-        //Debug.Log(unitStatee);
         ChangeUnitStateServerRpc(unitStatee);
     }
     [ServerRpc(RequireOwnership = false)] void ChangeUnitStateServerRpc(UnitState unitStatee)

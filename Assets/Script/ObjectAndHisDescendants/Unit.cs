@@ -68,11 +68,6 @@ public class Unit : Object
             ClickCommands();
         }
         UpdateObject();
-        if(targetUnit != null && targetUnit.side == side)
-        {
-            //Debug.Log("TargetUnit = null 2");
-            targetUnit = null;
-        }
         switch(currentState.Value)
         {
             case UnitState.Attack:
@@ -85,6 +80,7 @@ public class Unit : Object
                         if(hit.transform.gameObject.TryGetComponent(out Object obj) && obj.side != side)
                         {
                             targetUnit = obj;
+                            Debug.Log(targetUnit);
                             AskForChangeUnitState(UnitState.Hunt);
                         }
                     }
@@ -110,7 +106,6 @@ public class Unit : Object
                 }
                 if (targetUnit != null && targetUnit.transform.position.x - transform.position.x > range)
                 {
-                    //Debug.Log("TargetUnit = null 3");
                     targetUnit = null;
                 }
                 if (targetUnit != null && Mathf.Abs(targetUnit.transform.position.x - transform.position.x) <= range)
@@ -138,7 +133,7 @@ public class Unit : Object
                         transform.position += new Vector3(-speed, 0, 0) * Time.deltaTime;
                     }
                 }
-                if (targetUnit != null && Mathf.Abs(targetUnit.transform.position.x - transform.position.x) < range && readyAttack)
+                if (targetUnit != null && Mathf.Abs(targetUnit.transform.position.x - transform.position.x) <= range && readyAttack)
                 {
                     canGoThrough = false;
                     AskForAttack();
@@ -146,7 +141,7 @@ public class Unit : Object
                 if(targetUnit == null ||targetUnit != null&& targetUnit.hp <= 0)
                 {
                     Debug.Log("No target (");
-                    AskForChangeUnitState(UnitState.Idle);
+                    //AskForChangeUnitState(UnitState.Idle);
                 }
                 break;
             case UnitState.Move:

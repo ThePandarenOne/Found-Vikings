@@ -34,23 +34,18 @@ public class LineObjective : Building
         sr = GetComponent<SpriteRenderer>();
         if(typeOfObjective == TypeOfObjective.DragonAltar)
         {
-            TimeCheckServerRpc(respawnSpeed);
+            DragonTimeCheckServerRpc(respawnSpeed);
         }
     }
     [ServerRpc]
-    protected override void TimeCheckServerRpc(float cooldown)
+    void DragonTimeCheckServerRpc(float cooldown)
     {
-        Debug.Log("TimeCheckServerRpc1");
-        Debug.Log(NetworkManager.Singleton.ServerTime.Time);
-        Debug.Log(timerCooldown);
         if (NetworkManager.Singleton.ServerTime.Time > timerCooldown)
         {
-            Debug.Log("TimeCheckServerRpc2");
             if(typeOfObjective == TypeOfObjective.DragonAltar)
             {
                 timerCooldown = Mathf.Ceil(((float)NetworkManager.Singleton.ServerTime.Time) / respawnSpeed);
                 timerCooldown *= respawnSpeed;
-                Debug.Log(timerCooldown);
                 can = false;
                 canSpawnChoGall = true;
             }
@@ -63,7 +58,7 @@ public class LineObjective : Building
         switch (typeOfObjective)
         {
             case TypeOfObjective.DragonAltar:
-                TimeCheckServerRpc(respawnSpeed);
+                DragonTimeCheckServerRpc(respawnSpeed);
                 if (canSpawnChoGall && side != Side.Neutral && IsHost)
                 {
                     Debug.Log("UpdateCheck");

@@ -75,7 +75,7 @@ public class Building : Object
                     Collider2D[] touchableObjects = Physics2D.OverlapCircleAll(transform.position, range);
                     foreach (Collider2D touchableObject in touchableObjects)
                     {
-                        if (touchableObject.TryGetComponent(out Unit unit) && unit.side != side)
+                        if (touchableObject.TryGetComponent(out Object unit) && unit.side != side)
                         {
                             targetUnit = unit;
                         }
