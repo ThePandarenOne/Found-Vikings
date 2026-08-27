@@ -8,7 +8,7 @@ public class UnitIcon : MonoBehaviour
     public Text hpText;
     public Text nameText;
     public Slider slider;
-    public Object unit;
+    public Entity unit;
     public byte index;
     int timer;
     public Panel panel;

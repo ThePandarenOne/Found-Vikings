@@ -1,5 +1,4 @@
 using UnityEngine;
-using static Object;
 using static UnityEngine.Rendering.DebugUI;
 
 public class CameraScript : MonoBehaviour

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using static Object;
+using static Entity;
 
 public class Group : MonoBehaviour
 {

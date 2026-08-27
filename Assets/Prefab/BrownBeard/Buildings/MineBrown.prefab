@@ -500,7 +500,7 @@ MonoBehaviour:
   dmg: 0
   range: 0
   respawnSpeed: 2
-  attackTime: 0
+  attackTime: 1
   speed: 0
   action:
   - {fileID: 0}

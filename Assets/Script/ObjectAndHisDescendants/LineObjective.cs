@@ -76,9 +76,20 @@ public class LineObjective : Building
             case TypeOfObjective.Mine:
                 if (can && playerManager != null)
                 {
-                    StartCoroutine(GiveMoney(3));
+                    ReadyGiveMoneyCheckServerRpc(3);
                 }
                 break;
+        }
+    }
+    [ServerRpc]protected override void ReadyGiveMoneyCheckServerRpc(int count)
+    {
+        if (NetworkManager.Singleton.ServerTime.Time > timerCooldown)
+        {
+            if (readyAttack == false)
+            {
+                playerManager.money += count;
+                readyAttack = true;
+            }
         }
     }
     IEnumerator GiveMoney(int count)

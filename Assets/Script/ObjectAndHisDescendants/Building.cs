@@ -5,7 +5,7 @@ using static UnityEngine.Rendering.DebugUI;
 using UnityEngine.UIElements;
 using Unity.Netcode;
 
-public class Building : Object
+public class Building : Entity
 {
     public enum TypeOfBuilding
     { 
@@ -37,6 +37,10 @@ public class Building : Object
     }
     void Update()
     {
+        if(spawnplace == null)
+        {
+            spawnplace = gameObject;
+        }
         if(hp <= 0 && typeOfBuilding != TypeOfBuilding.MainBuilding)
         {
             if(side == Side.Player)
@@ -54,10 +58,10 @@ public class Building : Object
             case TypeOfBuilding.Spawner:
                 break;
             case TypeOfBuilding.Mine:
-                if(readyAttack)
+                if (IsOwner && readyAttack && NetworkManager.Singleton.ServerTime.Time > timerCooldown)
                 {
-                    StartCoroutine(GiveMoney(2));
                     readyAttack = false;
+                    ReadyGiveMoneyCheckServerRpc(2);
                 }
                 break;
             case TypeOfBuilding.Tower:
@@ -75,7 +79,7 @@ public class Building : Object
                     Collider2D[] touchableObjects = Physics2D.OverlapCircleAll(transform.position, range);
                     foreach (Collider2D touchableObject in touchableObjects)
                     {
-                        if (touchableObject.TryGetComponent(out Object unit) && unit.side != side)
+                        if (touchableObject.TryGetComponent(out Entity unit) && unit.side != side)
                         {
                             targetUnit = unit;
                         }
@@ -103,11 +107,20 @@ public class Building : Object
                 break;
         }
     }
-    IEnumerator GiveMoney(int count)
+    [ServerRpc(RequireOwnership = false)]
+    protected virtual void ReadyGiveMoneyCheckServerRpc(int count)
     {
-        yield return new WaitForSeconds(1f);
-        panel.playerManager.money += count;
-        readyAttack = true;
+        ReadyGiveMoneyCheckClientRpc(count);
+    }
+    [ClientRpc(RequireOwnership = false)]
+    protected virtual void ReadyGiveMoneyCheckClientRpc(int count)
+    {
+        if(IsOwner)
+        {
+            timerCooldown = NetworkManager.Singleton.ServerTime.Time + attackTime;
+            panel.playerManager.money += count;
+            readyAttack = true;
+        }
     }
 
     // ACTIONS

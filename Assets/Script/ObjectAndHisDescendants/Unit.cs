@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using static UnityEngine.UI.CanvasScaler;
 using Unity.Netcode;
 
-public class Unit : Object
+public class Unit : Entity
 {
     public enum TypeOfUnit
     {
@@ -50,8 +50,9 @@ public class Unit : Object
         {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
-            if (hit == true && hit.transform.gameObject.TryGetComponent(out targetUnit))
+            if (hit == true && hit.transform.gameObject.TryGetComponent(out Entity targetUnit_))
             {
+                targetUnit = targetUnit_;
                 AskForChangeUnitState(UnitState.Hunt);
             }
         }
@@ -77,8 +78,10 @@ public class Unit : Object
                     RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
                     if (hit == true)
                     {
-                        if(hit.transform.gameObject.TryGetComponent(out Object obj) && obj.side != side)
+                        //Debug.Log("Attack1"+hit);
+                        if(hit.transform.gameObject.TryGetComponent(out Entity obj) && obj.side != side)
                         {
+                            //Debug.Log("Attack2" + hit);
                             targetUnit = obj;
                             Debug.Log(targetUnit);
                             AskForChangeUnitState(UnitState.Hunt);
@@ -87,7 +90,7 @@ public class Unit : Object
                     else
                     {
                         clickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                        StartCoroutine(WaitForRush());
+                        AskForChangeUnitState(UnitState.Rush);
                     }
                 }
                 break;
@@ -97,8 +100,9 @@ public class Unit : Object
                     Collider2D[] touchableObjects = Physics2D.OverlapCircleAll(transform.position, range);
                     foreach (Collider2D touchableObject in touchableObjects)
                     {
-                        if (touchableObject.TryGetComponent(out Object unit) && unit.side != side && unit.transform.position.x - transform.position.x < range)
+                        if (touchableObject.TryGetComponent(out Entity unit) && unit.side != side && Math.Abs(unit.transform.position.x - transform.position.x) < range)
                         {
+                            //Debug.Log("Rush" + unit);
                             targetUnit = unit;
                         }
                     }
@@ -106,6 +110,7 @@ public class Unit : Object
                 }
                 if (targetUnit != null && targetUnit.transform.position.x - transform.position.x > range)
                 {
+                    Debug.Log("Rush target unit equal to null. Because of range");
                     targetUnit = null;
                 }
                 if (targetUnit != null && Mathf.Abs(targetUnit.transform.position.x - transform.position.x) <= range)
@@ -135,6 +140,7 @@ public class Unit : Object
                 }
                 if (targetUnit != null && Mathf.Abs(targetUnit.transform.position.x - transform.position.x) <= range && readyAttack)
                 {
+                    Debug.Log("Find object in hunt");
                     canGoThrough = false;
                     AskForAttack();
                 }
@@ -162,7 +168,7 @@ public class Unit : Object
                     Collider2D[] touchableObjects = Physics2D.OverlapCircleAll(transform.position, range);
                     foreach (Collider2D touchableObject in touchableObjects)
                     {
-                        if (touchableObject.TryGetComponent(out Object unit) && unit.side != side)
+                        if (touchableObject.TryGetComponent(out Entity unit) && unit.side != side)
                         {
                             targetUnit = unit;
                         }
@@ -253,14 +259,14 @@ public class Unit : Object
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out Object objectt) && objectt.side != side)
+        if (collision.gameObject.TryGetComponent(out Entity objectt) && objectt.side != side)
         {
             canGoThrough = false;
         }
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out Object objectt) && objectt.side != side)
+        if (collision.gameObject.TryGetComponent(out Entity objectt) && objectt.side != side)
         {
             canGoThrough = false;
         }

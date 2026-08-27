@@ -11,7 +11,7 @@ public class Panel : MonoBehaviour
     public UnitIcon[] unitIcons;
     public PanelButton[] buttons;
     public Text nameOfSelectUnit;
-    public Object objectUnit;
+    public Entity objectUnit;
     public Text[] characteristics;
     public Text moneyCounter;
     public Slider sliderHP;
@@ -332,7 +332,6 @@ public class Panel : MonoBehaviour
         if (playerManager == null || playerManager != null&&playerManager.IsOwner == false)
         {
             playerManager = FindObjectsByType<PlayerManager>(FindObjectsSortMode.None).FirstOrDefault(pm => pm.IsOwner);
-            Debug.Log(playerManager);
         }
         if (Input.GetMouseButton(0) && sl == null)//Создаёт квадрат выделения
         {

@@ -8,7 +8,7 @@ using Unity.Netcode;
 using static LineObjective;
 using Unity.VisualScripting;
 
-public class Object : NetworkBehaviour
+public class Entity : NetworkBehaviour
 {
     public enum UnitState
     {
@@ -59,20 +59,23 @@ public class Object : NetworkBehaviour
     public GameObject selectArrow;
     public Slider hpBar;
     public Panel panel;
-    public Object targetUnit;
+    public Entity targetUnit;
 
     protected double timerCooldown;
 
+
     [ServerRpc(RequireOwnership = false)]protected void ReadyAttackCheckServerRpc()
     {
-        if (NetworkManager.Singleton.ServerTime.Time > timerCooldown)
+        if (readyAttack == false)
         {
-            if (readyAttack == false)
-            {
-                readyAttack = true;
-            }
+            Debug.Log("Ready attack true again");
+            ReadyAttackCheckClientRpc();
         }
-
+    }
+    [ClientRpc]void ReadyAttackCheckClientRpc()
+    {
+        Debug.Log("Ready attack for client");
+        readyAttack = true;
     }
     void Start()
     {
@@ -151,7 +154,17 @@ public class Object : NetworkBehaviour
         {
             return;
         }
-        ReadyAttackCheckServerRpc();
+        if (NetworkManager.Singleton.ServerTime.Time > timerCooldown)
+        {
+            Debug.Log("Time reach cooldown");
+            timerCooldown = NetworkManager.Singleton.ServerTime.Time + attackTime;
+            if (readyAttack == false)
+            {
+                Debug.Log("Ready attack true again");
+                ReadyAttackCheckServerRpc();
+            }
+        }
+        //ReadyAttackCheckServerRpc();
         if (playerManager == null)
         {
             playerManager = FindObjectsByType<PlayerManager>(FindObjectsSortMode.None).FirstOrDefault(m => m.sidePlayer == side);
@@ -214,16 +227,19 @@ public class Object : NetworkBehaviour
             }
         }
     }
+
+    // ATTACK
+
     public void AskForAttack()
     {
-        Debug.Log("AskForAttack1");
+        //Debug.Log("AskForAttack1");
         if (readyAttack == false)
         {
             return;
         }
         if(readyAttack)
         {
-            Debug.Log("AskForAttack2");
+            //Debug.Log("AskForAttack2");
             readyAttack = false;
             if (IsHost)
             {
@@ -251,13 +267,19 @@ public class Object : NetworkBehaviour
         //rb.constraints = RigidbodyConstraints2D.FreezePosition;
         if (targetUnit != null&&targetUnit.side == side)
         {
-            //Debug.Log("TargetUnit = null 1");
+            Debug.Log("TargetUnit = null 1");
             targetUnit = null;
         }
-        if (targetUnit != null && transform.position.y - targetUnit.transform.position.y < range)
+        if (targetUnit != null && Math.Abs(targetUnit.transform.position.y - transform.position.y) < range)
         {
             if(IsHost)
             {
+                Debug.Log("IsHostAttack");
+                targetUnit.GetDamageClientRpc(dmg);
+            }
+            else
+            {
+                Debug.Log("IsClientAttack");
                 targetUnit.GetDamageServerRpc(dmg);
             }
             readyAttack = false;

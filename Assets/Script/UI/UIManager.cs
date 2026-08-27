@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class UIManager : MonoBehaviour
@@ -10,7 +11,7 @@ public class UIManager : MonoBehaviour
     public Text winText;
     public void Pause()
     {
-        if(pauseMenu.activeSelf)
+        if (pauseMenu.activeSelf)
         {
             pauseMenu.SetActive(false);
             Time.timeScale = 1;
@@ -41,13 +42,10 @@ public class UIManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if(music != null)
-        {
-            music.volume = music.volume / 4;
-        }
         if(musicSlider != null)
         {
-            musicSlider.value = musicSlider.value / 4;
+            //musicSlider.value = musicSlider.value / 4;
+            musicSlider.value = PlayerPrefs.GetFloat("Music volume");
         }
     }
 
@@ -57,6 +55,10 @@ public class UIManager : MonoBehaviour
         if(music != null)
         {
             music.volume = musicSlider.value;
+            if (music.volume != PlayerPrefs.GetFloat("Music volume"))
+            {
+                PlayerPrefs.SetFloat("Music volume", music.volume);
+            }
         }
         if(Input.GetKeyDown(KeyCode.Escape))
         {

@@ -10489,11 +10489,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3401232793769945623, guid: d781dd45303b83a48940967c26b3ce76, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3401232793769945623, guid: d781dd45303b83a48940967c26b3ce76, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5981966473705558577, guid: d781dd45303b83a48940967c26b3ce76, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10538,6 +10538,10 @@ PrefabInstance:
     - target: {fileID: 6831099356735294190, guid: d781dd45303b83a48940967c26b3ce76, type: 3}
       propertyPath: m_Name
       value: Olaf
+      objectReference: {fileID: 0}
+    - target: {fileID: 6831099356735294190, guid: d781dd45303b83a48940967c26b3ce76, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7292784029640933218, guid: d781dd45303b83a48940967c26b3ce76, type: 3}
       propertyPath: playerManager

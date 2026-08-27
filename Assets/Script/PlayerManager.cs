@@ -5,7 +5,7 @@ public class PlayerManager : NetworkBehaviour
 {
     public ulong d;
     public string nameOfFaction;
-    public Object.Side sidePlayer;
+    public Entity.Side sidePlayer;
     public PlayerManager enemyManager;
     public int money;
     public Building main;
@@ -15,11 +15,11 @@ public class PlayerManager : NetworkBehaviour
     void Start()
     {
         manager = FindAnyObjectByType<UIManager>();
-        if (IsHost && sidePlayer == Object.Side.Player)
+        if (IsHost && sidePlayer == Entity.Side.Player)
         {
             GetComponent<NetworkObject>().ChangeOwnership(0);
         }
-        else if(IsClient && sidePlayer == Object.Side.Enemy)
+        else if(IsClient && sidePlayer == Entity.Side.Enemy)
         {
             AskHostForOwnerServerRpc();
         }

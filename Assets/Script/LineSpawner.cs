@@ -46,7 +46,7 @@ public class LineSpawner : MonoBehaviour
                 i = Random.Range(0, lines.Length);
             }
             saverCount = 0;
-            lines[i].transform.parent = lineSpawners[b].transform;
+            //lines[i].transform.parent = lineSpawners[b].transform;
             lines[i].transform.position = lineSpawners[b].transform.position;
             lines[i].gameObject.SetActive(true);
             

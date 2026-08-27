@@ -5,7 +5,7 @@ using System.Linq;
 using Unity.Netcode;
 using static Building;
 
-public class BuildPlace : Object
+public class BuildPlace : Entity
 {
     [Header("BUILDPLACE")]
 
@@ -24,6 +24,14 @@ public class BuildPlace : Object
     // Update is called once per frame
     void Update()
     {
+        if(IsSpawned == false)
+        {
+            //Debug.LogError(gameObject.name + ": Object isn't spawned!");
+            if(NetworkManager.Singleton.IsHost)
+            {
+                GetComponent<NetworkObject>().Spawn();
+            }
+        }
         if (hp <= 0)
         {
             if (side == Side.Player)
@@ -36,7 +44,7 @@ public class BuildPlace : Object
             }
         }
         UpdateObject();
-        if (playerManager == null && playerManager.sidePlayer != side)
+        if (playerManager == null || playerManager != null&& playerManager.sidePlayer != side)
         {
             playerManager = FindObjectsByType<PlayerManager>(FindObjectsSortMode.None).FirstOrDefault(pm => pm.sidePlayer == side);
             Debug.Log(playerManager);
@@ -119,7 +127,10 @@ public class BuildPlace : Object
         }
         Building spawnedBuilding = Instantiate(building, transform.position, Quaternion.identity);
         spawnedBuilding.GetComponent<NetworkObject>().SpawnWithOwnership(OwnerClientId);//Строит здание
-        panel.objectUnit = spawnedBuilding;
+        if(IsOwner)
+        {
+            panel.objectUnit = spawnedBuilding;
+        }
         BuildClientRpc(spawnedBuilding.GetComponent<NetworkObject>());
     }
     [ClientRpc(RequireOwnership = false)]
