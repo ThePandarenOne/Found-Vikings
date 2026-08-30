@@ -1,6 +1,7 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class LineSpawner : MonoBehaviour
+public class LineSpawner : NetworkBehaviour
 {
     public GameObject[] lineSpawners;
     public GameObject[] lines;
@@ -8,7 +9,7 @@ public class LineSpawner : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        SpawnLine();
+        SpawnLineServerRpc();
     }
 
     // Update is called once per frame
@@ -59,5 +60,13 @@ public class LineSpawner : MonoBehaviour
                 secondLoop = i;
             }
         }
+    }
+    [ServerRpc] void SpawnLineServerRpc()
+    {
+        SpawnLineClientRpc();
+    }
+    [ClientRpc] void SpawnLineClientRpc()
+    {
+        SpawnLine();
     }
 }

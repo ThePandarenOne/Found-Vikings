@@ -91,6 +91,14 @@ public class Entity : NetworkBehaviour
         {
             //playerManager.UpdateUnitOwnerServerRpc(GetComponent<NetworkObject>());
         }
+        if (IsSpawned == false)
+        {
+            //Debug.LogError(gameObject.name + ": Object isn't spawned!");
+            if (NetworkManager.Singleton.IsHost)
+            {
+                GetComponent<NetworkObject>().Spawn();
+            }
+        }
         gameObject.name = objectName;
     }
     public void OnMouseDown()
@@ -156,11 +164,11 @@ public class Entity : NetworkBehaviour
         }
         if (NetworkManager.Singleton.ServerTime.Time > timerCooldown)
         {
-            Debug.Log("Time reach cooldown");
+            //Debug.Log("Time reach cooldown");
             timerCooldown = NetworkManager.Singleton.ServerTime.Time + attackTime;
             if (readyAttack == false)
             {
-                Debug.Log("Ready attack true again");
+                //Debug.Log("Ready attack true again");
                 ReadyAttackCheckServerRpc();
             }
         }

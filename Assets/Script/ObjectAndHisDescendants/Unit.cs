@@ -31,11 +31,6 @@ public class Unit : Entity
         panel = FindAnyObjectByType<Panel>();
     }
     public Vector2 clickPosition = new Vector2(- 270, 270);
-    IEnumerator WaitForRush()
-    {
-        yield return new WaitForSeconds(0.1f);
-        AskForChangeUnitState(UnitState.Rush);
-    }
     void ClickCommands()
     {
         if (Input.GetKeyDown(KeyCode.Mouse1) && unitState != UnitState.Attack)
@@ -138,7 +133,7 @@ public class Unit : Entity
                         transform.position += new Vector3(-speed, 0, 0) * Time.deltaTime;
                     }
                 }
-                if (targetUnit != null && Mathf.Abs(targetUnit.transform.position.x - transform.position.x) <= range && readyAttack)
+                if (IsOwner&&targetUnit != null && Mathf.Abs(targetUnit.transform.position.x - transform.position.x) <= range && readyAttack)
                 {
                     Debug.Log("Find object in hunt");
                     canGoThrough = false;

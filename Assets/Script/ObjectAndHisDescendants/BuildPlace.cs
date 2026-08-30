@@ -24,14 +24,6 @@ public class BuildPlace : Entity
     // Update is called once per frame
     void Update()
     {
-        if(IsSpawned == false)
-        {
-            //Debug.LogError(gameObject.name + ": Object isn't spawned!");
-            if(NetworkManager.Singleton.IsHost)
-            {
-                GetComponent<NetworkObject>().Spawn();
-            }
-        }
         if (hp <= 0)
         {
             if (side == Side.Player)
@@ -93,12 +85,10 @@ public class BuildPlace : Entity
 
                 if(IsHost)
                 {
-                    Debug.Log("Build by host");
                     Build(AskForBuildingInBuildings());
                 }
                 else
                 {
-                    Debug.Log("Build by client");
                     BuildServerRpc(AskForBuildingInBuildings());
                 }
             }
