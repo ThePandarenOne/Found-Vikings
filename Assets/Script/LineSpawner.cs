@@ -6,19 +6,26 @@ public class LineSpawner : NetworkBehaviour
     public GameObject[] lineSpawners;
     public GameObject[] lines;
     int i = 0;
+    bool canSpawn = true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        SpawnLineServerRpc();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if(canSpawn && IsHost)
+        {
+            Debug.Log("Check");
+            SpawnLine();
+        }
     }
     void SpawnLine()
     {
+        Debug.Log("SpawnLine");
+        canSpawn = false;
         int saverCount = 0;
         if(lines.Length < 3)
         {
@@ -47,9 +54,6 @@ public class LineSpawner : NetworkBehaviour
                 i = Random.Range(0, lines.Length);
             }
             saverCount = 0;
-            //lines[i].transform.parent = lineSpawners[b].transform;
-            lines[i].transform.position = lineSpawners[b].transform.position;
-            lines[i].gameObject.SetActive(true);
             
             if (b == 0)
             {
@@ -59,14 +63,42 @@ public class LineSpawner : NetworkBehaviour
             {
                 secondLoop = i;
             }
+            SpawnServerRpc(b,i);
         }
     }
-    [ServerRpc] void SpawnLineServerRpc()
+    void Spawn(byte b,int i)
     {
+        Debug.Log("MoveLine");
+        //lines[i].transform.parent = lineSpawners[b].transform;
+        lines[i].GetComponent<Line>().tilemap.transform.position = lineSpawners[b].transform.position;
+        lines[i].gameObject.SetActive(true);
+        if(IsHost && lines[i].GetComponent<NetworkObject>().IsSpawned == false)
+        {
+            Debug.Log("Isn't spawned");
+            lines[i].GetComponent<NetworkObject>().Spawn();
+        }
+
+    }
+    [ServerRpc(RequireOwnership = false)]
+    void SpawnServerRpc(byte b, int i)
+    {
+        Debug.Log("Server");
+        SpawnClientRpc(b,i);
+    }
+    [ClientRpc]
+    void SpawnClientRpc(byte b, int i)
+    {
+        Debug.Log("Client");
+        Spawn(b, i);
+    }
+    [ServerRpc(RequireOwnership = false)] void SpawnLineServerRpc()
+    {
+        Debug.Log("Server");
         SpawnLineClientRpc();
     }
     [ClientRpc] void SpawnLineClientRpc()
     {
+        Debug.Log("Client");
         SpawnLine();
     }
 }

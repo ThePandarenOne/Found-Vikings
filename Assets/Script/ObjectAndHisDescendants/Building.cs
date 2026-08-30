@@ -37,6 +37,10 @@ public class Building : Entity
     }
     void Update()
     {
+        if(IsSpawned == false)
+        {
+            return;
+        }
         if(spawnplace == null)
         {
             spawnplace = gameObject;

@@ -106,14 +106,17 @@ public class UnitIcon : MonoBehaviour
         {
             typeOfIcon = TypeOfIcon.Disabled;
         }
-        slider.gameObject.SetActive(true);
-        button.onClick.AddListener(() => unit.ChooseUnit(true));
-        button.interactable = true;
-        image.sprite = unit.spriteIcon;
-        hpText.text = "HP:" + unit.hp + "/" + unit.maxhp;
-        slider.value = unit.hp;
-        slider.maxValue = unit.maxhp;
-        nameText.text = unit.name;
+        else
+        {
+            slider.gameObject.SetActive(true);
+            button.onClick.AddListener(() => unit.ChooseUnit(true));
+            button.interactable = true;
+            image.sprite = unit.spriteIcon;
+            hpText.text = "HP:" + unit.hp + "/" + unit.maxhp;
+            slider.value = unit.hp;
+            slider.maxValue = unit.maxhp;
+            nameText.text = unit.name;
+        }
     }
 
 }
