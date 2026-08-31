@@ -28,12 +28,11 @@ public class Building : Entity
     public GameObject spawnplace;
     void Start()
     {
+        //Debug.Log("Server time at start"+NetworkManager.Singleton.ServerTime.Time);
+        readyAttack = false;
+        timerCooldown = 2;
         StartObject();
         panel = FindAnyObjectByType<Panel>();
-        if (passiveSpawn)
-        {
-            //Spawn(unitSpawn[unitIndex]);
-        }
     }
     void Update()
     {
@@ -62,10 +61,29 @@ public class Building : Entity
             case TypeOfBuilding.Spawner:
                 break;
             case TypeOfBuilding.Mine:
-                if (IsOwner && readyAttack && NetworkManager.Singleton.ServerTime.Time > timerCooldown)
+                if(IsHost && playerManager.enemyManager.OwnerClientId != 1)
                 {
-                    readyAttack = false;
-                    ReadyGiveMoneyCheckServerRpc(2);
+                    return;
+                }
+                if(IsOwner && playerManager.sidePlayer == side)
+                {
+                    if(playerManager.sidePlayer != side || IsOwner == false)
+                    {
+                        return;
+                    }
+                    //Debug.Log(gameObject.name + ": " + playerManager.sidePlayer);
+                    if (NetworkManager.Singleton.ServerTime.Time >= timerCooldown)
+                    {
+                        //Debug.Log("ServerTime: " + NetworkManager.Singleton.ServerTime.Time);
+                        //Debug.Log("timerCooldown: " + timerCooldown);
+                        timerCooldown = NetworkManager.Singleton.ServerTime.Time + attackTime;
+                        EarnMoney(2);
+                    }
+                    if (readyAttack)
+                    {
+                        //readyAttack = false;
+                        //EarnMoney(2);
+                    }
                 }
                 break;
             case TypeOfBuilding.Tower:
@@ -111,6 +129,9 @@ public class Building : Entity
                 break;
         }
     }
+
+    // EARN MONEY
+    /*
     [ServerRpc(RequireOwnership = false)]
     protected virtual void ReadyGiveMoneyCheckServerRpc(int count)
     {
@@ -119,12 +140,17 @@ public class Building : Entity
     [ClientRpc(RequireOwnership = false)]
     protected virtual void ReadyGiveMoneyCheckClientRpc(int count)
     {
-        if(IsOwner)
+
+    }
+    */
+    protected virtual void EarnMoney(int count)
+    {
+        if (playerManager.sidePlayer != side || IsOwner == false)
         {
-            timerCooldown = NetworkManager.Singleton.ServerTime.Time + attackTime;
-            panel.playerManager.money += count;
-            readyAttack = true;
+            return;
         }
+        //Debug.Log("Earn money Success");
+        playerManager.money += count;
     }
 
     // ACTIONS

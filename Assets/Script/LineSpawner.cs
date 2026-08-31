@@ -18,13 +18,11 @@ public class LineSpawner : NetworkBehaviour
     {
         if(canSpawn && IsHost)
         {
-            Debug.Log("Check");
             SpawnLine();
         }
     }
     void SpawnLine()
     {
-        Debug.Log("SpawnLine");
         canSpawn = false;
         int saverCount = 0;
         if(lines.Length < 3)
@@ -68,13 +66,10 @@ public class LineSpawner : NetworkBehaviour
     }
     void Spawn(byte b,int i)
     {
-        Debug.Log("MoveLine");
-        //lines[i].transform.parent = lineSpawners[b].transform;
         lines[i].GetComponent<Line>().tilemap.transform.position = lineSpawners[b].transform.position;
         lines[i].gameObject.SetActive(true);
         if(IsHost && lines[i].GetComponent<NetworkObject>().IsSpawned == false)
         {
-            Debug.Log("Isn't spawned");
             lines[i].GetComponent<NetworkObject>().Spawn();
         }
 
@@ -82,23 +77,11 @@ public class LineSpawner : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     void SpawnServerRpc(byte b, int i)
     {
-        Debug.Log("Server");
         SpawnClientRpc(b,i);
     }
     [ClientRpc]
     void SpawnClientRpc(byte b, int i)
     {
-        Debug.Log("Client");
         Spawn(b, i);
-    }
-    [ServerRpc(RequireOwnership = false)] void SpawnLineServerRpc()
-    {
-        Debug.Log("Server");
-        SpawnLineClientRpc();
-    }
-    [ClientRpc] void SpawnLineClientRpc()
-    {
-        Debug.Log("Client");
-        SpawnLine();
     }
 }

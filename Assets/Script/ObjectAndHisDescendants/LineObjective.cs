@@ -74,13 +74,14 @@ public class LineObjective : Building
             case TypeOfObjective.Grill:
                 break;
             case TypeOfObjective.Mine:
-                if (can && playerManager != null)
+                if (can && side != Side.Neutral)
                 {
-                    ReadyGiveMoneyCheckServerRpc(3);
+                    EarnMoney(3);
                 }
                 break;
         }
     }
+    /*
     [ServerRpc]protected override void ReadyGiveMoneyCheckServerRpc(int count)
     {
         if (NetworkManager.Singleton.ServerTime.Time > timerCooldown)
@@ -92,6 +93,7 @@ public class LineObjective : Building
             }
         }
     }
+    
     IEnumerator GiveMoney(int count)
     {
         can = false;
@@ -99,6 +101,7 @@ public class LineObjective : Building
         playerManager.money += count;
         can = true;
     }
+    */
 
     //SIDE CHANGE
 

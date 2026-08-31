@@ -162,7 +162,7 @@ public class Entity : NetworkBehaviour
         {
             return;
         }
-        if (NetworkManager.Singleton.ServerTime.Time > timerCooldown)
+        if (NetworkManager.Singleton.ServerTime.Time > timerCooldown && !GetComponent<Building>())
         {
             //Debug.Log("Time reach cooldown");
             timerCooldown = NetworkManager.Singleton.ServerTime.Time + attackTime;
