@@ -63,7 +63,7 @@ public class Entity : NetworkBehaviour
 
     protected double timerCooldown;
 
-
+    /*
     [ServerRpc(RequireOwnership = false)]protected void ReadyAttackCheckServerRpc()
     {
         if (readyAttack == false)
@@ -77,6 +77,7 @@ public class Entity : NetworkBehaviour
         Debug.Log("Ready attack for client");
         readyAttack = true;
     }
+    */
     void Start()
     {
         if (playerManager.IsServer == false)
@@ -169,7 +170,7 @@ public class Entity : NetworkBehaviour
             if (readyAttack == false)
             {
                 //Debug.Log("Ready attack true again");
-                ReadyAttackCheckServerRpc();
+                readyAttack = true;
             }
         }
         //ReadyAttackCheckServerRpc();
@@ -275,19 +276,16 @@ public class Entity : NetworkBehaviour
         //rb.constraints = RigidbodyConstraints2D.FreezePosition;
         if (targetUnit != null&&targetUnit.side == side)
         {
-            Debug.Log("TargetUnit = null 1");
             targetUnit = null;
         }
         if (targetUnit != null && Math.Abs(targetUnit.transform.position.y - transform.position.y) < range)
         {
             if(IsHost)
             {
-                Debug.Log("IsHostAttack");
                 targetUnit.GetDamageClientRpc(dmg);
             }
             else
             {
-                Debug.Log("IsClientAttack");
                 targetUnit.GetDamageServerRpc(dmg);
             }
             readyAttack = false;
