@@ -339,8 +339,8 @@ MonoBehaviour:
   side: 0
   objectName: Barrack
   readyAttack: 1
-  hp: 20
-  maxhp: 20
+  hp: 80
+  maxhp: 80
   currentHp:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0
@@ -348,7 +348,7 @@ MonoBehaviour:
     m_InternalValue: 0
   dmg: 0
   range: 0
-  respawnSpeed: 2
+  respawnSpeed: 10
   attackTime: 0
   speed: 0
   action:

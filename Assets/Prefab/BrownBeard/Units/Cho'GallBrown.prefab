@@ -147,8 +147,8 @@ MonoBehaviour:
   side: 1
   objectName: Cho'Gall
   readyAttack: 1
-  hp: 40
-  maxhp: 40
+  hp: 60
+  maxhp: 60
   currentHp:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0

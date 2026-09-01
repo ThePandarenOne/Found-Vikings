@@ -363,8 +363,8 @@ MonoBehaviour:
   side: 0
   objectName: Mine
   readyAttack: 1
-  hp: 20
-  maxhp: 20
+  hp: 60
+  maxhp: 60
   currentHp:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0

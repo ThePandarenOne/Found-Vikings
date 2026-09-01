@@ -35,8 +35,6 @@ public class Panel : MonoBehaviour
             buttons[i].action = null;
             buttons[i].acsessButton.onClick.RemoveAllListeners();
             buttons[i].gameObject.SetActive(false);
-            //Debug.Log("1"+objectUnit.playerManager);
-            //Debug.Log("1" + playerManager.IsOwner);
             if (objectUnit != null && objectUnit.side == playerManager.sidePlayer)
             {
                 if (objectUnit.TryGetComponent(out Unit unit) && group == null && unit.action[i] != null)
@@ -276,10 +274,13 @@ public class Panel : MonoBehaviour
     {
         for (byte i = 0; i < unitIcons.Length; i++)
         {
+            Debug.Log(1);
             if (build.unitQueue.Count > 0)
             {
+                Debug.Log(2);
                 if (i < build.unitQueue.Count)
                 {
+                    Debug.Log(3);
                     unitIcons[i].typeOfIcon = UnitIcon.TypeOfIcon.UnitQueueIcon;
                     unitIcons[i].gameObject.SetActive(true);
                     if(!build.GetComponent<LineObjective>())

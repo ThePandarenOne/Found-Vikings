@@ -147,8 +147,8 @@ MonoBehaviour:
   side: 1
   objectName: Baleog
   readyAttack: 1
-  hp: 10
-  maxhp: 10
+  hp: 15
+  maxhp: 15
   currentHp:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0
@@ -156,7 +156,7 @@ MonoBehaviour:
     m_InternalValue: 0
   dmg: 3
   range: 4
-  respawnSpeed: 2
+  respawnSpeed: 3
   attackTime: 2
   speed: 3
   action:

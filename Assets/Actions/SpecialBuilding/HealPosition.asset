@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b763f101f798604787f528927bb4070, type: 3}
   m_Name: HealPosition
   m_EditorClassIdentifier: Assembly-CSharp::ActionData
-  icon: {fileID: -1024900642, guid: 654d19d5a03265a42b633dcd3f105742, type: 3}
+  icon: {fileID: -1866023567623665504, guid: 1936c6117d024a44eb6e4b37417029b7, type: 3}
   namE: HealPosition
   keyCode: D
   cost: 0

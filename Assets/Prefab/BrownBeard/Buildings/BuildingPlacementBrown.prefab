@@ -146,8 +146,8 @@ MonoBehaviour:
   side: 1
   objectName: Place for building
   readyAttack: 1
-  hp: 5
-  maxhp: 5
+  hp: 10
+  maxhp: 10
   currentHp:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0

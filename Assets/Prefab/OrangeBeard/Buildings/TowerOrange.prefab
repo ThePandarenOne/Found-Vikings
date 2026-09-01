@@ -449,8 +449,8 @@ MonoBehaviour:
   side: 0
   objectName: Tower
   readyAttack: 1
-  hp: 30
-  maxhp: 30
+  hp: 80
+  maxhp: 80
   currentHp:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0

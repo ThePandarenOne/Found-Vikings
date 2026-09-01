@@ -32,6 +32,10 @@ public class UnitIcon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(unit.IsOwner == false)
+        {
+            typeOfIcon = TypeOfIcon.Disabled;
+        }
         switch (typeOfIcon)
         {
             case TypeOfIcon.UnitQueueIcon:

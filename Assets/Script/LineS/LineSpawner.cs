@@ -25,6 +25,7 @@ public class LineSpawner : NetworkBehaviour
     {
         canSpawn = false;
         int saverCount = 0;
+        /*
         if(lines.Length < 3)
         {
             Debug.LogError("Less than 4 lines");
@@ -35,6 +36,7 @@ public class LineSpawner : NetworkBehaviour
             Debug.LogError("Less than 3 lineSpanwers");
             return;
         }
+        */
         int firstLoop = -1;
         int secondLoop = -1;
         for (byte b = 0; b < lineSpawners.Length; b++)

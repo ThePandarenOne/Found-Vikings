@@ -52,7 +52,7 @@ public class Entity : NetworkBehaviour
     public byte respawnSpeed;
     public float attackTime;
     public float speed;
-
+    public bool isHealer;
     public ActionData[] action;
 
     //protected Rigidbody2D rb;
@@ -63,21 +63,6 @@ public class Entity : NetworkBehaviour
 
     protected double timerCooldown;
 
-    /*
-    [ServerRpc(RequireOwnership = false)]protected void ReadyAttackCheckServerRpc()
-    {
-        if (readyAttack == false)
-        {
-            Debug.Log("Ready attack true again");
-            ReadyAttackCheckClientRpc();
-        }
-    }
-    [ClientRpc]void ReadyAttackCheckClientRpc()
-    {
-        Debug.Log("Ready attack for client");
-        readyAttack = true;
-    }
-    */
     void Start()
     {
         if (playerManager.IsServer == false)
@@ -94,7 +79,6 @@ public class Entity : NetworkBehaviour
         }
         if (IsSpawned == false)
         {
-            //Debug.LogError(gameObject.name + ": Object isn't spawned!");
             if (NetworkManager.Singleton.IsHost)
             {
                 GetComponent<NetworkObject>().Spawn();
@@ -109,9 +93,6 @@ public class Entity : NetworkBehaviour
 
     public void ChooseUnit(bool d)
     {
-        //Debug.Log("IsOwner"+IsOwner);
-        //Debug.Log("OwnerId"+OwnerClientId);
-        //Debug.Log("ChooseUnit");
         panel = FindAnyObjectByType<Panel>();
         if (panel.group != null && !Input.GetKey(KeyCode.LeftControl) || d == true)
         {
@@ -159,17 +140,21 @@ public class Entity : NetworkBehaviour
 
     public void UpdateObject()
     {
+        if(hp > maxhp)
+        {
+            hp = maxhp;
+        }
         if (IsSpawned == false)
         {
             return;
         }
         if (NetworkManager.Singleton.ServerTime.Time > timerCooldown && !GetComponent<Building>())
         {
-            //Debug.Log("Time reach cooldown");
+            Debug.Log("Time reach cooldown");
             timerCooldown = NetworkManager.Singleton.ServerTime.Time + attackTime;
             if (readyAttack == false)
             {
-                //Debug.Log("Ready attack true again");
+                Debug.Log("Ready attack true again");
                 readyAttack = true;
             }
         }
@@ -270,23 +255,24 @@ public class Entity : NetworkBehaviour
     }
     void AttackTarget()
     {
-        Debug.Log("AttackTarget");
         readyAttack = false;
         timerCooldown = NetworkManager.Singleton.ServerTime.Time + attackTime;
-        //rb.constraints = RigidbodyConstraints2D.FreezePosition;
         if (targetUnit != null&&targetUnit.side == side)
         {
-            targetUnit = null;
+            if (isHealer && targetUnit.side != side || !isHealer && targetUnit.side == side)
+            {
+                targetUnit = null;
+            }
         }
         if (targetUnit != null && Math.Abs(targetUnit.transform.position.y - transform.position.y) < range)
         {
             if(IsHost)
             {
-                targetUnit.GetDamageClientRpc(dmg);
+                targetUnit.GetDamageClientRpc(dmg,isHealer);
             }
             else
             {
-                targetUnit.GetDamageServerRpc(dmg);
+                targetUnit.GetDamageServerRpc(dmg,isHealer);
             }
             readyAttack = false;
             if(GetComponent<Unit>() && GetComponent<Unit>().typeOfUnit == Unit.TypeOfUnit.Olaf)
@@ -295,25 +281,11 @@ public class Entity : NetworkBehaviour
             }
             if (targetUnit.hp <= 0)
             {
-                //if (targetUnit.TryGetComponent(out BuildPlace buildPlace))
-                {
-                    //buildPlace.playerManager = playerManager;
-                    //Debug.Log("1 Check");
-                    //buildPlace.AskForSideChange(side);
-                }
-                //else if (targetUnit.TryGetComponent(out Building building))
-                {
-                    //building.SpawnBuildingPlacementServerRpc(side);
-                    //building.buildPlace.playerManager = playerManager;
-                    //Debug.Log("2 Check");
-                    //building.buildPlace.AskForSideChange(side);
-                }
                 if(targetUnit.TryGetComponent(out LineObjective lineObjective))
                 {
                     lineObjective.playerManager = playerManager;
                     lineObjective.AskForSideChange(side);
                 }
-                //panel.ChangePanel();
             }
         }
     }
@@ -321,15 +293,27 @@ public class Entity : NetworkBehaviour
     {
         hp -= damage;
     }
-    [ServerRpc(RequireOwnership = false)]
-    void GetDamageServerRpc(int dmg)
+    public void GetHeal(int damage)
     {
-        GetDamageClientRpc(dmg);
+        hp += damage;
+    }
+    [ServerRpc(RequireOwnership = false)]
+    void GetDamageServerRpc(int dmg, bool isHeal)
+    {
+        GetDamageClientRpc(dmg, isHeal);
     }
     [ClientRpc]
-    void GetDamageClientRpc(int dmg)
+    void GetDamageClientRpc(int dmg, bool isHeal)
     {
-        GetDamage(dmg);
+        if(isHeal)
+        {
+            GetHeal(dmg);
+        }
+        else
+        {
+            GetDamage(dmg);
+        }
+
     }
 
     //Destroy

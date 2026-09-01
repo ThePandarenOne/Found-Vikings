@@ -23,6 +23,31 @@ public class RelayManager : MonoBehaviour
         PlayersCountCheck();
         UpdateUI();
     }
+
+    public void CopyToClipBoard()
+    {
+        if(!string.IsNullOrWhiteSpace(roomCode.text))
+        {
+            GUIUtility.systemCopyBuffer = adress;
+        }
+        else
+        {
+            Debug.Log("Code is null");
+        }
+    }
+
+    public void PutFromClipBoard()
+    {
+        if (!string.IsNullOrWhiteSpace(GUIUtility.systemCopyBuffer))
+        {
+            inputField.text = GUIUtility.systemCopyBuffer;
+        }
+        else
+        {
+            Debug.Log("CopyBuffer is null");
+        }
+    }
+
     void PlayersCountCheck()
     {
         if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsServer)
@@ -41,6 +66,7 @@ public class RelayManager : MonoBehaviour
     }
     public void ExitServer()
     {
+        roomCode.text = string.Empty;
         NetworkManager.Singleton.Shutdown();
     }
     void UpdateUI()
@@ -73,6 +99,7 @@ public class RelayManager : MonoBehaviour
         Allocation allocation = await RelayService.Instance.CreateAllocationAsync(2, serverName);
         string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
         roomCode.text = "Code: " + joinCode;
+        adress = joinCode;
 
         // Исправлено для Unity 6
         var relayServerData = AllocationUtils.ToRelayServerData(allocation, "dtls");

@@ -360,8 +360,8 @@ MonoBehaviour:
   side: 1
   objectName: Eric
   readyAttack: 1
-  hp: 5
-  maxhp: 5
+  hp: 10
+  maxhp: 10
   currentHp:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0
@@ -369,7 +369,7 @@ MonoBehaviour:
     m_InternalValue: 0
   dmg: 1
   range: 6
-  respawnSpeed: 2
+  respawnSpeed: 3
   attackTime: 1
   speed: 3.5
   action:

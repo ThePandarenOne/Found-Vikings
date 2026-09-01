@@ -74,10 +74,17 @@ public class Unit : Entity
                     if (hit == true)
                     {
                         //Debug.Log("Attack1"+hit);
-                        if(hit.transform.gameObject.TryGetComponent(out Entity obj) && obj.side != side)
+                        if(hit.transform.gameObject.TryGetComponent(out Entity obj))
                         {
                             //Debug.Log("Attack2" + hit);
-                            targetUnit = obj;
+                            if (isHealer && obj.side == side || !isHealer && obj.side != side)
+                            {
+                                targetUnit = obj;
+                            }
+                            //else if (!isHealer && targetUnit.side == side)
+                            {
+                                //targetUnit = obj;
+                            }
                             Debug.Log(targetUnit);
                             AskForChangeUnitState(UnitState.Hunt);
                         }
@@ -95,10 +102,12 @@ public class Unit : Entity
                     Collider2D[] touchableObjects = Physics2D.OverlapCircleAll(transform.position, range);
                     foreach (Collider2D touchableObject in touchableObjects)
                     {
-                        if (touchableObject.TryGetComponent(out Entity unit) && unit.side != side && Math.Abs(unit.transform.position.x - transform.position.x) < range)
+                        if (touchableObject.TryGetComponent(out Entity unit) &&  Math.Abs(unit.transform.position.x - transform.position.x) < range)
                         {
-                            //Debug.Log("Rush" + unit);
-                            targetUnit = unit;
+                            if (isHealer && unit.side == side || !isHealer && unit.side != side)
+                            {
+                                targetUnit = unit;
+                            }
                         }
                     }
                     MoveResearch();
@@ -141,7 +150,7 @@ public class Unit : Entity
                 }
                 if(targetUnit == null ||targetUnit != null&& targetUnit.hp <= 0)
                 {
-                    Debug.Log("No target (");
+                    //Debug.Log("No target (");
                     //AskForChangeUnitState(UnitState.Idle);
                 }
                 break;
@@ -163,9 +172,12 @@ public class Unit : Entity
                     Collider2D[] touchableObjects = Physics2D.OverlapCircleAll(transform.position, range);
                     foreach (Collider2D touchableObject in touchableObjects)
                     {
-                        if (touchableObject.TryGetComponent(out Entity unit) && unit.side != side)
+                        if (touchableObject.TryGetComponent(out Entity unit))
                         {
-                            targetUnit = unit;
+                            if (isHealer && unit.side == side || !isHealer && unit.side != side)
+                            {
+                                targetUnit = unit;
+                            }
                         }
                     }
                 }

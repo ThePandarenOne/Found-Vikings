@@ -44,7 +44,8 @@ public class Building : Entity
         {
             spawnplace = gameObject;
         }
-        if(hp <= 0 && typeOfBuilding != TypeOfBuilding.MainBuilding)
+        UpdateObject();
+        if (hp <= 0 && typeOfBuilding != TypeOfBuilding.MainBuilding)
         {
             if(side == Side.Player)
             {
@@ -55,7 +56,6 @@ public class Building : Entity
                 AskForBuildingDestroy(Side.Player);
             }
         }
-        UpdateObject();
         switch (typeOfBuilding)
         {
             case TypeOfBuilding.Spawner:
@@ -101,9 +101,16 @@ public class Building : Entity
                     Collider2D[] touchableObjects = Physics2D.OverlapCircleAll(transform.position, range);
                     foreach (Collider2D touchableObject in touchableObjects)
                     {
-                        if (touchableObject.TryGetComponent(out Entity unit) && unit.side != side)
+                        if (touchableObject.TryGetComponent(out Entity unit))
                         {
-                            targetUnit = unit;
+                            if (isHealer && unit.side == side || !isHealer && unit.side != side)
+                            {
+                                targetUnit = unit;
+                            }
+                            //else if (!isHealer && unit.side != side)
+                            {
+                                //targetUnit = unit;
+                            }
                         }
                     }
                 }
@@ -208,7 +215,7 @@ public class Building : Entity
             }
         }
     }
-    void QueueUpdate()//Обновляет в очередь
+    void QueueUpdate()//Обновляет очередь
     {
         //Debug.Log("QueueUpdate");
         if (unitQueue.Count > 0)

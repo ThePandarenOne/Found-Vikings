@@ -54,6 +54,10 @@ public class LineObjective : Building
     // Update is called once per frame
     void Update()
     {
+        if (spawnplace == null)
+        {
+            spawnplace = gameObject;
+        }
         UpdateObject();
         switch (typeOfObjective)
         {
@@ -70,8 +74,6 @@ public class LineObjective : Building
                     can = false;
 
                 }
-                break;
-            case TypeOfObjective.Grill:
                 break;
             case TypeOfObjective.Mine:
                 if (can && side != Side.Neutral)
@@ -116,7 +118,7 @@ public class LineObjective : Building
             SideChangeServerRpc(sidee);
         }
     }
-    [ServerRpc] void SideChangeServerRpc(Side sidee)
+    [ServerRpc(RequireOwnership = false)] void SideChangeServerRpc(Side sidee)
     {
         SideChangeClientRpc(sidee);
     }
@@ -163,6 +165,8 @@ public class LineObjective : Building
     
     public void SpawnUnit()
     {
+        Debug.Log("Side of "+ gameObject.name + "Is" + side);
+        Debug.Log("The owner id is " + OwnerClientId);
         if (side == Side.Player)
         {
             Unit unit = Instantiate(unitOrange, new Vector2(transform.position.x, transform.position.y), transform.rotation);

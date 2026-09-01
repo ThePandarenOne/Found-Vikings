@@ -14,12 +14,10 @@ public class UIManager : MonoBehaviour
         if (pauseMenu.activeSelf)
         {
             pauseMenu.SetActive(false);
-            Time.timeScale = 1;
         }
         else
         {
             pauseMenu.SetActive(true);
-            Time.timeScale = 0;
         }
     }
     public void LoadScene(int sceneId)
@@ -44,7 +42,6 @@ public class UIManager : MonoBehaviour
     {
         if(musicSlider != null)
         {
-            //musicSlider.value = musicSlider.value / 4;
             musicSlider.value = PlayerPrefs.GetFloat("Music volume");
         }
     }
@@ -55,10 +52,7 @@ public class UIManager : MonoBehaviour
         if(music != null)
         {
             music.volume = musicSlider.value;
-            if (music.volume != PlayerPrefs.GetFloat("Music volume"))
-            {
-                PlayerPrefs.SetFloat("Music volume", music.volume);
-            }
+            PlayerPrefs.SetFloat("Music volume", musicSlider.value);
         }
         if(Input.GetKeyDown(KeyCode.Escape))
         {
