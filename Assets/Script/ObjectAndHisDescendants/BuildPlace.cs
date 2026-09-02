@@ -39,7 +39,6 @@ public class BuildPlace : Entity
         if (playerManager == null || playerManager != null&& playerManager.sidePlayer != side)
         {
             playerManager = FindObjectsByType<PlayerManager>(FindObjectsSortMode.None).FirstOrDefault(pm => pm.sidePlayer == side);
-            Debug.Log(playerManager);
         }
     }
 

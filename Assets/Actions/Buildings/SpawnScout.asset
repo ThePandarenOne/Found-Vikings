@@ -15,4 +15,4 @@ MonoBehaviour:
   icon: {fileID: 939115, guid: 7119eefa8ba4ea3408da9b41031cd4f4, type: 3}
   namE: Spawn Erik
   keyCode: 2
-  cost: 50
+  cost: 60

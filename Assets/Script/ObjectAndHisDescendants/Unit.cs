@@ -73,19 +73,12 @@ public class Unit : Entity
                     RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
                     if (hit == true)
                     {
-                        //Debug.Log("Attack1"+hit);
                         if(hit.transform.gameObject.TryGetComponent(out Entity obj))
                         {
-                            //Debug.Log("Attack2" + hit);
                             if (isHealer && obj.side == side || !isHealer && obj.side != side)
                             {
                                 targetUnit = obj;
                             }
-                            //else if (!isHealer && targetUnit.side == side)
-                            {
-                                //targetUnit = obj;
-                            }
-                            Debug.Log(targetUnit);
                             AskForChangeUnitState(UnitState.Hunt);
                         }
                     }
@@ -144,7 +137,6 @@ public class Unit : Entity
                 }
                 if (IsOwner&&targetUnit != null && Mathf.Abs(targetUnit.transform.position.x - transform.position.x) <= range && readyAttack)
                 {
-                    Debug.Log("Find object in hunt");
                     canGoThrough = false;
                     AskForAttack();
                 }

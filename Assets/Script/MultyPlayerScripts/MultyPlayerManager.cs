@@ -30,10 +30,6 @@ public class RelayManager : MonoBehaviour
         {
             GUIUtility.systemCopyBuffer = adress;
         }
-        else
-        {
-            Debug.Log("Code is null");
-        }
     }
 
     public void PutFromClipBoard()
@@ -41,10 +37,6 @@ public class RelayManager : MonoBehaviour
         if (!string.IsNullOrWhiteSpace(GUIUtility.systemCopyBuffer))
         {
             inputField.text = GUIUtility.systemCopyBuffer;
-        }
-        else
-        {
-            Debug.Log("CopyBuffer is null");
         }
     }
 

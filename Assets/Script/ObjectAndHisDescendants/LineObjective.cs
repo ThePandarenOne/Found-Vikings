@@ -65,7 +65,6 @@ public class LineObjective : Building
                 DragonTimeCheckServerRpc(respawnSpeed);
                 if (canSpawnChoGall && side != Side.Neutral && IsHost)
                 {
-                    Debug.Log("UpdateCheck");
                     canSpawnChoGall = false;
                     AskForGiveDragon();
                 }
@@ -165,8 +164,6 @@ public class LineObjective : Building
     
     public void SpawnUnit()
     {
-        Debug.Log("Side of "+ gameObject.name + "Is" + side);
-        Debug.Log("The owner id is " + OwnerClientId);
         if (side == Side.Player)
         {
             Unit unit = Instantiate(unitOrange, new Vector2(transform.position.x, transform.position.y), transform.rotation);
@@ -185,7 +182,6 @@ public class LineObjective : Building
 
     public void AskForGiveDragon()
     {
-        Debug.Log("AskForGiveDragon");
         if (IsHost)
         {
             GiveDragonClientRpc();
@@ -204,13 +200,11 @@ public class LineObjective : Building
     [ClientRpc]
     void GiveDragonClientRpc()
     {
-        Debug.Log("GiveDragonClientRpc");
         GiveDragon(side);
     }
 
     void GiveDragon(Side side)
     {
-        Debug.Log("GiveDragon");
         if(IsHost)
         {
             if (side == Side.Player)

@@ -107,10 +107,6 @@ public class Building : Entity
                             {
                                 targetUnit = unit;
                             }
-                            //else if (!isHealer && unit.side != side)
-                            {
-                                //targetUnit = unit;
-                            }
                         }
                     }
                 }
@@ -204,7 +200,6 @@ public class Building : Entity
 
     public virtual void AddUnitToQueue(byte NameOfUnit)//Добавляет юнита в очередь
     {
-        //Debug.Log("AddUnitToQueue");
         if(unitQueue.Count < 5)
         {
             unitQueue.Add(NameOfUnit);
@@ -213,19 +208,6 @@ public class Building : Entity
                 canSpawn = false;
                 StartCoroutine(WaitForSpawn(unitSpawn[NameOfUnit]));
             }
-        }
-    }
-    void QueueUpdate()//Обновляет очередь
-    {
-        //Debug.Log("QueueUpdate");
-        if (unitQueue.Count > 0)
-        {
-            panel.UpdateUnitsIconsInQueue(this);
-            unitQueue.RemoveAt(0);
-        }
-        if (unitQueue.Count > 0)
-        {
-            StartCoroutine(WaitForSpawn(unitSpawn[unitQueue[0]]));
         }
     }
     public int timer;
@@ -242,15 +224,37 @@ public class Building : Entity
                 if(IsHost)
                 {
                     un = Instantiate(unit, new Vector3(spawnplace.transform.position.x, spawnplace.transform.position.y, 0), spawnplace.transform.rotation);
+                    un.GetComponent<NetworkObject>().SpawnWithOwnership(OwnerClientId);
+                    un.playerManager = playerManager;
                 }
-                un.GetComponent<NetworkObject>().SpawnWithOwnership(OwnerClientId);
-                un.playerManager = playerManager;
                 canSpawn = true;
                 QueueUpdate();
             }
         }
     }
-
+    void QueueUpdate()//Обновляет очередь
+    {
+        //Debug.Log("Queue update");
+        if (unitQueue.Count > 0)
+        {
+            unitQueue.RemoveAt(0);
+        }
+        if (unitQueue.Count > 0)
+        {
+            StartCoroutine(WaitForSpawn(unitSpawn[unitQueue[0]]));
+        }
+    }
+    [ServerRpc] 
+    void RemoveFromQueueServerRpc()
+    {
+        RemoveFromQueueClientRpc();
+    }
+    [ClientRpc]
+    void RemoveFromQueueClientRpc()
+    {
+        panel.UpdateUnitsIconsInQueue(this);
+        unitQueue.RemoveAt(0);
+    }
     // BUILDING DESTROY
 
     public void AskForBuildingDestroy(Side side)
@@ -278,8 +282,6 @@ public class Building : Entity
     {
         SpawnBuildingPlacementServerRpc(side);
         Destroy(gameObject);
-        //playerManager.UpdateUnitOwnerServerRpc(buildPlace.GetComponent<NetworkObject>());
-        //buildPlace.gameObject.SetActive(true);
     }
     [ServerRpc(RequireOwnership = false)]
     public void SpawnBuildingPlacementServerRpc(Side side)

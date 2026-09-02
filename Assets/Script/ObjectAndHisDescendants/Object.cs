@@ -148,17 +148,19 @@ public class Entity : NetworkBehaviour
         {
             return;
         }
-        if (NetworkManager.Singleton.ServerTime.Time > timerCooldown && !GetComponent<Building>())
+        if (NetworkManager.Singleton.ServerTime.Time > timerCooldown)
         {
-            Debug.Log("Time reach cooldown");
-            timerCooldown = NetworkManager.Singleton.ServerTime.Time + attackTime;
-            if (readyAttack == false)
+            if(!GetComponent<Building>()||TryGetComponent(out Building building) && building.typeOfBuilding != Building.TypeOfBuilding.Mine)
             {
-                Debug.Log("Ready attack true again");
-                readyAttack = true;
+                //Debug.Log("Time reach cooldown");
+                timerCooldown = NetworkManager.Singleton.ServerTime.Time + attackTime;
+                if (readyAttack == false)
+                {
+                    //Debug.Log("Ready attack true again");
+                    readyAttack = true;
+                }
             }
         }
-        //ReadyAttackCheckServerRpc();
         if (playerManager == null)
         {
             playerManager = FindObjectsByType<PlayerManager>(FindObjectsSortMode.None).FirstOrDefault(m => m.sidePlayer == side);
@@ -257,11 +259,12 @@ public class Entity : NetworkBehaviour
     {
         readyAttack = false;
         timerCooldown = NetworkManager.Singleton.ServerTime.Time + attackTime;
-        if (targetUnit != null&&targetUnit.side == side)
+        if (targetUnit != null)
         {
-            if (isHealer && targetUnit.side != side || !isHealer && targetUnit.side == side)
+            if (isHealer && targetUnit.side != side && targetUnit.GetComponent<Unit>() || !isHealer && targetUnit.side == side)
             {
                 targetUnit = null;
+                return;
             }
         }
         if (targetUnit != null && Math.Abs(targetUnit.transform.position.y - transform.position.y) < range)

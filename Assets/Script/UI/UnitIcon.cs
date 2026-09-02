@@ -32,7 +32,7 @@ public class UnitIcon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(unit.IsOwner == false)
+        if(panel!=null&&panel.objectUnit != null&&panel.objectUnit.IsOwner == false)
         {
             typeOfIcon = TypeOfIcon.Disabled;
         }

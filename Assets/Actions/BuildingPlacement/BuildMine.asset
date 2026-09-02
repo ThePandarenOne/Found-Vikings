@@ -15,4 +15,4 @@ MonoBehaviour:
   icon: {fileID: 140162295, guid: 7119eefa8ba4ea3408da9b41031cd4f4, type: 3}
   namE: Build mine
   keyCode: 2
-  cost: 80
+  cost: 100

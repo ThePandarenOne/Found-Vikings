@@ -156,9 +156,10 @@ MonoBehaviour:
     m_InternalValue: 0
   dmg: 3
   range: 4
-  respawnSpeed: 3
+  respawnSpeed: 5
   attackTime: 2
   speed: 3
+  isHealer: 0
   action:
   - {fileID: 11400000, guid: a1215525ec0b7b24bb99b3e991ce82d1, type: 2}
   - {fileID: 11400000, guid: a984f422fe06f604f9878e404675951d, type: 2}

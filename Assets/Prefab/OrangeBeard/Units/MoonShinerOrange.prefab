@@ -281,7 +281,7 @@ MonoBehaviour:
     m_InternalValue: 0
   dmg: 2
   range: 5
-  respawnSpeed: 10
+  respawnSpeed: 20
   attackTime: 1
   speed: 2.5
   isHealer: 1

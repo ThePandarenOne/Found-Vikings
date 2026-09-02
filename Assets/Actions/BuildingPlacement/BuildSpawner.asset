@@ -15,4 +15,4 @@ MonoBehaviour:
   icon: {fileID: -788367354, guid: 7119eefa8ba4ea3408da9b41031cd4f4, type: 3}
   namE: Build spawner
   keyCode: 1
-  cost: 100
+  cost: 120

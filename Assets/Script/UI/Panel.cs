@@ -29,7 +29,6 @@ public class Panel : MonoBehaviour
     }
     public void ChangePanel()
     {
-        //Debug.Log("ChangPanel method");
         for (byte i = 0; i < buttons.Length; i++)
         {
             buttons[i].action = null;
@@ -70,19 +69,6 @@ public class Panel : MonoBehaviour
                         GiveActionBuildingPlacement(i);
                     }
                 }
-                /*
-                else if(objectUnit.TryGetComponent(out LineObjective lineObjective))
-                {
-                    buttons[i].action = lineObjective.action[i];
-                    buttons[i].GetAction();
-                    if (objectUnit.side == playerManager.sidePlayer)
-                    {
-                        buttons[i].gameObject.SetActive(true);
-                        buttons[i].acsessButton.onClick.AddListener(buttons[i].GetCost);
-                        GiveActionLineObjective(i);
-                    }
-                }
-                */
 
                 else
                 {
@@ -165,7 +151,7 @@ public class Panel : MonoBehaviour
                 {
                     buttons[i].acsessButton.onClick.AddListener(unit.JumpDown);
                 }
-                /*        
+                        
                 if (buttons[i].action.namE == "Heal")
                 {
                     buttons[i].acsessButton.onClick.AddListener(unit.Attack);
@@ -174,7 +160,6 @@ public class Panel : MonoBehaviour
                 {
                 buttons[i].acsessButton.onClick.AddListener(unit.AttackPosition);
                 }
-                 */
             }
         }
     }
@@ -211,6 +196,14 @@ public class Panel : MonoBehaviour
 
         //LineObjective
 
+        if (buttons[i].action.namE == "Heal")
+        {
+            buttons[i].acsessButton.onClick.AddListener(building.Attack);
+        }
+        if (buttons[i].action.namE == "HealPosition")
+        {
+            buttons[i].acsessButton.onClick.AddListener(building.AttackPosition);
+        }
         if (buttons[i].action.namE == "Spawn Cho'gall")
         {
             buttons[i].acsessButton.onClick.AddListener(() => building.AskForAddUnitToQueue(0));
@@ -236,28 +229,11 @@ public class Panel : MonoBehaviour
             buttons[i].acsessButton.onClick.AddListener(building.BuildTower);
         }
     }
-    /*
-    public void GiveActionLineObjective(byte i)
-    {
-        LineObjective building = objectUnit.GetComponent<LineObjective>();
-        if (buttons[i].action.namE == "Spawn Cho'gall")
-        {
-            buttons[i].acsessButton.onClick.AddListener(building.SpawnUnit);
-        }
-        if (buttons[i].action.namE == "Spawn Moonshiner")
-        {
-            buttons[i].acsessButton.onClick.AddListener(building.SpawnUnit);
-        }
-    }
-    */
     // Update is called once per frame
     void UpdateUnitsIconsInGroup()
     {
-        //Debug.Log("UpdateUnitsIconsInGroup");
         for(byte i = 0; i < 12;i++)
         {
-            //Debug.Log(i);
-            //Debug.Log(group.units.Count);
             if (i >= group.units.Count)
             {
                 unitIcons[i].typeOfIcon = UnitIcon.TypeOfIcon.Disabled;
@@ -274,15 +250,15 @@ public class Panel : MonoBehaviour
     {
         for (byte i = 0; i < unitIcons.Length; i++)
         {
-            Debug.Log(1);
             if (build.unitQueue.Count > 0)
             {
-                Debug.Log(2);
                 if (i < build.unitQueue.Count)
                 {
-                    Debug.Log(3);
-                    unitIcons[i].typeOfIcon = UnitIcon.TypeOfIcon.UnitQueueIcon;
-                    unitIcons[i].gameObject.SetActive(true);
+                    if(objectUnit.IsOwner)
+                    {
+                        unitIcons[i].typeOfIcon = UnitIcon.TypeOfIcon.UnitQueueIcon;
+                        unitIcons[i].gameObject.SetActive(true);
+                    }
                     if(!build.GetComponent<LineObjective>())
                     {
                         unitIcons[i].unit = build.unitSpawn[build.unitQueue[i]];
