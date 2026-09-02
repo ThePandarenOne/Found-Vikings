@@ -318,6 +318,49 @@ public class Panel : MonoBehaviour
         {
             moneyCounter.text = "Money:" + playerManager.money;
         }
+
+        if(objectUnit != null)
+        {
+            if (objectUnit.TryGetComponent(out Building build) && build.unitQueue.Count > 0)//Обновляет иконки во время очереди
+            {
+                UpdateUnitsIconsInQueue(build);
+            }
+            else if (objectUnit.TryGetComponent(out BuildPlace buildPlace))//Обновляет иконки во время строительства
+            {
+                UnitIconsDisabled();
+                UpdateUnitsIconsWhileBuilding(buildPlace);
+            }
+        }
+
+        if(group != null)
+        {
+            if (group.units.Count > 0)//Обновляет иконки юнитов в группе
+            {
+                UpdateUnitsIconsInGroup();
+            }
+            else if (group.units.Count == 0)//Если группа создана, но пуста.
+            {
+                foreach (PanelButton panelButton in buttons)
+                {
+                    panelButton.gameObject.SetActive(false);
+                }
+                UnitIconsDisabled();
+            }
+            else
+            {
+                UnitIconsDisabled();
+            }
+        }
+        else
+        {
+            if (objectUnit == null|| objectUnit != null && objectUnit.gameObject.activeSelf == false)//
+            {
+                objectUnit = null;
+                UnitIconsDisabled();
+                ChangePanel();
+            }
+        }
+        /*
         if (group != null && group.units.Count > 0)//Обновляет иконки юнитов в группе
         {
             UpdateUnitsIconsInGroup();
@@ -325,10 +368,7 @@ public class Panel : MonoBehaviour
         else if (objectUnit == null && group == null ||  objectUnit != null &&objectUnit.gameObject.activeSelf == false && group == null)//
         {
             objectUnit = null;
-            foreach(UnitIcon u in unitIcons)
-            {
-                u.typeOfIcon = UnitIcon.TypeOfIcon.Disabled;
-            }
+            UnitIconsDisabled();
             ChangePanel();
         }
         else if (group != null && group.units.Count == 0)//Если группа создана, но пуста.
@@ -337,10 +377,7 @@ public class Panel : MonoBehaviour
             {
                 panelButton.gameObject.SetActive(false);
             }
-            foreach (UnitIcon unit in unitIcons)
-            {
-                unit.typeOfIcon = UnitIcon.TypeOfIcon.Disabled;
-            }
+            UnitIconsDisabled();
         }
         else if (objectUnit != null && objectUnit.TryGetComponent(out Building build) && build.unitQueue.Count > 0)//Обновляет иконки во время очереди
         {
@@ -348,19 +385,16 @@ public class Panel : MonoBehaviour
         }
         else if (objectUnit != null && objectUnit.TryGetComponent(out BuildPlace buildPlace))//Обновляет иконки во время строительства
         {
-            foreach (UnitIcon u in unitIcons)
-            {
-                u.typeOfIcon = UnitIcon.TypeOfIcon.Disabled;
-            }
+            UnitIconsDisabled();
             UpdateUnitsIconsWhileBuilding(buildPlace);
         }
         else
         {
-            foreach (UnitIcon unit in unitIcons)
-            {
-                unit.typeOfIcon = UnitIcon.TypeOfIcon.Disabled;
-            }
+            UnitIconsDisabled();
         }
+        */
+        
+        
         if (Input.GetKey(KeyCode.LeftControl))
         {
             if (group == null || cannew)
@@ -389,6 +423,13 @@ public class Panel : MonoBehaviour
         else
         {
             sliderHP.gameObject.SetActive(false);
+        }
+    }
+    void UnitIconsDisabled()
+    {
+        foreach (UnitIcon unit in unitIcons)
+        {
+            unit.typeOfIcon = UnitIcon.TypeOfIcon.Disabled;
         }
     }
     public void SpawnGroup()
