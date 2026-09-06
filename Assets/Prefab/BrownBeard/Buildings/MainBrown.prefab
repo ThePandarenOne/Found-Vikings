@@ -451,8 +451,9 @@ MonoBehaviour:
   dmg: 2
   range: 10
   respawnSpeed: 5
-  attackTime: 1
+  attackTime: 1.5
   speed: 0
+  isHealer: 0
   action:
   - {fileID: 11400000, guid: a984f422fe06f604f9878e404675951d, type: 2}
   - {fileID: 11400000, guid: 3d7dab7dbcf5c604b8751343f3ff90fc, type: 2}

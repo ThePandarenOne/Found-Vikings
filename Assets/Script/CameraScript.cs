@@ -25,11 +25,11 @@ public class CameraScript : MonoBehaviour
         }
         if (clickPosition.x >= transform.position.x + 26 || Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.position += new Vector3(10, 0, 0) * Time.deltaTime;
+            transform.position += new Vector3(25, 0, 0) * Time.deltaTime;
         }
         else if (clickPosition.x <= transform.position.x + -26 || Input.GetKey(KeyCode.RightArrow))
         {
-            transform.position += new Vector3(-10, 0, 0) * Time.deltaTime;
+            transform.position += new Vector3(-25, 0, 0) * Time.deltaTime;
         }
     }
 }

@@ -577,7 +577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3935026442
+  GlobalObjectIdHash: 807193187
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -622,11 +622,12 @@ MonoBehaviour:
       MinSecondsBetweenUpdates: 0
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 0
-  dmg: 3
+  dmg: 4
   range: 5
   respawnSpeed: 10
-  attackTime: 1
+  attackTime: 2
   speed: 0
+  isHealer: 0
   action:
   - {fileID: 11400000, guid: a984f422fe06f604f9878e404675951d, type: 2}
   - {fileID: 11400000, guid: 3d7dab7dbcf5c604b8751343f3ff90fc, type: 2}

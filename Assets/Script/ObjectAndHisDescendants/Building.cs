@@ -71,18 +71,10 @@ public class Building : Entity
                     {
                         return;
                     }
-                    //Debug.Log(gameObject.name + ": " + playerManager.sidePlayer);
                     if (NetworkManager.Singleton.ServerTime.Time >= timerCooldown)
                     {
-                        //Debug.Log("ServerTime: " + NetworkManager.Singleton.ServerTime.Time);
-                        //Debug.Log("timerCooldown: " + timerCooldown);
                         timerCooldown = NetworkManager.Singleton.ServerTime.Time + attackTime;
                         EarnMoney(2);
-                    }
-                    if (readyAttack)
-                    {
-                        //readyAttack = false;
-                        //EarnMoney(2);
                     }
                 }
                 break;

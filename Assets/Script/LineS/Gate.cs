@@ -27,15 +27,22 @@ public class Gate : MonoBehaviour
                 {
                     collision.transform.position = new Vector2(teleportGate.tpPlace.position.x, teleportGate.tpPlace.position.y+0.5f);
                 }
-                else
+                else if(unit.typeOfUnit == Unit.TypeOfUnit.Moonshiner && unit.typeOfUnit == Unit.TypeOfUnit.ChoGall && unit.typeOfUnit == Unit.TypeOfUnit.Dragon)
                 {
                     collision.transform.position = teleportGate.tpPlace.position;
                 }
             }
-            else if(teleportGate == null)
+            if(teleportGate == null)
             {
-                collision.transform.position = unitsPlaces[unit];
-                unitsPlaces.Remove(unit);
+                if(unitsPlaces.ContainsKey(unit) == false)
+                {
+                    collision.transform.position = new Vector2(collision.transform.position.x+4, collision.transform.position.y);
+                }
+                else
+                {
+                    collision.transform.position = unitsPlaces[unit];
+                    unitsPlaces.Remove(unit);
+                }
             }
         }
     }

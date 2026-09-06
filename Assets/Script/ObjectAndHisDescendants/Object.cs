@@ -150,14 +150,16 @@ public class Entity : NetworkBehaviour
         }
         if (NetworkManager.Singleton.ServerTime.Time > timerCooldown)
         {
-            if(!GetComponent<Building>()||TryGetComponent(out Building building) && building.typeOfBuilding != Building.TypeOfBuilding.Mine)
+            if (!GetComponent<BuildPlace>())
             {
-                //Debug.Log("Time reach cooldown");
-                timerCooldown = NetworkManager.Singleton.ServerTime.Time + attackTime;
-                if (readyAttack == false)
+                if (TryGetComponent(out Building building) && building.typeOfBuilding != Building.TypeOfBuilding.Mine || !GetComponent<Building>())
                 {
-                    //Debug.Log("Ready attack true again");
-                    readyAttack = true;
+                    Debug.Log(gameObject.name + " Ready attack");
+                    timerCooldown = NetworkManager.Singleton.ServerTime.Time + attackTime;
+                    if (readyAttack == false)
+                    {
+                        readyAttack = true;
+                    }
                 }
             }
         }
@@ -228,14 +230,12 @@ public class Entity : NetworkBehaviour
 
     public void AskForAttack()
     {
-        //Debug.Log("AskForAttack1");
         if (readyAttack == false)
         {
             return;
         }
         if(readyAttack)
         {
-            //Debug.Log("AskForAttack2");
             readyAttack = false;
             if (IsHost)
             {
@@ -280,7 +280,7 @@ public class Entity : NetworkBehaviour
             readyAttack = false;
             if(GetComponent<Unit>() && GetComponent<Unit>().typeOfUnit == Unit.TypeOfUnit.Olaf)
             {
-                //targetUnit.targetUnit = this;
+                //ProvokeServerRpc(targetUnit);
             }
             if (targetUnit.hp <= 0)
             {
@@ -292,6 +292,9 @@ public class Entity : NetworkBehaviour
             }
         }
     }
+
+    // GET DAMAGE/HEAL
+
     public void GetDamage(int damage)
     {
         hp -= damage;
@@ -318,7 +321,19 @@ public class Entity : NetworkBehaviour
         }
 
     }
-
+    // Olaf provocation
+    /*
+    [ClientRpc]
+    protected void ProvokeClientRpc(Entity target)
+    {
+        target.targetUnit = this;
+    }
+    [ServerRpc(RequireOwnership = false)]
+    protected void ProvokeServerRpc(Entity target)
+    {
+        ProvokeClientRpc(target);
+    }
+    */
     //Destroy
 
     [ClientRpc]
