@@ -33,7 +33,7 @@ RectTransform:
   m_Father: {fileID: 785588097677210601}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -2.4999, y: 0}
   m_SizeDelta: {x: 5.0001, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -393,7 +393,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 8857900999629974329, guid: d0ccefb52de0a7a4caab7baff0328ff1, type: 3}
+  m_Sprite: {fileID: -8605719098752131358, guid: 10c3e5baf3f179c44bfeafaf9fe754ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -511,6 +511,7 @@ MonoBehaviour:
   respawnSpeed: 0
   attackTime: 1
   speed: 0
+  isHealer: 0
   action:
   - {fileID: 0}
   - {fileID: 0}
@@ -529,8 +530,8 @@ MonoBehaviour:
   unitSpawn: []
   spawnplace: {fileID: 0}
   timer: 0
-  spriteBrown: {fileID: 1644159617, guid: d0ccefb52de0a7a4caab7baff0328ff1, type: 3}
-  spriteOrange: {fileID: -1945467135680943758, guid: d0ccefb52de0a7a4caab7baff0328ff1, type: 3}
+  spriteBrown: {fileID: -8491092885404841787, guid: 10c3e5baf3f179c44bfeafaf9fe754ac, type: 3}
+  spriteOrange: {fileID: 5337090538506271204, guid: 10c3e5baf3f179c44bfeafaf9fe754ac, type: 3}
   typeOfObjective: 2
   line: {fileID: 0}
   unitBrown: {fileID: 0}

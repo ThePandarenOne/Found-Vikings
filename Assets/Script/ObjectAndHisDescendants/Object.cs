@@ -154,7 +154,6 @@ public class Entity : NetworkBehaviour
             {
                 if (TryGetComponent(out Building building) && building.typeOfBuilding != Building.TypeOfBuilding.Mine || !GetComponent<Building>())
                 {
-                    Debug.Log(gameObject.name + " Ready attack");
                     timerCooldown = NetworkManager.Singleton.ServerTime.Time + attackTime;
                     if (readyAttack == false)
                     {

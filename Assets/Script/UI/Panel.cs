@@ -323,6 +323,13 @@ public class Panel : MonoBehaviour
         {
             if (objectUnit.TryGetComponent(out Building build) && build.unitQueue.Count > 0)//Обновляет иконки во время очереди
             {
+                if(build.unitQueue.Count == 6)
+                {
+                    foreach(PanelButton buttons in buttons)
+                    {
+                        buttons.acsessButton.interactable = false;
+                    }
+                }
                 UpdateUnitsIconsInQueue(build);
             }
             else if (objectUnit.TryGetComponent(out BuildPlace buildPlace))//Обновляет иконки во время строительства

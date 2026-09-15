@@ -186,7 +186,6 @@ public class Unit : Entity
                 break;
         }
     }
-    //private NetworkVariable<Vector2> serverTargetPosition = new NetworkVariable<Vector2>(new Vector2(-270, 270));
     public bool SearchForUnitInGroup()
     {
         if(panel.group != null)
@@ -205,7 +204,6 @@ public class Unit : Entity
     {
         if(IsOwner)
         {
-            //Debug.Log(gameObject.name + ": MoveResearch");
             if (playerManager.IsHost)
             {
                 MoveClientRpc();
@@ -215,28 +213,21 @@ public class Unit : Entity
                 MoveServerRpc();
             }
         }
-        else
-        {
-            //Debug.Log(gameObject.name +": "+ IsOwner);
-        }
     }
     [ServerRpc]
     public void MoveServerRpc()
     {
-        //Debug.Log(gameObject.name + ": MoveServerRpc");
         MoveClientRpc();
     }
     [ClientRpc]
     public void MoveClientRpc()
     {
-        //Debug.Log(gameObject.name + ": MoveClientRpc");
         Move();
     }
     public void Move()
     {
         if (transform.position.x != clickPosition.x && clickPosition != new Vector2(-270, 270))
         {
-            //Debug.Log(gameObject.name + ": Move");
             if (Mathf.Abs(clickPosition.x - transform.position.x) < 0.1f)
             {
                 transform.position = new Vector3(clickPosition.x, transform.position.y);

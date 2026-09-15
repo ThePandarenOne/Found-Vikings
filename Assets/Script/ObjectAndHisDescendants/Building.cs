@@ -192,7 +192,7 @@ public class Building : Entity
 
     public virtual void AddUnitToQueue(byte NameOfUnit)//Добавляет юнита в очередь
     {
-        if(unitQueue.Count < 5)
+        if(unitQueue.Count < 6)
         {
             unitQueue.Add(NameOfUnit);
             if(canSpawn)

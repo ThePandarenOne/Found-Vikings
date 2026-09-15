@@ -144,7 +144,7 @@ public class LineObjective : Building
     
     public override void AddUnitToQueue(byte NameOfUnit)
     {
-        if (unitQueue.Count < 5)
+        if (unitQueue.Count < 6)
         {
             unitQueue.Add(NameOfUnit);
             if (canSpawn)

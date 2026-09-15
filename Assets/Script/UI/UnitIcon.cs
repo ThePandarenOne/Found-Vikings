@@ -9,7 +9,6 @@ public class UnitIcon : MonoBehaviour
     public Text nameText;
     public Slider slider;
     public Entity unit;
-    public byte index;
     int timer;
     public Panel panel;
     Image image;
@@ -41,6 +40,7 @@ public class UnitIcon : MonoBehaviour
             case TypeOfIcon.UnitQueueIcon:
                 if (panel.objectUnit != null &&!panel.objectUnit.GetComponent<Building>() || panel.objectUnit == null)
                 {
+                    slider.gameObject.SetActive(true);
                     typeOfIcon = TypeOfIcon.Disabled;
                 }
                 UpdateUnitInQueue();
@@ -74,8 +74,9 @@ public class UnitIcon : MonoBehaviour
         }
         image.sprite = unit.spriteIcon;
         nameText.text = unit.name;
-        if(gameObject.name == "Unit")
+        if(gameObject.name == "Unit1")
         {
+            slider.gameObject.SetActive(true);
             slider.value = timer;
             hpText.text = timer + "/" + unit.respawnSpeed;
         }
