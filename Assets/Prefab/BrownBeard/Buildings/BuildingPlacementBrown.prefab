@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1293037084
+  GlobalObjectIdHash: 4075940857
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -158,6 +158,7 @@ MonoBehaviour:
   respawnSpeed: 0
   attackTime: 0
   speed: 0
+  isHealer: 0
   action:
   - {fileID: 11400000, guid: a01780392447c7947b53ea34bc9892ac, type: 2}
   - {fileID: 11400000, guid: 27454f3218c7ce04980843e903993980, type: 2}
@@ -168,6 +169,7 @@ MonoBehaviour:
   hpBar: {fileID: 808599413943745148}
   panel: {fileID: 0}
   targetUnit: {fileID: 0}
+  light_: {fileID: 0}
   timer: 0
   isBuilding: 0
   buildings:

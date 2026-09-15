@@ -60,7 +60,7 @@ public class Entity : NetworkBehaviour
     public Slider hpBar;
     public Panel panel;
     public Entity targetUnit;
-
+    public GameObject light_;
     protected double timerCooldown;
 
     void Start()
@@ -140,6 +140,14 @@ public class Entity : NetworkBehaviour
 
     public void UpdateObject()
     {
+        if(IsOwner == false && light_ != null)
+        {
+            light_.SetActive(false);
+        }
+        else if(IsOwner && light_ != null)
+        {
+            light_.SetActive(true);
+        }
         if(hp > maxhp)
         {
             hp = maxhp;
